@@ -10,6 +10,10 @@
 <!-- SmartAdmin RTL Support -->
 <link rel="stylesheet" type="text/css" media="screen" href="/assets/backend/css/smartadmin-rtl.min.css"> 
 
+<link rel="stylesheet" href="/assets/frontend/plugins/prettyphoto/css/prettyPhoto.css">
+<link rel="stylesheet" href="/assets/frontend/plugins/tipsy-master/tipsy.css">
+<link rel="stylesheet" href="/assets/frontend/plugins/chosen/chosen.css">
+
 <!-- We recommend you use "your_style.css" to override SmartAdmin
      specific styles this will also ensure you retrain your customization with each SmartAdmin update.
 <link rel="stylesheet" type="text/css" media="screen" href="/assets/backend/css/your_style.css"> -->

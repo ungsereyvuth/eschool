@@ -35,16 +35,16 @@ function sanitize_value(&$value){$value = trim($value);}
 
 function isGranted($cmd){
 	$usersession = new usersession; //if ajax become slow, try to change this to global decare: global $usersession
-	$qry = new connectDb;$result=true;$inherited='';
-	$check = $qry->qry_assoc("SELECT id,required_login,inherited FROM layout_page_controller where model='$cmd' and is_ajax=1 and active=1 limit 1");
+	$qry = new connectDb;$result=true;$inherited=$dir='';
+	$check = $qry->qry_assoc("SELECT id,required_login,inherited,dir FROM layout_page_controller where model='$cmd' and is_ajax=1 and active=1 limit 1");
 	if(count($check)){
-		$inherited=$check[0]['inherited'];
+		$inherited=$check[0]['inherited'];$dir=$check[0]['dir'];
 		//if(!$check[0]['required_login'] or ($check[0]['required_login'] and $usersession->isLogin() and in_array($check[0]['id'],explode(',',$usersession->info()->privileges)))){$result=true;}
 		if(($check[0]['required_login'] and !$usersession->isLogin()) or ($check[0]['required_login'] and $usersession->isLogin() and !in_array($check[0]['id'],explode(',',$usersession->info()->privileges)))){$result=false;}
 	}else{
 		//record undefined ajax request	
 	}
-	return (object) array('result'=>$result,'inherited'=>$inherited);
+	return (object) array('result'=>$result,'inherited'=>$inherited,'dir'=>$dir);
 }
 
 function orginUrl(){	

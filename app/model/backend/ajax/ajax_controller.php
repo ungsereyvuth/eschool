@@ -13,8 +13,8 @@ class admin_ajax_request{
 				// if inherit set, use inherited class
 				$ajax_command=$isGranted->inherited<>''?$isGranted->inherited:$_POST['cmd'];
 				//call ajax class
-				if (file_exists($_SERVER['DOCUMENT_ROOT']."/app/model/".$input['dir']."ajax/".$ajax_command.".php")) { 
-					include_once("app/model/".$input['dir']."ajax/".$ajax_command.".php");
+				if (file_exists($_SERVER['DOCUMENT_ROOT']."/app/model/".$input['dir']."ajax/".$isGranted->dir.$ajax_command.".php")) { 
+					include_once("app/model/".$input['dir']."ajax/".$isGranted->dir.$ajax_command.".php");
 				}
 				//check ajax class
 				if(!class_exists($ajax_command)){echo 'Invalid request';exit;}

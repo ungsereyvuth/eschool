@@ -245,7 +245,8 @@ ajaxRequest.showList= function(navAction,cmd,qryData){
 		var rowsPerPage = $("#"+cmd+" .nav_rowsPerPage").length?$("#"+cmd+" .nav_rowsPerPage").val():6;
 		$.post(siteSetting.ajaxurl,{cmd:cmd,qryData:qryData,currentPage:currentPage,rowsPerPage:rowsPerPage,navAction:navAction} ,function(data){
 				//console.log(data);
-				if(!isJSON(data) || !("list" in JSON.parse(data))){$("#"+cmd+" tbody").html("<tr><td colspan='"+qryData['col']+"' class='txtCenter'><span class='redcolor'>"+(data=='Access Denied!'?'Access Denied!':(("msg" in JSON.parse(data))?JSON.parse(data).msg:'Technical Error'))+"</span></td></tr>");$("#"+cmd+" .nav_info").html('');$("#overlay_"+get_time).remove();return false;}	
+				var errmsg = 'Access Denied! please login again.';
+				if(!isJSON(data) || !("list" in JSON.parse(data))){$("#"+cmd+" tbody").html("<tr><td colspan='"+qryData['col']+"' class='txtCenter'><span class='redcolor'>"+(data==errmsg?errmsg:(("msg" in JSON.parse(data))?JSON.parse(data).msg:'Technical Error'))+"</span></td></tr>");$("#"+cmd+" .nav_info").html('');$("#overlay_"+get_time).remove();return false;}	
 				var data = JSON.parse(data);
 				
 				if(loadMode=='loadmore'){
@@ -807,6 +808,26 @@ function autocode(element){
 if($(".auto_code_btn").length){
 	$( ".auto_code_btn" ).each(function() {		
 		$(this).click(function(e){autocode($(this).data('targetid'));});
+	});
+}
+
+//show/hide list filter tools
+if($(".switch_list_filters").length){
+	$( ".switch_list_filters" ).each(function() {	
+		var list = $(this).data('list');		
+		$(this).click(function(e){
+			var list_filters = $("#"+list+" .list_filters");
+			if(list_filters.hasClass("hidden")){
+				list_filters.removeClass("hidden");
+				list_filters.fadeIn( "slow", function() {
+					// Animation complete
+				  });
+			}else{				
+				list_filters.fadeOut( "slow", function() {
+					list_filters.addClass("hidden");
+				  });
+			}
+		});
 	});
 }
 
