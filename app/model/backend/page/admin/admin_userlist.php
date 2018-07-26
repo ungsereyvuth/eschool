@@ -13,7 +13,7 @@ class admin_userlist{
 		
 		$date_from = '<div class="col-sm-6 col-md-3"><label>From Date</label>
 							<div class="input-group">
-								<input type="text" placeholder="Select a date" class="form-control datepicker hasDatepicker searchinputs" data-dateformat="yyyy-MM-dd" id="date_from">
+								<input type="text" placeholder="Select a date" class="form-control datepicker searchinputs" data-dateformat="yy-mm-dd" id="date_from">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 							</div>
 						</div>
@@ -22,10 +22,16 @@ class admin_userlist{
 
 
 										';
-		$date_to = '<div class="col-sm-6 col-md-3"><label>To Date</label><div class="input-append input-group input-group-sm dtpicker_notstrick">
-											<input data-format="yyyy-MM-dd" id="date_to" type="text" placeholder="YY-MM-DD" class="form-control searchinputs">
-											<span class="input-group-addon add-on"><i data-time-icon="fa fa-clock-o" data-date-icon="fa fa-calendar" class="fa fa-calendar"></i></span>
-										</div></div>';
+		$date_to = '<div class="col-sm-6 col-md-3"><label>To Date</label>
+						<div class="input-group">
+								<input type="text" placeholder="Select a date" class="form-control datepicker searchinputs" data-dateformat="yy-mm-dd" id="date_to">
+								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+							</div>
+					</div>
+										
+							
+										
+										';
 		
 		$role_select = '<div class="col-sm-6 col-md-3"><label>Page Type</label><select class="form-control input-sm searchinputs" id="role_id">
 							<option value="">--- All ---</option>'.$role_select_option.'</select></div>';						

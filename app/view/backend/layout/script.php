@@ -77,7 +77,9 @@
 
 <!-- //get some existing scripts from frontend-->
 <script src="/assets/frontend/plugins/chosen/chosen.jquery.js"></script>
-<script src="/assets/frontend/plugins/datepicker/bootstrap-datetimepicker.min.js"></script>
+<!--<script src="/assets/frontend/plugins/datepicker/bootstrap-datetimepicker.min.js"></script>-->
+<script src="/assets/backend/js/plugin/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+
 <script src="/assets/frontend/plugins/tipsy-master/jquery.tipsy.js"></script>
 <script src="/assets/frontend/plugins/prettyphoto/js/jquery.prettyPhoto.js"></script>
 <!-- <script src="/assets/frontend/plugins/tinymce/tinymce.min.js"></script> -->

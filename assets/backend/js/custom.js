@@ -15,9 +15,9 @@ $(function() {
 		width: "100%"
 	  });
 	//------- end chosen	 
-	$( ".datepicker" ).datepicker(); 
-	$('.dtpicker').datetimepicker({pickTime: false,startDate: new Date()});	
-	$('.dtpicker_notstrick').datetimepicker({pickTime: false});	
+	//$( ".datepicker" ).datepicker(); 
+	//$('.dtpicker').datetimepicker({pickTime: false,startDate: new Date()});	
+	//$('.dtpicker_notstrick').datetimepicker({pickTime: false});	
 
 	//$(".dtpicker input,.dtpicker_notstrick input").focus(function(){$(this).next('span').trigger('click');});
 	$('.tooltips').tipsy({gravity: $.fn.tipsy.autoNS});		

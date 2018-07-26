@@ -1,12 +1,6 @@
 <?php
-
 $dbhost = "localhost";
-
 $dbuser = "root";
-
-$dbpass = "root";
-
+$dbpass = "";
 $dbname = "eschool";
-
-
 ?>
