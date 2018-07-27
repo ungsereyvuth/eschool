@@ -120,7 +120,7 @@
 							Do this to any widget in any page and SmartAdmin will keep track of all your widgets!</p>
 							</div>
 							<div class="col-md-6 col-lg-4">
-								<img src="img/demo/widget-colorpicker.png" alt="widget colorpicker" class="pull-right hover-transparent img-responsive"> 
+								<img src="/assets/backend/img/demo/widget-colorpicker.png" alt="widget colorpicker" class="pull-right hover-transparent img-responsive"> 
 							</div>
 							
 						</div>
