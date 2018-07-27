@@ -6,26 +6,15 @@ class admin_notifications{
 		
 		$qryData = (object) $_POST["qryData"];	
 		$sql_condition = '';$translate_lang_con=$lang_code='';
-		if($qryData->license_cate<>''){$sql_condition.=" and c.id=$qryData->license_cate";}
 		if($qryData->date_from<>''){$sql_condition.=" and n.created_date>='$qryData->date_from 00:00:00'";}
 		if($qryData->date_to<>''){$sql_condition.=" and n.created_date<='$qryData->date_to 23:59:59'";}
-		if($qryData->txt_search<>''){$sql_condition.=" and (l.biz_name_kh like '%$qryData->txt_search%' or l.biz_name_en like '%$qryData->txt_search%' or u.fullname_kh like '%$qryData->txt_search%' or u.fullname_en like '%$qryData->txt_search%')";}
-			
-			
-		//condition to filter notif by approval deparment
-		$condByDep = '';
-		if(isThisUserRole($usersession->info()->id,'officer')){
-			$officerInfo=officerInfo($usersession->info()->id);
-			$condByDep = "and l.approval_department_id=$officerInfo->approval_department_id";
-			if($officerInfo->selected_license_categories<>''){$condByDep .= " and l.license_cate_id IN ($officerInfo->selected_license_categories)";}
-		}		
+		if($qryData->txt_search<>''){$sql_condition.=" and (u.fullname_kh like '%$qryData->txt_search%' or u.fullname_en like '%$qryData->txt_search%')";}
+					
 		
-		$sql_statement = "SELECT n.*,if('$lang->selected'='kh',c.title_kh,c.title_en) cate_name,if('$lang->selected'='kh',l.biz_name_kh,l.biz_name_en) biz_name,l.license_start_date,l.license_end_date,if('$lang->selected'='kh',u.fullname_kh,u.fullname_en) bo_name,l.license_cate_id  
+		$sql_statement = "SELECT n.*,if('$lang->selected'='kh',u.fullname_kh,u.fullname_en) bo_name 
 							from license_notification n
-							left join license l on l.id=n.license_id
-							left join license_category c on c.id=l.license_cate_id
 							left join users u on u.id=l.user_id
-							where n.public=1 and u.active=1 and l.active=1 $sql_condition $condByDep 
+							where n.public=1 and u.active=1 and l.active=1 $sql_condition
 							order by n.created_date desc";	
 		
 		extract(generateList($language,intval(post("currentPage")),post("rowsPerPage"),post("navAction"),$sql_statement));

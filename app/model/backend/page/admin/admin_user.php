@@ -10,23 +10,14 @@ class admin_user{
 		else{$user_id=decodeString($input[0],$encryptKey);}
 		
 		
-		$userinfo = $qry->qry_assoc("select u.*,role.title role_name,l.title_kh provincecity_name,off_l.title approval_level_title,dep.title_kh dep_title,off.selected_license_categories, if(off.id>0,1,0) isApprovalUser 
+		$userinfo = $qry->qry_assoc("select u.*,role.title role_name,l.title_kh provincecity_name
 									from users u
 									left join user_role role on role.id=u.role_id
 									left join address_provincecity l on l.id=u.provincecity
-									left join license_approval_user off on off.user_id=u.id and off.active=1
-									left join license_approval_level off_l on off_l.id=off.level_id
-									left join license_approval_department dep on dep.id=off_l.approval_department_id
 									where u.id=$user_id limit 1");
 				
 		if(!count($userinfo)){goto returnStatus;}
 		$userinfo = $userinfo[0];		
-		//get license category by account
-		$userinfo['responsible_license']=array();
-		$cate_cond = $userinfo['selected_license_categories']<>''?(" and id IN (".$userinfo['selected_license_categories'].")"):"";
-		$cate = $qry->qry_assoc("select id,title_kh catename from license_category where active=1".$cate_cond);
-		if(count($cate)){$userinfo['responsible_license']=$cate;}
-		//var_dump($userinfo);
 		
 		//provincecity list
 		$provincecity_select='<option value="">--- Select ---</option>';

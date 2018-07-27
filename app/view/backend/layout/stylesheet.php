@@ -36,4 +36,4 @@
 <link rel="apple-touch-icon" sizes="152x152" href="/assets/backend/img/splash/touch-icon-ipad-retina.png">
 
 <!-- CSS Customization -->
-<link rel="stylesheet" href="/assets/frontend/css/custom.css">
+<link rel="stylesheet" href="/assets/backend/css/custom.css">
