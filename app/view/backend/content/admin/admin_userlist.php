@@ -11,7 +11,7 @@ $formCmd='newUser';
         <article class="col-md-8">
 
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget" id="wid-id-7" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-fullscreenbutton="false">
+            <div class="jarviswidget" id="<?=$listname?>_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-fullscreenbutton="false">
 
                 <header>
                     <h2><strong>Users</strong> <i>List</i></h2>   
@@ -29,7 +29,7 @@ $formCmd='newUser';
                         <!-- This area used as dropdown edit box -->
                     </div>
                     <div class="widget-body">
-                        <div class="datalist txtLeft pad10" id="<?=$listname?>">
+                        <div class="datalist txtLeft" id="<?=$listname?>">
                             <div class="list_filters hidden">
 							<?=$pageData->data->content->search_inputs?>
                             </div>
@@ -52,7 +52,7 @@ $formCmd='newUser';
         <!-- NEW WIDGET START -->
         <article class="col-md-4">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget" id="wid-id-7" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-fullscreenbutton="false">
+            <div class="jarviswidget" id="<?=$formkey?>_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-fullscreenbutton="false">
 
                 <header>
                     <h2><strong>New</strong> <i>user</i></h2>    
@@ -156,14 +156,9 @@ $formCmd='newUser';
                             
                             <footer>
                             	<input class="removable" type="hidden" name="recordid" value="" />
-                                <input type="hidden" name="cmd" value="<?=$formCmd?>" />
-                                
-                                <button type="submit" class="btn btn-primary btn-sm">
-                                    Save
-                                </button>
-                                <button type="reset" class="btn btn-default btn-sm reset_btn">
-                                    Cancel
-                                </button>
+                                <input type="hidden" name="cmd" value="<?=$formCmd?>" />                                
+                                <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                                <button type="reset" class="btn btn-default btn-sm reset_btn">Cancel</button>
                             </footer>
                             </fieldset>
                                 <section class="col col-md-12">
@@ -176,3 +171,5 @@ $formCmd='newUser';
             </div>
         </article>
         <!-- WIDGET END -->
+    </div>
+</div>

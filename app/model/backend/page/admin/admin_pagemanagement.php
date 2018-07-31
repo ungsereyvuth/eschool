@@ -33,7 +33,12 @@ class admin_pagemanagement{
 						</select></div>';
 		$showhide_sub = '<div class="col-sm-6 col-md-3">
 							<label>Sub Item</label>
-							<div class="btm_border_gray sky-form"><label class="toggle label" style="width: 150px;"><input type="checkbox" class="searchinputs" id="show_sub" checked><i></i>Show Sub Item</label></div>
+							<div class="btm_border_gray smart-form">
+								<label class="toggle">
+                                    <input type="checkbox" id="show_sub" class="searchinputs" checked="checked">
+                                    <i data-swchon-text="ON" data-swchoff-text="OFF"></i>show/hide
+                                </label>
+                            </div>
 						</div>';
 		
 		$txt_search = '<div class="col-sm-6 col-md-3"><label>Keyword</label><div class="input-group input-group-sm"><input type="text" class="form-control searchinputs" id="txt_search" placeholder="Search keyword"><span class="input-group-btn btn_search"><button class="btn btn-info" type="submit"><i class="fa fa-search"></i></button></span></div></div>';
@@ -42,7 +47,9 @@ class admin_pagemanagement{
 		
 		//label page list
 		$page_labels='<option value="">--- Select ---</option>';
-		$page_label_row = $qry->qry_assoc("select * from layout_text_item where for_page=1 and active=1 order by id desc");
+		$page_label_row = $qry->qry_assoc("select * from layout_text_item t 
+											left join layout_page_controller c on c.page_id = t.id
+											where t.for_page=1 and c.id IS NULL and t.active=1 order by t.id desc");
 		foreach($page_label_row as $value){
 			$page_labels.='<option value="'.$value['id'].'" data-model_name="'.$value['code'].'">'.$value['title'].'</option>';
 		}
@@ -59,6 +66,9 @@ class admin_pagemanagement{
 		foreach($page_component_row as $value){
 			$page_components[]=$value;
 		}
+
+		//inner directoy
+		$dirs = "<option value=''>default</option><option value='user/'>User</option><option value='admin/'>Admin</option>";
 		
 		//user previledge for this model
 		$user_roles=array();
@@ -69,7 +79,7 @@ class admin_pagemanagement{
 		
 		$pageExist=true;
 		returnStatus:
-		return array('pageExist'=>$pageExist,'input'=>$input,'search_inputs'=>$search_inputs,'page_labels'=>$page_labels,'page_contorls'=>$page_contorls,'page_components'=>$page_components,'user_roles'=>$user_roles);
+		return array('pageExist'=>$pageExist,'input'=>$input,'search_inputs'=>$search_inputs,'page_labels'=>$page_labels,'page_contorls'=>$page_contorls,'page_components'=>$page_components,'user_roles'=>$user_roles,'dirs'=>$dirs);
 	}	
 }
 

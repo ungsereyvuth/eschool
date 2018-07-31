@@ -1,6 +1,6 @@
 <?php
 class logout{ 
-	public function data($input){
+	public function data($input){ echo 'test';exit;
 		if (!is_session_started()) session_start();
 		//add to user log
 		if(isset($_SESSION['userid'])){

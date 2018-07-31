@@ -55,19 +55,19 @@ class pageController{
 		}		
 		//-------- start checking page validity --------------- -> also check if there is inherited class for the page instead of it std name
 		$checkpage = $qry->qry_assoc("select id,dir,is_ajax,is_webpage,is_backend,inherited from layout_page_controller where model='$getClassName' and active=1");
-		$pagevalid = count($checkpage)?true:false;
+		$pagevalid = count($checkpage)?true:false; 
 		if(!$pagevalid){$getClassName='pagenotfound';$request_data='';}else{
 			$inherited = $checkpage[0]['inherited'];$more_dir=$checkpage[0]['dir'];
 			$dir=$checkpage[0]['is_backend']?'backend/':$dir;
 		}
 		$adjust_classname = $inherited<>''?$inherited:$getClassName;
-		if ($pagevalid and $checkpage[0]['is_webpage'] and file_exists($_SERVER['DOCUMENT_ROOT']."/app/model/".$dir."page/".$more_dir.$adjust_classname.".php")) { 
+		if ($pagevalid and $checkpage[0]['is_webpage'] and file_exists($_SERVER['DOCUMENT_ROOT']."/app/model/".$dir."page/".$more_dir.$adjust_classname.".php")) {
 			include_once("app/model/".$dir."page/".$more_dir.$adjust_classname.".php");
 		}
 		if ($pagevalid and $checkpage[0]['is_ajax'] and file_exists($_SERVER['DOCUMENT_ROOT']."/app/model/".$dir."ajax/ajax_controller.php")) { 
 			include_once("app/model/".$dir."ajax/ajax_controller.php");$request_data['dir'] = $dir;
 		}		
-		if(!class_exists($adjust_classname)){$getClassName=$adjust_classname='pagenotfound';$request_data='';}
+		if(!class_exists($adjust_classname)){$getClassName=$adjust_classname='pagenotfound';$request_data='';} 
 		//-------- start checking page property --------------- -> although inherited class is defined but still keep original page properties/components
 		$page_config = $qry->qry_assoc("select * from layout_page_controller where model='$getClassName' and active=1");
 		$page_config = $page_config[0]; 
@@ -78,7 +78,7 @@ class pageController{
 				if(!in_array($page_config['id'],$privileges)){$getClassName=$adjust_classname='pagenotfound';$request_data='';}
 			}else{goto setObj;}
 		}
-		//-------- start rechecking page validty and exclude ajax request --------------- -> get output from inherited class if defined, otherwise get from its std class
+		//-------- start rechecking page validty and exclude ajax request --------------- -> get output from inherited class if defined, otherwise get from its std class		
 		$classData = new $adjust_classname;   
 		$content = (object) $classData->data($request_data);
 		if($getClassName<>'ajax_request' and $getClassName<>'admin_ajax_request' and $getClassName<>'admin_ajax_realtimeupload' and isset($content->pageExist) and !$content->pageExist){ 
@@ -98,7 +98,7 @@ class pageController{
 				$com_data = new $value['component_name'];
 				$page_com[$value['component_name']]=$com_data->data($request_data);
 			}
-		}
+		} 
 		//-------- start define page properties ---------------
 		setObj:
 		$obj = new stdClass();

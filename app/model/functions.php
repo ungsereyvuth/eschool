@@ -1244,15 +1244,18 @@ function pageControlItems($privilege_id='',$is_backend='',$required_login='',$is
 	return $data_new;
 }
 
-function create_app_file($is_backend,$is_ajax,$is_webpage,$model_name,$prev_model_name=''){
+function create_app_file($is_backend,$is_ajax,$is_webpage,$model_name,$prev_model_name='',$dir=''){
 	$type = $is_backend?'backend':'frontend';
 	//standard files	
-	$model_path="app/model/$type/page/";
-	$stdModel=$model_path."stdModel.php";
-	$ajax_path="app/model/$type/ajax/";
-	$stdAjax=$ajax_path."stdAjax.php";
-	$view_path="app/view/$type/content/";
-	$stdView=$view_path."stdView.php";
+	$model_stdpath="app/model/$type/page/";
+	$model_path=$model_stdpath.$dir;
+	$stdModel=$model_stdpath."stdModel.php";
+	$ajax_stdpath="app/model/$type/ajax/";
+	$ajax_path=$ajax_stdpath.$dir;
+	$stdAjax=$ajax_stdpath."stdAjax.php";
+	$view_stdpath="app/view/$type/content/";
+	$view_path=$view_stdpath.$dir;
+	$stdView=$view_stdpath."stdView.php";
 	$all_files = array('model'=>array('path'=>$model_path,'stdfile'=>$stdModel,'stdtxt'=>'stdModel'),
 						'ajax'=>array('path'=>$ajax_path,'stdfile'=>$stdAjax,'stdtxt'=>'stdAjax'),
 						'view'=>array('path'=>$view_path,'stdfile'=>$stdView,'stdtxt'=>'stdView'));

@@ -11,7 +11,8 @@ class newpagecontrol{
 											'label_id'=>addslashes($_POST['label_id']),
 											'parent_id'=>addslashes($_POST['parent_id']==''?'NULL':$_POST['parent_id']),
 											'inherited'=>addslashes($_POST['inherited']),	
-											'model'=>addslashes(str_replace(' ','_',$_POST['model'])),										
+											'model'=>addslashes(str_replace(' ','_',$_POST['model'])),	
+											'dir'=>addslashes($_POST['dir']),										
 											'required_login'=>isset($_POST['required_login'])?1:0,
 											'required_logout'=>isset($_POST['required_logout'])?1:0,
 											'required_layout'=>isset($_POST['required_layout'])?1:0,
@@ -19,6 +20,7 @@ class newpagecontrol{
 											'is_ajax'=>isset($_POST['is_ajax'])?1:0,
 											'is_webpage'=>isset($_POST['is_webpage'])?1:0,
 											'is_backend'=>isset($_POST['is_backend'])?1:0,
+											'has_shortcut'=>isset($_POST['has_shortcut'])?1:0,
 											'ordering'=>addslashes($_POST['ordering']<>''?$_POST['ordering']:'NULL'),	
 											'active'=>isset($_POST['active'])?1:0,
 											'components'=>isset($_POST['components'])?$_POST['components']:array(),
@@ -26,7 +28,7 @@ class newpagecontrol{
 							'email'=>array(),
 							'file'=>array());
 		$isNew = (isset($_POST['recordid']) and $_POST['recordid']<>'')?false:true;
-		$opt_fields = array('recordid','components','user_roles','inherited','model','parent_id','required_login','required_logout','required_layout','is_menu','is_ajax','is_webpage','is_backend','active','ordering');
+		$opt_fields = array('recordid','components','user_roles','inherited','model','parent_id','required_login','required_logout','required_layout','is_menu','is_ajax','is_webpage','is_backend','has_shortcut','active','ordering','dir');
 		//make page id optional if contorl for ajax, make model_name required
 		if($reg_fields['text']['is_ajax']){$opt_fields[] = 'label_id';$opt_fields=array_diff($opt_fields, array('model'));}
 
@@ -70,6 +72,7 @@ class newpagecontrol{
 			$datetime = date("Y-m-d H:i:s");			
 			$sql = "parent_id=".$reg_fields['text']['parent_id'].",
 					model='$model_name',
+					dir='".$reg_fields['text']['dir']."',
 					inherited='".$reg_fields['text']['inherited']."',
 					page_id=".($reg_fields['text']['label_id']==''?'NULL':$reg_fields['text']['label_id']).",
 					required_login=".$reg_fields['text']['required_login'].",
@@ -80,20 +83,21 @@ class newpagecontrol{
 					is_ajax=".$reg_fields['text']['is_ajax'].",
 					is_webpage=".$reg_fields['text']['is_webpage'].",
 					is_backend=".$reg_fields['text']['is_backend'].",
+					has_shortcut=".$reg_fields['text']['has_shortcut'].",
 					ordering=".$reg_fields['text']['ordering'].",
 					active=".$reg_fields['text']['active'].",";
 			if($isNew){
 				$recordid=$qry->insert("insert into layout_page_controller set $sql created_by=".$usersession->info()->id.",created_date='$datetime'");
 				//create app file
 				if($reg_fields['text']['is_ajax'] or $reg_fields['text']['is_webpage']){
-					create_app_file($reg_fields['text']['is_backend'],$reg_fields['text']['is_ajax'],$reg_fields['text']['is_webpage'],$model_name);
+					create_app_file($reg_fields['text']['is_backend'],$reg_fields['text']['is_ajax'],$reg_fields['text']['is_webpage'],$model_name,'',$reg_fields['text']['dir']);
 				}
 			}else{
 				$qry->update("update layout_page_controller set $sql last_updated_by=".$usersession->info()->id.",last_updated_date='$datetime' where id=$recordid limit 1");
 				//update app file
 				$prev_model_name = $prev_data[0]['model'];
 				if($prev_model_name<>$model_name and ($reg_fields['text']['is_ajax'] or $reg_fields['text']['is_webpage'])){
-					create_app_file($reg_fields['text']['is_backend'],$reg_fields['text']['is_ajax'],$reg_fields['text']['is_webpage'],$model_name,$prev_model_name);
+					create_app_file($reg_fields['text']['is_backend'],$reg_fields['text']['is_ajax'],$reg_fields['text']['is_webpage'],$model_name,$prev_model_name,$reg_fields['text']['dir']);
 				}
 			}
 			
