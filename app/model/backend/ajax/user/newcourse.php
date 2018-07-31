@@ -16,7 +16,7 @@ class newcourse{
 							'email'=>array(),
 							'file'=>array());
 
-		$opt_fields = array('recordid','school_id','active');
+		$opt_fields = array('recordid','school_id','active','max_student','description');
 		$err_fields=validateForm($reg_fields,$opt_fields);				
 		//add service
 		if(!count($err_fields)){

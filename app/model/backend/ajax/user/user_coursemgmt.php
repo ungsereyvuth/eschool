@@ -16,15 +16,15 @@ class user_coursemgmt{
 		$dataListString = '';$i=$startIndex+1;
 		foreach($rowData as $key=>$value){	
 			$dataListString .= '<tr>
-									<td class="txtCenter">'.enNum_khNum($i).'</td>
+									<td class="txtCenter" style="width:30px;">'.enNum_khNum($i).'</td>
 									<td>
-										<a href="#"><h3 class="tooltips" title="'.$value['title'].'">'.$value['title'].'</h3></a>
+										<a href="#"><span class="tooltips mgn0 fs14" title="'.$value['title'].'">'.$value['title'].'</span></a>
 										<div class="sub-info">
-											<span>fsdfd</span>
+											<span class="tooltips fs11" title="'.$value['created_date'].'"><i class="fa fa-clock-o"></i> '.khmerDate($value['created_date']).'</span>
 										</div>
 									</td>
 
-									<td class="txtCenter"><span class="tooltips fs12" title="'.$value['created_date'].'">'.khmerDate($value['created_date']).'</span></td></tr>';
+									<td class="txtCenter"></td></tr>';
 			
 			$i++;
 		}
