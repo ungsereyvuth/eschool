@@ -3,7 +3,7 @@
     <div class="row">
         <!-- NEW WIDGET START -->
         <article class="col-md-8">
-        	<div class="jarviswidget" id="id_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false">
+        	<div class="jarviswidget" id="id_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-fullscreenbutton="false">
                 <header>
                     <h2><strong>Panel</strong></h2>    
                     <!-- <div class="widget-toolbar">

@@ -35,7 +35,7 @@ class application{
 		$pageData = $qry->data($url_parameters); 
 		$dir = $pageData->dir; $more_dir = $pageData->more_dir; 
 		$fileview = 'app/view/'.$dir.'content/'.$more_dir.$pageData->fileview.'.php';		
-		
+
 		if (file_exists($_SERVER['DOCUMENT_ROOT'].'/'.$fileview)) { 
 			if($pageData->layoutRequired){include 'app/view/'.$dir.'stdPage.php';
 			}else{include $fileview;}
@@ -61,6 +61,12 @@ class pageController{
 			$dir=$checkpage[0]['is_backend']?'backend/':$dir;
 		}
 		$adjust_classname = $inherited<>''?$inherited:$getClassName;
+		if($inherited<>''){
+			$adjust_classname = $inherited; 
+			//get extra dir from inherited class
+			$inherited_data = $qry->qry_assoc("select dir from layout_page_controller where model='$inherited' and active=1");
+			$more_dir = count($inherited_data)?$inherited_data[0]['dir']:$more_dir; 
+		}else{$adjust_classname = $getClassName;}
 		if ($pagevalid and $checkpage[0]['is_webpage'] and file_exists($_SERVER['DOCUMENT_ROOT']."/app/model/".$dir."page/".$more_dir.$adjust_classname.".php")) {
 			include_once("app/model/".$dir."page/".$more_dir.$adjust_classname.".php");
 		}
@@ -82,11 +88,13 @@ class pageController{
 		$classData = new $adjust_classname;   
 		$content = (object) $classData->data($request_data);
 		if($getClassName<>'ajax_request' and $getClassName<>'admin_ajax_request' and $getClassName<>'admin_ajax_realtimeupload' and isset($content->pageExist) and !$content->pageExist){ 
-			$getClassName='pagenotfound';
+			$getClassName=$adjust_classname='pagenotfound';
 			$classData = new $getClassName;
 			$content = (object) $classData->data();
 			$page_config = $qry->qry_assoc("select * from layout_page_controller where model='$getClassName' and active=1");
 			$page_config = $page_config[0];
+			$more_dir=$page_config['dir'];
+			$dir='frontend/';
 		}
 		//-------- start getting page components --------------- -> components from std page (not inherited page)
 		$page_com = array();
@@ -108,7 +116,8 @@ class pageController{
 		$obj->lang = $lang;
 		$obj->label = (object) $layout_label;
 		$obj->page = isset($content->breadcrumb)?$content->breadcrumb:array($getClassName);
-		$obj->fileview =$getClassName;
+		$obj->fileview =$adjust_classname;
+		$obj->originalclass =$getClassName;
 		$obj->more_dir =$more_dir;
 		$obj->dir =$dir;
 		$obj->data = (object) array('content'=> $content,'component'=>(object) $page_com);	

@@ -22,6 +22,7 @@ class newcourse{
 		if(!count($err_fields)){
 			$datetime = date("Y-m-d H:i:s");		
 			$sql = "title='".$reg_fields['text']['title']."',
+					teacher_id=".$usersession->info()->id.",
 					school_id='".$reg_fields['text']['school_id']."',
 					max_student='".$reg_fields['text']['max_student']."',	
 					description='".$reg_fields['text']['description']."',					

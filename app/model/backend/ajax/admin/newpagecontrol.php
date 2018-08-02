@@ -8,7 +8,7 @@ class newpagecontrol{
 		$uploaded_files=array();
 		//get post data
 		$reg_fields = array('text'=>array(	'recordid'=>addslashes($_POST['recordid']),
-											'label_id'=>addslashes($_POST['label_id']),
+											'label_id'=>isset($_POST['label_id'])?$_POST['label_id']:'',
 											'parent_id'=>addslashes($_POST['parent_id']==''?'NULL':$_POST['parent_id']),
 											'inherited'=>addslashes($_POST['inherited']),	
 											'model'=>addslashes(str_replace(' ','_',$_POST['model'])),	
@@ -29,6 +29,7 @@ class newpagecontrol{
 							'file'=>array());
 		$isNew = (isset($_POST['recordid']) and $_POST['recordid']<>'')?false:true;
 		$opt_fields = array('recordid','components','user_roles','inherited','model','parent_id','required_login','required_logout','required_layout','is_menu','is_ajax','is_webpage','is_backend','has_shortcut','active','ordering','dir');
+		if(!$isNew){$opt_fields[]='label_id';}
 		//make page id optional if contorl for ajax, make model_name required
 		if($reg_fields['text']['is_ajax']){$opt_fields[] = 'label_id';$opt_fields=array_diff($opt_fields, array('model'));}
 
@@ -69,12 +70,13 @@ class newpagecontrol{
 		
 		//add service
 		if(!count($err_fields)){
-			$datetime = date("Y-m-d H:i:s");			
+			$datetime = date("Y-m-d H:i:s");$page_id_sql='';	
+			if($isNew){$page_id_sql="page_id=".($reg_fields['text']['label_id']==''?'NULL':$reg_fields['text']['label_id']).",";}	
 			$sql = "parent_id=".$reg_fields['text']['parent_id'].",
 					model='$model_name',
 					dir='".$reg_fields['text']['dir']."',
 					inherited='".$reg_fields['text']['inherited']."',
-					page_id=".($reg_fields['text']['label_id']==''?'NULL':$reg_fields['text']['label_id']).",
+					$page_id_sql
 					required_login=".$reg_fields['text']['required_login'].",
 					required_logout=".$reg_fields['text']['required_logout'].",
 					required_layout=".$reg_fields['text']['required_layout'].",

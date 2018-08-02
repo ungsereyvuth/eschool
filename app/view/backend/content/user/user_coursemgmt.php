@@ -64,7 +64,7 @@ $formCmd='newcourse';
                                         <label class="input">
                                             <input type="text" name="title" class="input-sm" placeholder="Title">
                                         </label>
-                                    </section>
+                                    </section>                                    
                                 </div>
                                 <div class="row">
                                     <section class="col col-md-6">
@@ -76,9 +76,25 @@ $formCmd='newcourse';
                                         </label>
                                     </section>
                                     <section class="col col-md-6">
+                                        <label class="label">Grade</label>
+                                        <label class="select">
+                                             <select name="grade_id" class="input-sm">
+                                                <option value="">--- Select ---</option>
+                                            </select>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-md-6">
                                         <label class="label">Max Student <i class="fa fa-info-circle tooltips" title="Leave blank for unlimit"></i></label>
                                         <label class="input">
                                             <input type="number" name="max_student" class="input-sm" placeholder="Number">
+                                        </label>
+                                    </section>
+                                    <section class="col col-md-6">
+                                        <label class="label">Year</label>
+                                        <label class="input">
+                                            <input type="number" name="year" class="input-sm" placeholder="Number">
                                         </label>
                                     </section>
                                 </div>

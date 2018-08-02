@@ -47,7 +47,7 @@ class admin_pagemanagement{
 		
 		//label page list
 		$page_labels='<option value="">--- Select ---</option>';
-		$page_label_row = $qry->qry_assoc("select * from layout_text_item t 
+		$page_label_row = $qry->qry_assoc("select t.* from layout_text_item t 
 											left join layout_page_controller c on c.page_id = t.id
 											where t.for_page=1 and c.id IS NULL and t.active=1 order by t.id desc");
 		foreach($page_label_row as $value){

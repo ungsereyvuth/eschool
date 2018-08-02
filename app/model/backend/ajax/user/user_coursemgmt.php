@@ -15,10 +15,11 @@ class user_coursemgmt{
 		extract(generateList($language,intval(post("currentPage")),post("rowsPerPage"),post("navAction"),$sql_statement));
 		$dataListString = '';$i=$startIndex+1;
 		foreach($rowData as $key=>$value){	
+			$url = $layout_label->label->user_course->url.'/'.encodeString($value['id'],$encryptKey);
 			$dataListString .= '<tr>
 									<td class="txtCenter" style="width:30px;">'.enNum_khNum($i).'</td>
 									<td>
-										<a href="#"><span class="tooltips mgn0 fs14" title="'.$value['title'].'">'.$value['title'].'</span></a>
+										<a href="'.$url.'"><span class="tooltips mgn0 fs14" title="'.$value['title'].'">'.$value['title'].'</span></a>
 										<div class="sub-info">
 											<span class="tooltips fs11" title="'.$value['created_date'].'"><i class="fa fa-clock-o"></i> '.khmerDate($value['created_date']).'</span>
 										</div>

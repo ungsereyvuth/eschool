@@ -455,6 +455,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7cbc0a', end
        } 
     }
 
+ .box_shadow_in{
+	-webkit-box-shadow: inset 0px 0px 43px -9px rgba(0,0,0,0.75);
+-moz-box-shadow: inset 0px 0px 43px -9px rgba(0,0,0,0.75);
+box-shadow: inset 0px 0px 43px -9px rgba(0,0,0,0.75);
+}
+ .box_shadow_out{
+	-webkit-box-shadow: 5px 5px 19px -10px rgba(0,0,0,0.75);
+-moz-box-shadow: 5px 5px 19px -10px rgba(0,0,0,0.75);
+box-shadow: 5px 5px 19px -10px rgba(0,0,0,0.75);
+}
+
 /*.txt-overflow-main {
   display: table;
   table-layout: fixed;

@@ -43,9 +43,10 @@ if($photo<>''){
 
 
 		<?php		
-		$active_page = $pageData->fileview;
+		$active_page = $pageData->originalclass;
 		$active_page_id = isset($pageData->label->label->$active_page->id)?$pageData->label->label->$active_page->id:0;
 		if(isset($pageData->data->component->user_menu)){
+
 			foreach($pageData->data->component->user_menu as $key=>$value){
 				if(isset($value['child']) and is_array($value['child'])){
 					$sub_menu='';$sub_active=false;
@@ -70,7 +71,6 @@ if($photo<>''){
 
 	</ul>
 </nav>
-
 
 <span class="minifyme" data-action="minifyMenu"> 
 	<i class="fa fa-arrow-circle-left hit"></i> 
