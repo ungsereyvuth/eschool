@@ -1,8 +1,8 @@
 <?php
-class stdModel{
+class user_courses{
 	public function data($input){
-		$qry = new connectDb;global $usersession,$encryptKey;$breadcrumb=array();$pageExist=false;
-
+		$qry = new connectDb;global $usersession;
+		$pageExist=false;
 		
 		
 		$pageExist=true;

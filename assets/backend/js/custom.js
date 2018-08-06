@@ -111,7 +111,7 @@ function previewFile(input,target) {
     }
 
 function getLanguage(){
-		var languagecode='en';
+		var languagecode='';
 		var path_parts = location.pathname.split("/");
 		if(path_parts.length >=2){if(path_parts[1].length==2){languagecode=path_parts[1];}}
 		return languagecode;
@@ -158,8 +158,8 @@ function displaySaveMsg(id,msgType,text){
 
 (function ($) {
 	
-var ajaxRequest = {},runResult = {};
-var siteSetting = {language:getLanguage(),ajaxurl:'/'+getLanguage()+'/admin/ajax_request',loginurl:'/'+getLanguage()+'/login/start',exportexcel:'/'+getLanguage()+'/admin/ajax_exportexcel',ajaxrealtimeupload:'/'+getLanguage()+'/admin/ajax_realtimeupload'};
+var ajaxRequest = {},runResult = {},lang_url=getLanguage()!=''?('/'+getLanguage()):'';
+var siteSetting = {language:getLanguage(),ajaxurl:lang_url+'/admin/ajax_request',loginurl:lang_url+'/login/start',exportexcel:lang_url+'/admin/ajax_exportexcel',ajaxrealtimeupload:lang_url+'/admin/ajax_realtimeupload'};
 
 //--- start modal ----
 var confirmDialog_timeout = 0,dialog_wait=0;

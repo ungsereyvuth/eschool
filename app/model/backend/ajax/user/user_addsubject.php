@@ -1,5 +1,5 @@
 <?php
-class newcourse{
+class user_addsubject{
 	public function data($data){
 		global $encryptKey,$language,$usersession,$layout,$layout_label,$lang;
 		$qry = new connectDb; $_POST=$data;
@@ -9,34 +9,35 @@ class newcourse{
 		//get post data
 		$reg_fields = array('text'=>array(	'recordid'=>addslashes($_POST['recordid']),
 											'title'=>addslashes($_POST['title']),	
-											'grade_id'=>addslashes($_POST['grade_id']),	
-											'school_id'=>addslashes($_POST['school_id']),						
-											'max_student'=>addslashes($_POST['max_student']),		
+											'grade_subject_id'=>addslashes($_POST['grade_subject_id']),	
 											'description'=>addslashes($_POST['description']),	
-											'year'=>addslashes($_POST['year']),		
 											'active'=>isset($_POST['active'])?1:0),
 							'email'=>array(),
 							'file'=>array());
 
-		$opt_fields = array('recordid','school_id','active','max_student','description');
-		$err_fields=validateForm($reg_fields,$opt_fields);				
-		//add service
+		$opt_fields = array('active','description');
+		$err_fields=validateForm($reg_fields,$opt_fields);		
+		if(!count($err_fields)){
+			$course_id = decodeString($reg_fields['text']['recordid'],$encryptKey);
+			if(!is_numeric($course_id) or !$course_id){
+				$msg='Invalid data request';
+				$err_fields[]= array('name'=>'error','msg'=>$msg);
+			}
+
+		}
 		if(!count($err_fields)){
 			$datetime = date("Y-m-d H:i:s");		
 			$sql = "title='".$reg_fields['text']['title']."',
-					grade_id=".$reg_fields['text']['grade_id'].",
-					teacher_id=".$usersession->info()->id.",
-					school_id='".$reg_fields['text']['school_id']."',
-					max_student='".$reg_fields['text']['max_student']."',	
-					description='".$reg_fields['text']['description']."',	
-					year='".$reg_fields['text']['year']."',				
+					course_id=$course_id,
+					grade_subject_id=".$reg_fields['text']['grade_subject_id'].",
+					description='".$reg_fields['text']['description']."',
 					active=".$reg_fields['text']['active'].",";
-			$recordid=$qry->insert("insert into es_course set $sql created_by=".$usersession->info()->id.",created_date='$datetime'");		
+			$recordid=$qry->insert("insert into es_course_subject set $sql created_by=".$usersession->info()->id.",created_date='$datetime'");		
 			//add to user log			
 			adduserlog($_POST['cmd'],$recordid);
 			$result = true;$msg=$layout_label->message->insert_success->icon.' '.$layout_label->message->insert_success->title;;
 		}	
-		return json_encode(array('result'=>$result,'msg'=>$msg,'err_fields'=>$err_fields,'refresh_listname'=>$refresh_listname));	
+		return json_encode(array('result'=>$result,'msg'=>$msg,'err_fields'=>$err_fields,'refresh_listname'=>$refresh_listname,'url'=>''));	
 	}	
 }	
 

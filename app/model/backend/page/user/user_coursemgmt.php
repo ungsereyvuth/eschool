@@ -4,31 +4,47 @@ class user_coursemgmt{
 		$qry = new connectDb;global $usersession;
 		$pageExist=false;
 		
-		$date_from = '<div class="col-sm-6 col-md-3"><label>From Date</label>
-							<div class="input-group">
-								<input type="text" placeholder="Select a date" class="form-control input-sm datepicker searchinputs" data-dateformat="yy-mm-dd" id="date_from">
-								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-							</div>
-						</div>';
-		$date_to = '<div class="col-sm-6 col-md-3"><label>To Date</label>
-						<div class="input-group">
-								<input type="text" placeholder="Select a date" class="form-control input-sm datepicker searchinputs" data-dateformat="yy-mm-dd" id="date_to">
-								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-							</div>
-					</div>';					
+		$course_year = $qry->qry_assoc("select year from es_course where active=1 group by year order by year");
+		$existing_year=$add_year='';$minyear=$lastyear=date("Y");
+		foreach($course_year as $key=>$value){
+			$minyear=!$key?$value['year']:$minyear;
+			$lastyear=$key==(count($course_year)-1)?$value['year']:$lastyear;
+			$existing_year.='<option value="'.$value['year'].'">'.$value['year'].'</option>';
+		}
+		$extend_year=3;
+		for($i=($minyear-$extend_year);$i<=($lastyear+$extend_year);$i++){
+			$add_year.='<option value="'.$i.'">'.$i.'</option>';
+		}
+		$year_select = '<div class="col-sm-6 col-md-3"><select class="form-control input-sm searchinputs" id="year_select">
+							<option value="">--- All Years---</option>
+							'.$existing_year.'
+						</select></div>';					
 						
-		$status = '<div class="col-sm-6 col-md-3"><label>Status</label><select class="form-control input-sm searchinputs" id="status">
-							<option value="">--- All ---</option>
+		$status = '<div class="col-sm-6 col-md-3"><select class="form-control input-sm searchinputs" id="status">
+							<option value="">--- All Status ---</option>
 							<option value="1">Active</option>
 							<option value="0">Inactive</option>
 						</select></div>';		
-		$txt_search = '<div class="col-sm-6 col-md-3 v_pad5"><label>Keyword</label><div class="input-group input-group-sm"><input type="text" class="form-control searchinputs" id="txt_search" placeholder="Search keyword"><span class="input-group-btn btn_search"><button class="btn btn-info" type="submit"><i class="fa fa-search"></i></button></span></div></div>';
+		$txt_search = '<div class="col-sm-6 col-md-3"><div class="input-group input-group-sm"><input type="text" class="form-control searchinputs" id="txt_search" placeholder="Search keyword"><span class="input-group-btn btn_search"><button class="btn btn-info" type="submit"><i class="fa fa-search"></i></button></span></div></div>';
+
+		//get grade
+		$grade_options = '';$group='';
+		$grades = $qry->qry_assoc("select g.*,gp.title group_title,gp.id group_id from es_grade g 
+									left join es_grade_group gp on gp.id=g.grade_group_id 
+									where gp.active=1 and g.active=1");
+		foreach($grades as $value){
+			if($group==''){$grade_options .= '<optgroup label="'.$value['group_title'].'">';}elseif($group<>$value['group_id']){$grade_options .= '</optgroup><optgroup label="'.$value['group_title'].'">';}
+			$grade_options .= '<option value="'.$value['id'].'">- '.$value['title'].'</option>';
+
+			$group=$value['group_id'];
+		}
+		$grade_options .= '</optgroup>';
 		
-		$search_inputs = '<div class="row">'.$date_from.$date_to.$status.$txt_search.'</div>';
+		$search_inputs = '<div class="row">'.$year_select.$status.$txt_search.'</div>';
 		
 		$pageExist=true;
 		returnStatus:
-		return array('pageExist'=>$pageExist,'input'=>$input,'search_inputs'=>$search_inputs);
+		return array('pageExist'=>$pageExist,'input'=>$input,'search_inputs'=>$search_inputs,'grade_options'=>$grade_options,'add_year'=>$add_year);
 	}	
 }
 ?>

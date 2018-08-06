@@ -1,5 +1,5 @@
 <?php
-class stdModel{
+class user_addlesson{
 	public function data($input){
 		$qry = new connectDb;global $usersession,$encryptKey;$breadcrumb=array();$pageExist=false;
 

@@ -156,8 +156,8 @@ function displaySaveMsg(id,msgType,text){
 
 (function ($) {
 	
-var ajaxRequest = {},runResult = {};
-var siteSetting = {language:getLanguage(),ajaxurl:'/'+getLanguage()+'/ajax_request',loginurl:'/'+getLanguage()+'/login/start',exportexcel:'/'+getLanguage()+'/ajax_exportexcel',ajaxrealtimeupload:'/'+getLanguage()+'/ajax_realtimeupload'};
+var ajaxRequest = {},runResult = {},lang_url=getLanguage()!=''?('/'+getLanguage()):'';
+var siteSetting = {language:getLanguage(),ajaxurl:lang_url+'/admin/ajax_request',loginurl:lang_url+'/login/start',exportexcel:lang_url+'/admin/ajax_exportexcel',ajaxrealtimeupload:lang_url+'/admin/ajax_realtimeupload'};
 
 //--- start modal ----
 var confirmDialog_timeout = 0,dialog_wait=0;

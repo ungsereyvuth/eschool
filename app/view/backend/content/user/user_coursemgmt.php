@@ -70,7 +70,7 @@ $formCmd='newcourse';
                                     <section class="col col-md-6">
                                         <label class="label">School <i class="fs11">(optional)</i></label>
                                         <label class="select">
-                                             <select name="school_id" class="input-sm">
+                                             <select name="school_id" class="input-sm chosen-select">
                                                 <option value="">--- Select ---</option>
                                             </select>
                                         </label>
@@ -78,8 +78,9 @@ $formCmd='newcourse';
                                     <section class="col col-md-6">
                                         <label class="label">Grade</label>
                                         <label class="select">
-                                             <select name="grade_id" class="input-sm">
+                                             <select name="grade_id" class="input-sm chosen-select">
                                                 <option value="">--- Select ---</option>
+                                                <?=$pageData->data->content->grade_options?>
                                             </select>
                                         </label>
                                     </section>
@@ -93,8 +94,11 @@ $formCmd='newcourse';
                                     </section>
                                     <section class="col col-md-6">
                                         <label class="label">Year</label>
-                                        <label class="input">
-                                            <input type="number" name="year" class="input-sm" placeholder="Number">
+                                        <label class="select">
+                                             <select name="year" class="input-sm chosen-select">
+                                                <option value="">--- Select ---</option>
+                                                <?=$pageData->data->content->add_year?>
+                                            </select>
                                         </label>
                                     </section>
                                 </div>

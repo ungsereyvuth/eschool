@@ -188,7 +188,7 @@
         <!-- end voice command -->
 
         <!-- multiple lang dropdown : find all flags in the flags page -->
-        <ul class="header-dropdown-list hidden-xs">
+        <!-- <ul class="header-dropdown-list hidden-xs">
             <li>
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img src="/assets/backend/img/blank.gif" class="flag flag-us" alt="United States"> <span> English (US) </span> <i class="fa fa-angle-down"></i> </a>
                 <ul class="dropdown-menu pull-right">
@@ -225,7 +225,7 @@
                     
                 </ul>
             </li>
-        </ul>
+        </ul>-->
         <!-- end multiple lang -->
 
     </div>

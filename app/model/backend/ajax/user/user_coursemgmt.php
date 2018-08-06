@@ -2,16 +2,19 @@
 class user_coursemgmt{
 	public function data($data){
 		global $encryptKey,$language,$usersession,$layout,$layout_label,$lang;
-		$qry = new connectDb; $_POST=$data;
+		$qry = new connectDb; $_POST=$data;$userid=$usersession->info()->id;
 		
 		$qryData = (object) $_POST["qryData"];	
 		$sql_condition = '';
-		if($qryData->date_from<>''){$sql_condition.=" and c.created_date>='$qryData->date_from 00:00:00'";}
-		if($qryData->date_to<>''){$sql_condition.=" and c.created_date<='$qryData->date_to 23:59:59'";}
+		if($qryData->year_select<>''){$sql_condition.=" and c.year=$qryData->year_select";}
 		if(is_numeric($qryData->status)){$sql_condition.=" and c.active=$qryData->status";}
 		if($qryData->txt_search<>''){$sql_condition.=" and (c.title like '%$qryData->txt_search%')";}
 			
-		$sql_statement = "SELECT * from es_course c where 1=1 $sql_condition order by c.created_date";						
+		$sql_statement = "SELECT c.*,count(COALESCE(s.id,NULL)) total_subject from es_course c 
+							left join es_course_subject s on s.course_id=c.id and s.active=1
+							where c.teacher_id=$userid  $sql_condition 
+							group by c.id
+							order by c.created_date";						
 		extract(generateList($language,intval(post("currentPage")),post("rowsPerPage"),post("navAction"),$sql_statement));
 		$dataListString = '';$i=$startIndex+1;
 		foreach($rowData as $key=>$value){	
@@ -21,6 +24,7 @@ class user_coursemgmt{
 									<td>
 										<a href="'.$url.'"><span class="tooltips mgn0 fs14" title="'.$value['title'].'">'.$value['title'].'</span></a>
 										<div class="sub-info">
+											<span class="tooltips fs11" title="Total subject"><i class="fa fa-clock-o"></i> មុខជ្ជា '.$value['total_subject'].' មុខវិជ្ជា</span>
 											<span class="tooltips fs11" title="'.$value['created_date'].'"><i class="fa fa-clock-o"></i> '.khmerDate($value['created_date']).'</span>
 										</div>
 									</td>
