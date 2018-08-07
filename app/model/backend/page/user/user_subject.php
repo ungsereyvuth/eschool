@@ -5,7 +5,7 @@ class user_subject{
 
 
 		//assign var
-
+		$lessons=$subject_info='';
 
 		if(!isset($input[0]) or !is_numeric(decodeString($input[0],$encryptKey))){
 			goto returnStatus;
@@ -19,8 +19,18 @@ class user_subject{
 		$subject_info= (object) $subject_info[0];
 
 		//get all lessons
-		$lessons = $qry->qry_assoc("select * from es_lesson l where l.subject_id=$subject_info->id and l.active=1");
+		$lessons_row = $qry->qry_assoc("select * from es_lesson l where l.subject_id=$subject_info->id and l.active=1");
+		//organize lesson
+		$lessons=array();
+		foreach($lessons_row as $key=>$value){
+			if($value['parent_id']){
+				$lessons[$value['parent_id']]['sub'][$value['id']]=$value;
+			}else{
+				$lessons[$value['id']]['info']=$value;
+			}
 
+			
+		}
 		
 		$breadcrumb = array('user_coursemgmt',
 							array('title'=>$subject_info->course_title,'url'=>$layout_label->label->user_course->url.'/'.encodeString($subject_info->course_id,$encryptKey)),
