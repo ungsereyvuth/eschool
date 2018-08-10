@@ -50,7 +50,10 @@ $(function() {
 			"searchreplace visualblocks fullscreen",
 			"insertdatetime media table contextmenu paste textcolor imagetools colorpicker emoticons"
 		],
-		toolbar: "undo redo | styleselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | emoticons",
+		external_plugins: {
+		    tiny_mce_wiris: 'https://www.wiris.net/demo/plugins/tiny_mce/plugin.js'
+		  },
+		toolbar: "undo redo | styleselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | emoticons | tiny_mce_wiris_formulaEditor | tiny_mce_wiris_formulaEditorChemistry",
 		style_formats: [
 							{title: "Headers", items: [
 								{title: "Header 1", format: "h1"},

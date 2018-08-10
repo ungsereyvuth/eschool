@@ -19,7 +19,7 @@ class user_subject{
 		$subject_info= (object) $subject_info[0];
 
 		//get all lessons
-		$lessons_row = $qry->qry_assoc("select * from es_lesson l where l.subject_id=$subject_info->id and l.active=1");
+		$lessons_row = $qry->qry_assoc("select * from es_lesson l where l.subject_id=$subject_info->id and l.active=1 order by l.ordering");
 		//organize lesson
 		$lessons=array();
 		foreach($lessons_row as $key=>$value){

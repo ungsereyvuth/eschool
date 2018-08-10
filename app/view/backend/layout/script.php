@@ -84,6 +84,11 @@
 <script src="/assets/frontend/plugins/prettyphoto/js/jquery.prettyPhoto.js"></script>
 <!-- <script src="/assets/frontend/plugins/tinymce/tinymce.min.js"></script> -->
 <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=dp06kf21f73g4tv44g4xxou5ex4002laebvlhgouh5h5n4oc"></script>
+<script>
+	if (!window.tinymce) {
+		document.write('<script src="/assets/frontend/plugins/tinymce/tinymce.min.js"><\/script>');
+	}
+</script>
 <script src="/assets/frontend/plugins/printThis/printThis.js"></script>
 
 
