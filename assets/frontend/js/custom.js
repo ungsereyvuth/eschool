@@ -239,7 +239,7 @@ ajaxRequest.showList= function(navAction,cmd,qryData){
 		var loadMode = $("#"+cmd).attr('data-loadmode')?$("#"+cmd).attr('data-loadmode'):'list'; //default loadmode is list
 		if(loadMode=='loadmore'){$("#"+cmd+" .nav_next").html('<img src="/assets/frontend/img/loading.gif" />Loading...')}
 		var currentPage = $("#"+cmd+" .nav_currentPage").val();
-		var rowsPerPage = $("#"+cmd+" .nav_rowsPerPage").length?$("#"+cmd+" .nav_rowsPerPage").val():6;
+		var rowsPerPage = $("#"+cmd+" .nav_rowsPerPage").length?$("#"+cmd+" .nav_rowsPerPage").val():10;
 		$.post(siteSetting.ajaxurl,{cmd:cmd,qryData:qryData,currentPage:currentPage,rowsPerPage:rowsPerPage,navAction:navAction} ,function(data){
 				//console.log(data);
 				if(!isJSON(data) || !("list" in JSON.parse(data))){$("#"+cmd+" tbody").html("<tr><td colspan='"+qryData['col']+"' class='txtCenter'><span class='redcolor'>"+(data=='Access Denied!'?'Access Denied!':(("msg" in JSON.parse(data))?JSON.parse(data).msg:'Technical Error'))+"</span></td></tr>");$("#"+cmd+" .nav_info").html('');$("#overlay_"+get_time).remove();return false;}	
@@ -256,6 +256,9 @@ ajaxRequest.showList= function(navAction,cmd,qryData){
 					if(!data.nav_btn_disable.nav_next){$("#"+cmd+" .nav_next").addClass('hidden').unbind("click");}
 					else{$("#"+cmd+" .nav_next").html('<i class="fa fa-angle-double-down"></i> Load More').unbind("click").bind("click",function(){ajaxRequest.showList('next',cmd,qryData)});}
 				}else{
+					//hide list nav if row <= item per page					
+					if(data.totalRow>rowsPerPage){$("#"+cmd+" .listnav").removeClass("hidden");}
+
 					//set sql for excel export	
 					if($("#"+cmd+" #fullexport").length){
 						$("#"+cmd+" #fullexport").unbind('click').click(function(){ajaxRequest.exportexcel(cmd,data.fullsql)});

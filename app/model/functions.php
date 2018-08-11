@@ -983,29 +983,36 @@ function resizedpic($filename){
 	return $showfile;
 }
 
-function allowed_file($file_ref){
+function allowed_file($file_ref,$config='all'){
 	$result=true;$msg = 'file allowed';
-	
-	//get file format
-	$qry = new connectDb;$validextensions=$validtype=$max_size=array();
-	$formatInfo = $qry->qry_assoc("SELECT * FROM fileformat where active=1");
-	foreach($formatInfo as $key=>$value){
-		$exts = explode(",",$value['ext']);
-		$validextensions=array_merge($validextensions,$exts);
-		$types = explode(",",$value['type']);
-		$validtype=array_merge($validtype,$types);
-		
-		foreach($exts as $exts_value){$max_size[$exts_value] = $value['max_size'];}		
-	}
+	$config=($config=='')?'all':$config;
 	$temporary = explode(".", $file_ref["name"]);
 	$file_extension = strtolower(end($temporary));
-	if(isset($file_ref["type"]) and $file_ref["type"]<>''){
-		if(in_array($file_ref["type"], $validtype) and in_array(strtolower($file_extension), $validextensions)){
-			if($file_ref["size"] <= ($max_size[$file_extension]*1000000)){
-				if ($file_ref["error"] > 0){$result=false;$msg=$file_ref["error"];}
-			}else{$result=false;$msg='File size must be less than '.$max_size[$file_extension].'MB';}
-		}else{$result=false;$msg='Invalid file type';}			
-	}else{$result=false;$msg='Please select a file';}
+	//get file format
+	$qry = new connectDb;$validextensions=$validtype=$max_size=array();
+	//get allowed format set
+	$formatConfig = $qry->qry_assoc("SELECT format_id FROM fileformat_config where cmd='$config' and active=1");
+	if(count($formatConfig)){
+		$config = $formatConfig[0]['format_id'];
+		$formatConfig_sql = $config==''?"":("id IN (".$formatConfig[0]['format_id'].") and") ;
+		$formatInfo = $qry->qry_assoc("SELECT * FROM fileformat where $formatConfig_sql active=1");
+		foreach($formatInfo as $key=>$value){
+			$exts = explode(",",$value['ext']);
+			$validextensions=array_merge($validextensions,$exts);
+			$types = explode(",",$value['type']);
+			$validtype=array_merge($validtype,$types);
+			
+			foreach($exts as $exts_value){$max_size[$exts_value] = $value['max_size'];}		
+		}
+
+		if(isset($file_ref["type"]) and $file_ref["type"]<>''){
+			if(in_array($file_ref["type"], $validtype) and in_array(strtolower($file_extension), $validextensions)){
+				if($file_ref["size"] <= ($max_size[$file_extension]*1000000)){
+					if ($file_ref["error"] > 0){$result=false;$msg=$file_ref["error"];}
+				}else{$result=false;$msg='File size must be less than '.$max_size[$file_extension].'MB';}
+			}else{$result=false;$msg='Invalid file type';}			
+		}else{$result=false;$msg='Please select a file';}
+	}else{$result=false;$msg="Invalid format config";}
 	
 	return array('result'=>$result,'msg'=>$msg,'ext'=>$file_extension);
 }
@@ -1050,11 +1057,11 @@ function resize_pic($url, $filename, $width = 1100, $watermark=false, $height = 
 // for large: width:1100, q 70
 // for thumbnail: width 300, q 70
 
-function upload($path,$file_ref,$newfile,$watermark=false){	
+function upload($path,$file_ref,$newfile,$watermark=false,$formatConfig=''){	
 	$result=0;$msg=$filename=$newfilename='';$filesize='0KB';$filetype='';
 	$filepath = $_SERVER['DOCUMENT_ROOT'].$path;$file_detail=$thumbnail_path='';$isPic = false;
 	$filepath_root = $path; //$filepath_root = '/documents/';
-	$allowed_file = allowed_file($file_ref);
+	$allowed_file = allowed_file($file_ref,$formatConfig);
 	if($allowed_file['result']){
 		$newfilename = str_replace(array(".".strtolower($allowed_file['ext'])," "),array("_".time()."_".rand(0,100000).".".strtolower($allowed_file['ext']),"_"),strtolower($file_ref['name']));
 		//$newfilename = $file_ref['name'].'_'.$newfile.($newfile==''?'':'_').time().".".$allowed_file['ext'];

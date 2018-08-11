@@ -245,7 +245,7 @@ ajaxRequest.showList= function(navAction,cmd,qryData){
 		var loadMode = $("#"+cmd).attr('data-loadmode')?$("#"+cmd).attr('data-loadmode'):'list'; //default loadmode is list
 		if(loadMode=='loadmore'){$("#"+cmd+" .nav_next").html('<img src="/assets/frontend/img/loading.gif" />Loading...')}
 		var currentPage = $("#"+cmd+" .nav_currentPage").val();
-		var rowsPerPage = $("#"+cmd+" .nav_rowsPerPage").length?$("#"+cmd+" .nav_rowsPerPage").val():6;
+		var rowsPerPage = $("#"+cmd+" .nav_rowsPerPage").length?$("#"+cmd+" .nav_rowsPerPage").val():10;
 		$.post(siteSetting.ajaxurl,{cmd:cmd,qryData:qryData,currentPage:currentPage,rowsPerPage:rowsPerPage,navAction:navAction} ,function(data){
 				//console.log(data);
 				var errmsg = 'Access Denied! please login again.';
@@ -263,6 +263,8 @@ ajaxRequest.showList= function(navAction,cmd,qryData){
 					if(!data.nav_btn_disable.nav_next){$("#"+cmd+" .nav_next").addClass('hidden').unbind("click");}
 					else{$("#"+cmd+" .nav_next").html('<i class="fa fa-angle-double-down"></i> Load More').unbind("click").bind("click",function(){ajaxRequest.showList('next',cmd,qryData)});}
 				}else{
+					//hide list nav if row <= item per page
+					if(data.totalRow>rowsPerPage){$("#"+cmd+" .listnav").removeClass("hidden");}
 					//set sql for excel export	
 					if($("#"+cmd+" #fullexport").length){
 						$("#"+cmd+" #fullexport").unbind('click').click(function(){ajaxRequest.exportexcel(cmd,data.fullsql)});
@@ -326,7 +328,7 @@ ajaxRequest.realtime_upload = function (frm,e,frmData,file){
 		var jfile = $(file);
 		var fileid = $.now();		
 		var filepath = jfile.val();
-		var criteriaid = jfile.attr("id");	
+		var criteriaid = jfile.attr("name");	
 		var preview_id = 'preview_'+criteriaid+'_'+totalfiles;	
 		$("#selectedFile_"+criteriaid).show();
 		$("#selectedFile_"+criteriaid).prepend('<div id="file_'+fileid+'" class="col-xs-6 col-sm-4 col-md-3 img_preview" style="'+($("#selectedFile_criteria_"+criteriaid).html()==''?'':'padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #e9e9e9;')+'"><a id="link_'+fileid+'" href="#" rel="prettyPhoto"><img src="/assets/frontend/img/blank_img_square.png" id="'+preview_id+'" class="img-responsive bg_pic_contain fullwidth" /></a><div class="txtCenter v_pad10 loading_upload"><img id="load_'+fileid+'" src="/assets/frontend/img/loading.gif" /></div></div>');

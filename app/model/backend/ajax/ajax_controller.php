@@ -29,13 +29,14 @@ class admin_ajax_request{
 
 class admin_ajax_realtimeupload {
 	public function data($input){
-		global $encryptKey,$language,$usersession,$layout,$layout_label,$lang;
+		//global $encryptKey,$language,$usersession,$layout,$layout_label,$lang;
 
-		$qry = new connectDb;
+		//$qry = new connectDb;
 		$uploadpath = web_config('post_doc_path');
 		$newfile= 'upload';$upload_data=array();
+		$formatConfig = isset($_POST['cmd'])?$_POST['cmd']:'';
 
-		$upload_data = upload($uploadpath,$_FILES[$input[0]],$newfile);
+		$upload_data = upload($uploadpath,$_FILES[$input[0]],$newfile,false,$formatConfig);
 
 		echo json_encode($upload_data);
 

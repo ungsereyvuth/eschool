@@ -65,7 +65,7 @@ $addmain = $pageData->data->content->addmain;
                                         <label>Attachments</label>                              
                                         <label class="input input-file">
                                             <div class="button">
-                                                <input type="file" id="attachment" name="attachment" data-criteriaid="attachment" class="realtime-upload-btn">Add Picture
+                                                <input type="file" name="attachment" class="realtime-upload-btn">Add Picture
                                             </div>
                                             <input type="text" readonly placeholder="You can select only allowed file types">
                                             <input type="hidden" id="allfiles_attachment" name="filename" class="realtime-upload-allfiles">

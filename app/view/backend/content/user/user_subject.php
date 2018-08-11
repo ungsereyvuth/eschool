@@ -32,11 +32,13 @@
                             		$lesson_view_url = '#';
                             		$sub=$main='';$sub_no=1;
                             		foreach($subrow as $skey=>$svalue){
+                                        //url new question
+                                        $add_q_url = $pageData->label->label->user_addquestion->url.'/'.encodeString($svalue['id'],$encryptKey);
 	                            		$sub.='<li style="display:none">
 		                                            <a href="'.$lesson_view_url.'"><span><i class="fa fa-file-text-o"></i> មេរៀនទី'.enNum_khNum($sub_no).'៖ <u>'.$svalue['title'].'</u></span></a>
 		                                            <i class="fa fa-crosshairs"></i> ២៣សំណួរ 
                                                     <i class="fa fa-file-o"></i> ៥ឯកសារ
-                                                    <label class="btn btn-xs btn-success fs11 pull-right"><i class="fa fa-plus"></i> បញ្ចូលសំណួរ</label>
+                                                    <a href="'.$add_q_url.'" class="btn btn-xs btn-success fs11 pull-right">'.$pageData->label->label->user_addquestion->icon.' '.$pageData->label->label->user_addquestion->title.'</a>
 		                                        </li>';
                                         $sub_no++;
 	                            	}

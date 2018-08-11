@@ -51,7 +51,7 @@ class admin_notifications{
 		}
 		$no_data = $layout_label->label->no_data->icon.' '.$layout_label->label->no_data->title;
 		if($dataListString == ''){$dataListString = '<tr><td><div class="profile-event txtCenter redcolor">'.$no_data.'</div></td></tr>';}
-		$data = array('list'=>$dataListString,'listNavInfo'=>($totalPages>0?$list_nav_info:$no_data),'targetPage'=>$targetPage,'totalPages'=>$totalPages,'gotoSelectNum'=>$gotoSelectNum,'nav_btn_disable'=>$nav_btn_disable);	
+		$data = array('list'=>$dataListString,'listNavInfo'=>($totalPages>0?$list_nav_info:$no_data),'targetPage'=>$targetPage,'totalPages'=>$totalPages,'gotoSelectNum'=>$gotoSelectNum,'nav_btn_disable'=>$nav_btn_disable,'totalRow'=>$totalRow);	
 		echo json_encode($data);	
 	}	
 }	
