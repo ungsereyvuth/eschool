@@ -91,6 +91,7 @@
 </script>
 <script src="/assets/frontend/plugins/printThis/printThis.js"></script>
 
+<script src="/assets/backend/js/plugin/jquery-nestable/jquery.nestable.min.js"></script>
 
 <!-- JS Customization -->
 <script src="/assets/backend/js/custom.js"></script>
