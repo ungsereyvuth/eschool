@@ -3,12 +3,13 @@ class user_addquestion{
 	public function data($input){
 		$qry = new connectDb;global $usersession,$encryptKey,$layout_label;$breadcrumb=array();$pageExist=false;
 
-		$lesson_info=$search_inputs='';$qtype_opt='';
+		$lesson_info=$search_inputs=$ordering=$qtype_opt=$selected_qtype='';
 
 		if(!isset($input[0])){
 			goto returnStatus;
 		}
 		$lesson_id=decodeString($input[0],$encryptKey);
+		if(!is_numeric($lesson_id) or !$lesson_id){goto returnStatus;}
 
 		//check subject availability
 		$lesson_info = $qry->qry_assoc("select l.id lesson_id,l.title lesson_title,s.id subject_id,s.title subject_title,c.title course_title,c.id course_id from es_lesson l 
@@ -23,10 +24,12 @@ class user_addquestion{
 		if(count($q_info)){$ordering+=$q_info[0]['ordering'];}
 
 		//question type
-		$qtype_opt_input='';
+		
+		$qtype_opt_input=''; $type_id=(isset($_GET['type_id']) and $_GET['type_id'])?$_GET['type_id']:0;
 		$q_type = $qry->qry_assoc("select * from es_question_type where active=1 order by id asc");
 		foreach ($q_type as $key => $value) {
-			$qtype_opt.='<option value="'.$value['id'].'">'.$value['title'].'</option>';
+			if($selected_qtype=='' and $type_id==$value['id']){$selected_qtype=$value['code'];}
+			$qtype_opt.='<option value="'.$value['id'].'" '.($type_id==$value['id']?'selected':'').'>'.$value['title'].'</option>';
 		}
 		$qtype_opt_input='<div class="col-sm-6 col-md-3"><select class="input-sm searchinputs" id="type_id">
 								<option value="">'.$layout_label->label->select_option->title.'</option>
@@ -45,7 +48,7 @@ class user_addquestion{
 
 		$pageExist=true;
 		returnStatus:
-		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'lesson_info'=>$lesson_info,'ordering'=>$ordering,'search_inputs'=>$search_inputs,'qtype_opt'=>$qtype_opt);
+		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'lesson_info'=>$lesson_info,'ordering'=>$ordering,'selected_qtype'=>$selected_qtype,'search_inputs'=>$search_inputs,'qtype_opt'=>$qtype_opt);
 	}	
 }
 ?>

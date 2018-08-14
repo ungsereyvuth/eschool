@@ -42,6 +42,7 @@ $(function() {
 	 tinymce.init({
 		selector: ".richtext",
 		relative_urls : false,
+		statusbar: false,
 		remove_script_host : false,
 		valid_elements : '*[*]',
 		//document_base_url : "http://cambodiabesthospitality.org",
@@ -102,6 +103,27 @@ $(function() {
 							
 					]
 	 });
+	 function trigger_mathinput(){
+	 	tinymce.init({
+			selector: ".mathinput",
+			relative_urls : false,
+			remove_script_host : false,
+			menubar:false,
+			statusbar: false,
+			valid_elements : '*[*]',
+			plugins: [
+				"advlist autolink lists link image charmap print preview anchor",
+				"searchreplace visualblocks fullscreen",
+				"insertdatetime media table contextmenu paste textcolor imagetools colorpicker emoticons"
+			],
+			external_plugins: {
+			    tiny_mce_wiris: 'https://www.wiris.net/demo/plugins/tiny_mce/plugin.js'
+			  },
+			toolbar: "undo redo | tiny_mce_wiris_formulaEditor | tiny_mce_wiris_formulaEditorChemistry | link image | emoticons"
+		 });
+	 }
+	 trigger_mathinput();
+	 
 	 //--- end rich text editor tinymce
 });
 
