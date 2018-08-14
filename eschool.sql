@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 01, 2018 at 06:13 AM
+-- Generation Time: Aug 14, 2018 at 09:49 PM
 -- Server version: 5.6.35
 -- PHP Version: 5.6.30
 
@@ -16415,11 +16415,13 @@ INSERT INTO `email_template` (`id`, `code`, `title`, `subject`, `content`, `cont
 
 CREATE TABLE `es_course` (
   `id` int(11) NOT NULL,
+  `grade_id` int(11) DEFAULT NULL,
   `teacher_id` int(11) DEFAULT NULL,
   `school_id` int(11) DEFAULT NULL,
   `title` varchar(300) DEFAULT NULL,
   `description` text,
   `max_student` int(11) DEFAULT NULL,
+  `year` int(11) DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `last_updated_by` int(11) DEFAULT NULL,
@@ -16431,9 +16433,10 @@ CREATE TABLE `es_course` (
 -- Dumping data for table `es_course`
 --
 
-INSERT INTO `es_course` (`id`, `teacher_id`, `school_id`, `title`, `description`, `max_student`, `created_by`, `created_date`, `last_updated_by`, `last_updated_date`, `active`) VALUES
-(1, NULL, 0, 'test', 'testddd', 90, 1, '2018-07-31 00:23:12', NULL, NULL, 1),
-(2, NULL, 0, 'ថ្នាក់ទី១០', '', 0, 1, '2018-07-31 21:56:27', NULL, NULL, 1);
+INSERT INTO `es_course` (`id`, `grade_id`, `teacher_id`, `school_id`, `title`, `description`, `max_student`, `year`, `created_by`, `created_date`, `last_updated_by`, `last_updated_date`, `active`) VALUES
+(3, 13, 2, 0, 'វគ្គបំប៉នបាក់ឌុប២០១៨', 'វគ្គនេះមានមេរៀន​ និងសំណួរចម្លើយពិសេសៗ សម្រាប់ត្រៀមប្រឡងបាក់ឌុប​ ឆ្នាំ២០១៨នេះ។ ចំនួនសិស្សមានកំណត់ត្រឹម ១០០នាក់ប៉ុណ្ណោះ។', 100, 2018, 2, '2018-08-02 23:52:35', NULL, NULL, 1),
+(5, 13, 1, 0, 'ថ្នាក់ទី១២', 'this\'s testing', 60, 2018, 1, '2018-08-04 01:40:59', NULL, NULL, 1),
+(6, 10, 1, 0, 'ថ្នាក់ទី៩', 'វគ្គត្រៀមឌីផ្លូម', 0, 2018, 1, '2018-08-06 19:01:20', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -16451,6 +16454,40 @@ CREATE TABLE `es_course_member` (
   `last_updated_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `es_course_member`
+--
+
+INSERT INTO `es_course_member` (`id`, `course_id`, `student_id`, `created_by`, `created_date`, `last_updated_by`, `last_updated_date`, `active`) VALUES
+(1, 3, 4, NULL, NULL, NULL, NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `es_course_subject`
+--
+
+CREATE TABLE `es_course_subject` (
+  `id` int(11) NOT NULL,
+  `course_id` int(11) DEFAULT NULL,
+  `grade_subject_id` int(11) DEFAULT NULL,
+  `title` varchar(300) DEFAULT NULL,
+  `description` text,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `last_updated_by` int(11) DEFAULT NULL,
+  `last_updated_date` datetime DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `es_course_subject`
+--
+
+INSERT INTO `es_course_subject` (`id`, `course_id`, `grade_subject_id`, `title`, `description`, `created_by`, `created_date`, `last_updated_by`, `last_updated_date`, `active`) VALUES
+(1, 5, 1, 'ថ្នាក់គណិតវិទ្យា', 'ចូលរៀនបានតាមអនឡាញ', 1, '2018-08-04 17:17:48', NULL, NULL, 1),
+(2, 5, 3, 'ថ្នាក់រូបវិទ្យា', 'រៀនបានដោយសេរី', 1, '2018-08-04 21:44:10', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -16510,20 +16547,117 @@ CREATE TABLE `es_exam_type` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `es_grade`
+--
+
+CREATE TABLE `es_grade` (
+  `id` int(11) NOT NULL,
+  `grade_group_id` int(11) DEFAULT NULL,
+  `title` varchar(300) DEFAULT NULL,
+  `ordering` int(11) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `es_grade`
+--
+
+INSERT INTO `es_grade` (`id`, `grade_group_id`, `title`, `ordering`, `active`) VALUES
+(1, 1, 'ថ្នាក់មតេយ្យ', NULL, 1),
+(2, 2, 'ថ្នាក់ទី១', NULL, 1),
+(3, 2, 'ថ្នាក់ទី២', NULL, 1),
+(4, 2, 'ថ្នាក់ទី៣', NULL, 1),
+(5, 2, 'ថ្នាក់ទី៤', NULL, 1),
+(6, 2, 'ថ្នាក់ទី៥', NULL, 1),
+(7, 2, 'ថ្នាក់ទី៦', NULL, 1),
+(8, 3, 'ថ្នាក់ទី៧', NULL, 1),
+(9, 3, 'ថ្នាក់ទី៨', NULL, 1),
+(10, 3, 'ថ្នាក់ទី៩', NULL, 1),
+(11, 4, 'ថ្នាក់ទី១០', NULL, 1),
+(12, 4, 'ថ្នាក់ទី១១', NULL, 1),
+(13, 4, 'ថ្នាក់ទី១២', NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `es_grade_group`
+--
+
+CREATE TABLE `es_grade_group` (
+  `id` int(11) NOT NULL,
+  `title` varchar(300) DEFAULT NULL,
+  `ordering` int(11) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `es_grade_group`
+--
+
+INSERT INTO `es_grade_group` (`id`, `title`, `ordering`, `active`) VALUES
+(1, 'មតេយ្យ', 1, 1),
+(2, 'បឋមសិក្សា', 2, 1),
+(3, 'អនុវិទ្យាល័យ', 3, 1),
+(4, 'វិទ្យាល័យ', 4, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `es_grade_subject`
+--
+
+CREATE TABLE `es_grade_subject` (
+  `id` int(11) NOT NULL,
+  `title` varchar(300) DEFAULT NULL,
+  `ordering` int(11) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `es_grade_subject`
+--
+
+INSERT INTO `es_grade_subject` (`id`, `title`, `ordering`, `active`) VALUES
+(1, 'គណិតវិទ្យា', 1, 1),
+(2, 'ជីវវិទ្យា', 2, 1),
+(3, 'រូបវិទ្យា', 3, 1),
+(4, 'គីមីវិទ្យា', 4, 1),
+(5, 'ភាសាខ្មែរ', 5, 1),
+(6, 'ភាសាអង់គ្លេស', 6, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `es_lesson`
 --
 
 CREATE TABLE `es_lesson` (
   `id` int(11) NOT NULL,
+  `parent_id` int(11) DEFAULT NULL,
   `subject_id` int(11) DEFAULT NULL,
   `title` varchar(300) DEFAULT NULL,
   `description` text,
+  `ordering` int(11) DEFAULT NULL,
+  `filenames` text,
   `created_by` int(11) DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `last_updated_by` int(11) DEFAULT NULL,
   `last_updated_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `es_lesson`
+--
+
+INSERT INTO `es_lesson` (`id`, `parent_id`, `subject_id`, `title`, `description`, `ordering`, `filenames`, `created_by`, `created_date`, `last_updated_by`, `last_updated_date`, `active`) VALUES
+(1, NULL, 2, 'លំយោល', '<p>ថដសថ ដថ&nbsp;ាថដស&nbsp;ាថដថដសថ</p>', 1, 'vitas-latvia-singer-7th-element_music_video_futuristic_crazy_bizarre_strange_1533920100_21286.jpg|cat_song_1533920103_51385.jpg', 1, '2018-08-10 23:57:39', NULL, NULL, 1),
+(2, 1, 2, 'លំយោស៊ីនូយសូអ៊ីត', '<p>ថ&nbsp;ាសដថ ដសថដថថដថដ ថថថដ</p>', 1, 'certificate-of-employment_1533920859_89565.docx|oasis-applicant-user-guide-2014_1533920865_69252.pdf', 1, '2018-08-11 00:07:50', NULL, NULL, 1),
+(3, 1, 2, 'លំយោលត្រង់', '<p>ថ ដថ ដថ&nbsp;ាថសាដថាថដ</p>\r\n<p>ថសដាថ</p>\r\n<p>ថដ</p>\r\n<p>ថដស</p>\r\n<p>ថ</p>', 2, '', 1, '2018-08-11 00:09:37', NULL, NULL, 1),
+(4, NULL, 2, 'កាំរស្មី', '<p>ថ ដសថ ថដស ដសាថដ ថដស</p>', 2, '', 1, '2018-08-11 00:10:18', NULL, NULL, 1),
+(5, 4, 2, 'កាំរស្មីអ៊ិច', '<p>ថដស ដថ ដថថ ស</p>', 1, 'ung_sereyvuth_digital_marketing_manager_23rd_may_18_1533921618_24395.pdf', 1, '2018-08-11 00:20:20', NULL, NULL, 1),
+(6, 1, 2, 'លំយោលកោង', '<p>សូមដោះស្រាយសមីការខាងក្រោម៖</p>\r\n<p><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>X</mi><mo>&#160;</mo><mo>=</mo><mo>&#160;</mo><mfrac><mrow><mn>2</mn><mi>Y</mi><mo>&#160;</mo><mo>-</mo><mo>&#160;</mo><mn>4</mn></mrow><mrow><mn>4</mn><mi>X</mi><mi>Y</mi></mrow></mfrac></math></p>', 3, 'familybook_page1_1533922923_23603.jpg', 1, '2018-08-11 00:42:07', NULL, NULL, 1),
+(7, 4, 2, 'កាំរស្មី យូវី', '<p>ថ សថដស ថដសថដស ថសដថ</p>', 2, 'familybook_page1_1533967340_84193.jpg|ung_sereyvuth_digital_marketing_manager_23rd_may_18_1533967349_47968.pdf', 1, '2018-08-11 13:02:32', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -16553,14 +16687,29 @@ CREATE TABLE `es_question` (
   `id` int(11) NOT NULL,
   `type_id` int(11) DEFAULT NULL,
   `lesson_id` int(11) DEFAULT NULL,
-  `title` varchar(300) DEFAULT NULL,
+  `title` varchar(500) DEFAULT NULL,
   `description` text,
+  `filenames` text,
+  `ordering` int(11) DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `last_updated_by` int(11) DEFAULT NULL,
   `last_updated_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `es_question`
+--
+
+INSERT INTO `es_question` (`id`, `type_id`, `lesson_id`, `title`, `description`, `filenames`, `ordering`, `created_by`, `created_date`, `last_updated_by`, `last_updated_date`, `active`) VALUES
+(1, 1, 2, 'តើព្រះអាទិត្យរះពីទិសណា?', '', NULL, 1, 1, '2018-08-15 01:43:06', NULL, NULL, 1),
+(2, 2, 2, 'អាទិត្យមានទំហំធំជាងផែនដី។', '', NULL, 2, 1, '2018-08-15 01:45:46', NULL, NULL, 1),
+(3, 3, 2, 'តើខ្នាតចំងាយគិតជាអ្វីខ្លះ?', '', NULL, 3, 1, '2018-08-15 01:48:45', NULL, NULL, 1),
+(4, 4, 2, 'សណ្ឋានដីប្រទេសកម្ពុជាមានរាងជា ......... ។', '', NULL, 4, 1, '2018-08-15 01:50:02', NULL, NULL, 1),
+(5, 5, 2, 'ដូចម្តេចដែលហៅថាគុណធម៌?', '', NULL, 5, 1, '2018-08-15 01:51:56', NULL, NULL, 1),
+(6, 6, 2, 'ចូររៀបពណ៌ថ្ងៃនៃសប្តាហ៍។ រាប់ចាប់ផ្តើមដោយថ្ងៃច័ន្ទ។', '', NULL, 6, 1, '2018-08-15 01:58:04', NULL, NULL, 1),
+(7, 1, 2, 'តើទិវាសិទ្ធិមនុស្សអន្តរជាតិប្រារព្ធឡើងនៅថ្ងៃខែណា?', '', NULL, 7, 1, '2018-08-15 02:24:29', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -16585,14 +16734,40 @@ CREATE TABLE `es_questionnaire` (
 CREATE TABLE `es_question_options` (
   `id` int(11) NOT NULL,
   `question_id` int(11) DEFAULT NULL,
-  `title` varchar(300) DEFAULT NULL,
+  `choice` varchar(300) DEFAULT NULL,
+  `is_answer` int(11) DEFAULT NULL,
   `ordering` int(11) DEFAULT NULL,
-  `created_by` int(11) DEFAULT NULL,
-  `created_date` datetime DEFAULT NULL,
-  `last_updated_by` int(11) DEFAULT NULL,
-  `last_updated_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `es_question_options`
+--
+
+INSERT INTO `es_question_options` (`id`, `question_id`, `choice`, `is_answer`, `ordering`, `active`) VALUES
+(1, 1, '<p>លិច</p>', 0, NULL, 1),
+(2, 1, '<p>កើត</p>', 1, NULL, 1),
+(3, 1, '<p>ជើង</p>', 0, NULL, 1),
+(4, 1, '<p>ត្បូង</p>', 0, NULL, 1),
+(5, 2, '2', 1, NULL, 1),
+(6, 3, '<p>គីឡូវម៉ែត្រ</p>', 1, NULL, 1),
+(7, 3, '<p>តោន</p>', 0, NULL, 1),
+(8, 3, '<p>ម៉ាយ</p>', 1, NULL, 1),
+(9, 3, '<p>លីត្រ</p>', 0, NULL, 1),
+(10, 4, 'បាតខ្ទះ', 1, NULL, 1),
+(11, 5, 'គុណធម៌សំដៅលើ........', 1, NULL, 1),
+(12, 6, '<p>លឿង</p>', 1, NULL, 1),
+(13, 6, '<p>ស្វាយ</p>', 2, NULL, 1),
+(14, 6, '<p>ក្រហម</p>', 7, NULL, 1),
+(15, 6, '<p>ស៊ីលៀប</p>', 3, NULL, 1),
+(16, 6, '<p><span>បៃតង</span></p>', 4, NULL, 1),
+(17, 6, '<p>ខៀវ</p>', 5, NULL, 1),
+(18, 6, '<p><span>ខ្មៅ​</span></p>', 6, NULL, 1),
+(19, 7, '<p>៧ មករា</p>', 0, NULL, 1),
+(20, 7, '<p>៨ មិនា</p>', 0, NULL, 1),
+(21, 7, '<p>១ មីថុនា</p>', 0, NULL, 1),
+(22, 7, '<p>៩ វិឆ្ឆិកា</p>', 0, NULL, 1),
+(23, 7, '<p>១០ ធ្នូ</p>', 1, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -16602,11 +16777,13 @@ CREATE TABLE `es_question_options` (
 
 CREATE TABLE `es_question_type` (
   `id` int(11) NOT NULL,
-  `title` varchar(300) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `title_en` varchar(300) DEFAULT NULL,
+  `code` varchar(50) DEFAULT NULL,
   `is_option_single` tinyint(1) DEFAULT NULL,
   `is_option_multiple` tinyint(1) DEFAULT NULL,
   `is_yesno` tinyint(1) DEFAULT NULL,
-  `is_singletext` tinyint(1) DEFAULT NULL,
+  `is_singlelinetext` tinyint(1) DEFAULT NULL,
   `is_descriptiontext` tinyint(1) DEFAULT NULL,
   `is_sequence` tinyint(1) DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
@@ -16615,6 +16792,18 @@ CREATE TABLE `es_question_type` (
   `last_update_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `es_question_type`
+--
+
+INSERT INTO `es_question_type` (`id`, `title`, `title_en`, `code`, `is_option_single`, `is_option_multiple`, `is_yesno`, `is_singlelinetext`, `is_descriptiontext`, `is_sequence`, `created_by`, `created_date`, `last_updated_by`, `last_update_date`, `active`) VALUES
+(1, 'ជ្រើសរើស (ចម្លើយមានតែ១)', 'QCM', 'qcm', 1, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, 1),
+(2, 'ត្រូវ​ឬខុស', 'True/False', 'tf', 0, 0, 1, 0, 0, 0, NULL, NULL, NULL, NULL, 1),
+(3, 'ជ្រើសរើស (ចម្លើយមានច្រើន)', 'Multiple Choice', 'mc', 0, 1, 0, 0, 0, 0, NULL, NULL, NULL, NULL, 1),
+(4, 'បំពេញល្បះ', 'Fill Gap', 'fg', 0, 0, 0, 1, 0, 0, NULL, NULL, NULL, NULL, 1),
+(5, 'សំណេរ', 'Paragraph Writing', 'pw', 0, 0, 0, 0, 1, 0, NULL, NULL, NULL, NULL, 1),
+(6, 'រៀបតាមលំដាប់', 'Sequence', 'sq', 0, 0, 0, 0, 0, 1, NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -16636,24 +16825,6 @@ CREATE TABLE `es_student_group` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `es_subject`
---
-
-CREATE TABLE `es_subject` (
-  `id` int(11) NOT NULL,
-  `course_id` int(11) DEFAULT NULL,
-  `title` varchar(300) DEFAULT NULL,
-  `description` text,
-  `created_by` int(11) DEFAULT NULL,
-  `created_date` datetime DEFAULT NULL,
-  `last_updated_by` int(11) DEFAULT NULL,
-  `last_updated_date` datetime DEFAULT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `es_yesno_options`
 --
 
@@ -16663,6 +16834,15 @@ CREATE TABLE `es_yesno_options` (
   `no` varchar(50) DEFAULT NULL,
   `active` tinyint(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `es_yesno_options`
+--
+
+INSERT INTO `es_yesno_options` (`id`, `yes`, `no`, `active`) VALUES
+(1, 'ពិត', 'មិនពិត', 1),
+(2, 'ត្រូវ', 'ខុស', 1),
+(3, 'មាន', 'គ្មាន', 1);
 
 -- --------------------------------------------------------
 
@@ -16736,9 +16916,31 @@ INSERT INTO `fileformat` (`id`, `title`, `ext`, `type`, `max_size`, `active`) VA
 (3, 'Ms. Word', 'doc,docx', 'application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document', 20, 1),
 (4, 'Ms. Excel', 'xls,xlsx', 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 20, 1),
 (5, 'Ms. Power Point', 'ppt,pptx', 'application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation', 20, 1),
-(6, 'Audio', 'mp3,wav', 'audio/mp3,audio/mpeg,audio/wav', 30, 0),
-(7, 'Video', 'mp4', 'video/mp4', 50, 0),
+(6, 'Audio', 'mp3,wav', 'audio/mp3,audio/mpeg,audio/wav', 30, 1),
+(7, 'Video', 'mp4', 'video/mp4', 50, 1),
 (8, 'Compression File', 'rar,zip', 'application/x-rar-compressed,application/zip,application/octet-stream', 30, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fileformat_config`
+--
+
+CREATE TABLE `fileformat_config` (
+  `id` int(11) NOT NULL,
+  `format_id` varchar(100) DEFAULT NULL COMMENT 'NULL = all format',
+  `cmd` varchar(50) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `fileformat_config`
+--
+
+INSERT INTO `fileformat_config` (`id`, `format_id`, `cmd`, `active`) VALUES
+(1, NULL, 'all', 1),
+(2, '2,3,4,5', 'user_addlesson', 1),
+(3, '2,3,4,5', 'user_addquestion', 1);
 
 -- --------------------------------------------------------
 
@@ -16898,7 +17100,7 @@ INSERT INTO `layout_page_controller` (`id`, `parent_id`, `model`, `dir`, `inheri
 (1, NULL, 'home', NULL, '', 9, 0, 0, 1, '1,2,7,3', 0, 0, 1, 0, 0, NULL, NULL, NULL, 10001, '2017-11-06 15:52:16', 1),
 (2, NULL, 'login', NULL, '', 11, 0, 1, 1, '2,3', 0, 0, 1, 0, 0, NULL, NULL, NULL, 10001, '2017-11-06 15:46:02', 1),
 (3, NULL, 'pagenotfound', NULL, '', 10, 0, 0, 1, '4,2,3', 0, 0, 1, 0, 0, NULL, NULL, NULL, 10001, '2017-10-24 13:55:08', 1),
-(4, NULL, 'logout', NULL, '', 12, 1, 0, 0, '', 1, 0, 1, 0, 0, 103, NULL, NULL, 10001, '2017-10-25 14:24:38', 1),
+(4, NULL, 'logout', '', '', 12, 1, 0, 0, '', 1, 0, 1, 1, 0, 103, NULL, NULL, 1, '2018-08-03 00:52:36', 1),
 (6, NULL, 'ajax_request', NULL, NULL, NULL, 0, 0, 0, NULL, 0, 1, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 1),
 (7, NULL, 'login_start', NULL, NULL, NULL, 0, 0, 0, NULL, 0, 1, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 1),
 (10, NULL, 'register', NULL, '', 21, 0, 1, 1, '4,2,7,5,3', 1, 1, 1, 0, 0, NULL, NULL, NULL, 10001, '2017-11-08 16:17:31', 1),
@@ -16956,7 +17158,7 @@ INSERT INTO `layout_page_controller` (`id`, `parent_id`, `model`, `dir`, `inheri
 (131, NULL, 'dashboard', NULL, '', 150, 1, 0, 1, '4,2,7,5,3', 1, 0, 1, 0, 0, 1, 10001, '2017-11-10 15:15:06', 10001, '2018-02-12 10:05:36', 1),
 (133, 132, 'license_p', NULL, 'license_list', 152, 1, 0, 1, '4,2,7,5,3', 1, 1, 1, 0, 0, 1, 10001, '2017-11-10 15:48:25', 10001, '2017-12-28 13:41:06', 1),
 (172, NULL, 'notifications', NULL, '', 199, 1, 0, 1, '4,2,7,5,3', 1, 1, 1, 0, 0, 2, 10001, '2018-02-12 10:05:18', NULL, NULL, 1),
-(173, NULL, 'admin_notifications', 'admin/', '', 201, 1, 0, 1, '4,7,3,6', 1, 1, 1, 1, 0, 2, 10001, '2018-02-12 15:25:18', NULL, NULL, 1),
+(173, NULL, 'admin_notifications', 'admin/', '', 201, 1, 0, 1, '4,7,3,6', 1, 1, 1, 1, 0, 2, 10001, '2018-02-12 15:25:18', 1, '2018-08-12 13:55:09', 0),
 (187, NULL, 'account_resetpwd', NULL, '', 228, 0, 1, 1, '4,2,7,5,3', 0, 0, 1, 0, 0, NULL, 10001, '2018-05-24 16:45:13', NULL, NULL, 1),
 (188, NULL, 'reset_pwd', NULL, '', NULL, 0, 1, 0, '', 0, 1, 0, 0, 0, NULL, 10001, '2018-05-24 16:45:48', NULL, NULL, 1),
 (189, NULL, 'admin_feedbacklist', 'admin/', '', 248, 1, 0, 1, '4,7,3,6', 1, 1, 1, 1, 0, 21, 10001, '2018-06-01 16:17:45', NULL, NULL, 1),
@@ -16965,8 +17167,17 @@ INSERT INTO `layout_page_controller` (`id`, `parent_id`, `model`, `dir`, `inheri
 (198, NULL, 'Lessons', NULL, '', 259, 0, 0, 1, '2,7,3,4', 0, 0, 1, 0, 0, NULL, NULL, NULL, NULL, NULL, 1),
 (199, NULL, 'lesson_view', NULL, '', 260, 0, 0, 1, '2,7,3,4', 0, 0, 1, 0, 0, NULL, NULL, NULL, NULL, NULL, 1),
 (200, 69, 'page_controller_list', 'admin/', '', NULL, 1, 0, 0, '', 0, 1, 0, 1, 0, NULL, 10001, '2017-10-18 10:54:56', 10001, '2017-10-18 11:32:31', 1),
-(206, NULL, 'user_coursemgmt', 'user/', '', 261, 1, 0, 1, '4,7,3,6', 1, 1, 1, 1, 1, 3, 1, '2018-07-30 21:16:55', NULL, NULL, 1),
-(207, 206, 'newcourse', 'user/', '', NULL, 1, 0, 0, '', 0, 1, 0, 1, 0, NULL, 1, '2018-07-31 00:03:01', NULL, NULL, 1);
+(206, NULL, 'user_coursemgmt', 'user/', '', 261, 1, 0, 1, '4,7,3,6', 1, 1, 1, 1, 1, 3, 1, '2018-07-30 21:16:55', 1, '2018-08-04 15:14:49', 1),
+(207, 206, 'newcourse', 'user/', '', NULL, 1, 0, 0, '', 0, 1, 0, 1, 0, NULL, 1, '2018-07-31 00:03:01', NULL, NULL, 1),
+(208, 206, 'user_course', 'user/', '', 263, 1, 0, 1, '4,7,3,6', 0, 0, 1, 1, 0, NULL, 1, '2018-08-02 19:11:39', NULL, NULL, 1),
+(209, NULL, 'user_dashboard', 'user/', '', 266, 1, 0, 1, '4,7,3,6', 1, 0, 1, 1, 0, 1, 1, '2018-08-02 21:43:21', NULL, NULL, 1),
+(210, NULL, 'user_myaccount', 'user/', 'admin_user', 267, 1, 0, 1, '4,7,3,6', 1, 0, 1, 1, 0, 102, 1, '2018-08-02 21:52:59', 1, '2018-08-02 22:07:31', 1),
+(211, NULL, 'user_courses', 'user/', '', 268, 1, 0, 1, '4,7,3,6', 1, 1, 1, 1, 1, 3, 1, '2018-08-04 15:11:17', NULL, NULL, 1),
+(212, 206, 'user_addsubject', 'user/', '', 265, 1, 0, 1, '4,7,3,6', 0, 1, 1, 1, 0, NULL, 1, '2018-08-04 15:45:16', NULL, NULL, 1),
+(213, 206, 'user_subject', 'user/', '', 269, 1, 0, 1, '4,7,3,6', 0, 0, 1, 1, 0, NULL, 1, '2018-08-06 19:27:23', NULL, NULL, 1),
+(214, 206, 'user_addlesson', 'user/', '', 271, 1, 0, 1, '4,7,3,6', 0, 1, 1, 1, 0, NULL, 1, '2018-08-06 19:59:48', NULL, NULL, 1),
+(215, 206, 'user_addquestion', 'user/', '', 273, 1, 0, 1, '4,7,3,6', 0, 1, 1, 1, 0, NULL, 1, '2018-08-11 13:35:54', NULL, NULL, 1),
+(216, 206, 'user_questionlist', 'user/', '', 274, 1, 0, 1, '4,7,3,6', 0, 1, 1, 1, 0, NULL, 1, '2018-08-11 14:05:27', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -17047,7 +17258,7 @@ INSERT INTO `layout_text_item` (`id`, `cate_id`, `code`, `title`, `content_code`
 (26, 9, 'reg_alr', 'Registered already', '', 0, '', '', 0, NULL, NULL, '2016-08-25 11:15:11', NULL, NULL, 1),
 (27, 3, 'activation', 'Account Activation', NULL, 0, '/activation', '<span class=\"glyphicon glyphicon-flash\"></span>', 1, NULL, NULL, '2015-08-19 09:48:06', NULL, NULL, 1),
 (28, 3, 'processing', 'Processing...', '', 0, '', '<i class=\"fa fa-refresh\"></i>', 0, NULL, NULL, '2015-08-08 00:00:00', NULL, NULL, 1),
-(29, 9, 'blank_data', 'Can not be blank', '', 0, '', '', 0, NULL, NULL, '2015-09-28 09:18:59', NULL, NULL, 1),
+(29, 9, 'blank_data', 'Can\'t be blank', '', 0, '', '', 0, '', NULL, '2015-09-28 09:18:59', 1, '2018-08-04 16:57:17', 1),
 (30, 3, 'verify_code', 'Verify Code', '', 0, '', '', 0, NULL, NULL, '2015-09-24 09:47:16', NULL, NULL, 1),
 (31, 3, 'code', 'Code', '', 0, '', '', 0, NULL, NULL, '2015-09-24 09:48:31', NULL, NULL, 1),
 (32, 3, 'change_code', 'Change Code', '', 0, '', '', 0, '', NULL, '2015-09-28 09:58:15', 10001, '2017-11-08 13:59:56', 1),
@@ -17178,7 +17389,19 @@ INSERT INTO `layout_text_item` (`id`, `cate_id`, `code`, `title`, `content_code`
 (259, 3, 'lessons', 'Lesson View', '', 0, '/lessons', '', 1, '', NULL, NULL, NULL, NULL, 1),
 (260, 3, 'lesson_view', 'Lesson View', '', 0, '/lesson/view', '', 1, '', NULL, NULL, NULL, NULL, 1),
 (261, 3, 'user_coursemgmt', 'Course Management', '', 0, '/user/coursemgmt', '<i class=\"fa fa-list-alt\"></i>', 1, '', 1, '2018-07-30 19:57:34', NULL, NULL, 1),
-(262, 3, 'courses', 'Courses', '', 0, '', '<i class=\"fa fa-th-large\"></i>', 0, '', 1, '2018-07-31 22:42:39', NULL, NULL, 1);
+(262, 3, 'courses', 'Courses', '', 0, '/user/coursemgmt', '<i class=\"fa fa-th-large\"></i>', 0, '', 1, '2018-07-31 22:42:39', 1, '2018-08-02 23:03:10', 1),
+(263, 3, 'user_course', 'Course Detail', '', 0, '/user/course', '<i class=\"fa fa-info-circle\"></i>', 1, '', 1, '2018-08-02 19:00:03', 1, '2018-08-02 23:14:53', 1),
+(264, 3, 'subject', 'Subject', '', 0, '', '<i class=\"fa fa-book\"></i>', 0, '', 1, '2018-08-02 19:24:02', 1, '2018-08-02 22:57:41', 1),
+(265, 3, 'user_addsubject', 'New Subject', '', 0, '/user/addsubject', '<i class=\"fa fa-plus\"></i>', 1, '', 1, '2018-08-02 19:27:10', 1, '2018-08-02 23:12:07', 1),
+(266, 3, 'user_dashboard', 'Dashboard', '', 0, '/user/dashboard', '<i class=\"fa fa-tachometer\"></i>', 1, '', 1, '2018-08-02 21:41:57', NULL, NULL, 1),
+(267, 3, 'user_myaccount', 'Account', '', 0, '/user/myaccount', '<i class=\"fa fa-user\"></i>', 1, '', 1, '2018-08-02 21:50:01', 1, '2018-08-02 21:51:03', 1),
+(268, 3, 'user_courses', 'user_courses', '', 0, '/user/courses', '<i class=\"fa fa-th-large\"></i>', 1, '', 1, '2018-08-04 15:09:28', NULL, NULL, 1),
+(269, 3, 'user_subject', 'Subject', '', 0, '/user/subject', '<i class=\"fa fa-clipboard\"></i>', 1, '', 1, '2018-08-06 19:25:46', NULL, NULL, 1),
+(270, 3, 'lesson', 'Lesson', '', 0, '', '<i class=\"fa fa-file\"></i>', 0, '', 1, '2018-08-06 19:55:13', 1, '2018-08-06 19:58:19', 1),
+(271, 3, 'user_addlesson', 'Add Lesson', '', 0, '/user/addlesson', '<i class=\"fa fa-plus\"></i>', 1, '', 1, '2018-08-06 19:56:24', NULL, NULL, 1),
+(272, 3, 'add_chapter', 'New Chapter', '', 0, '', '', 0, '', 1, '2018-08-10 23:18:40', NULL, NULL, 1),
+(273, 3, 'user_addquestion', 'Add Question', '', 0, '/user/addquestion', '<i class=\"fa fa-plus\"></i>', 1, '', 1, '2018-08-11 13:34:52', NULL, NULL, 1),
+(274, 3, 'user_questionlist', 'Question List', '', 0, '/user/questionlist', '<i class=\"fa fa-list\"></i>', 1, '', 1, '2018-08-11 14:02:02', 1, '2018-08-11 14:07:05', 1);
 
 -- --------------------------------------------------------
 
@@ -17419,8 +17642,20 @@ INSERT INTO `layout_text_item_t` (`id`, `item_id`, `language_id`, `title`, `crea
 (188, 258, 1, 'មន្ត្រីត្រួតពិនិត្យ', 10001, '2018-06-27 15:36:31', 10001, '2018-07-29 12:51:12', 1),
 (189, 259, 1, 'សិក្សាមេរៀន', 10001, '2017-11-06 16:11:30', NULL, NULL, 1),
 (190, 260, 1, 'ឯកសារមេរៀន', 10001, '2017-11-06 16:11:30', NULL, NULL, 1),
-(191, 261, 1, 'គ្រប់គ្រងវគ្គសិក្សា', 1, '2018-07-30 19:58:23', NULL, NULL, 1),
-(192, 262, 1, 'វគ្គសិក្សា', 1, '2018-07-31 22:42:52', NULL, NULL, 1);
+(191, 261, 1, 'គ្រប់គ្រងវគ្គសិក្សា', 1, '2018-07-30 19:58:23', 1, '2018-08-04 15:07:10', 1),
+(192, 262, 1, 'វគ្គសិក្សា', 1, '2018-07-31 22:42:52', NULL, NULL, 1),
+(193, 263, 1, 'ព័ត៌មានអំពីវគ្គសិក្សា', 1, '2018-08-02 19:00:37', NULL, NULL, 1),
+(194, 264, 1, 'មុខវិជ្ជា', 1, '2018-08-02 19:24:13', NULL, NULL, 1),
+(195, 265, 1, 'បញ្ចូលមុខវិជ្ជាថ្មី', 1, '2018-08-02 19:27:23', 1, '2018-08-10 23:15:17', 1),
+(196, 266, 1, 'ផ្ទាំងព័ត៌មាន', 1, '2018-08-02 21:42:12', NULL, NULL, 1),
+(197, 267, 1, 'ព័ត៌មានគណនី', 1, '2018-08-02 21:50:20', NULL, NULL, 1),
+(198, 268, 1, 'បញ្ជីវគ្គសិក្សា', 1, '2018-08-04 15:09:36', NULL, NULL, 1),
+(199, 269, 1, 'មុខវិជ្ជា', 1, '2018-08-06 19:26:02', NULL, NULL, 1),
+(200, 270, 1, 'មេរៀន', 1, '2018-08-06 19:55:19', NULL, NULL, 1),
+(201, 271, 1, 'មេរៀនថ្មី', 1, '2018-08-06 19:56:37', NULL, NULL, 1),
+(202, 272, 1, 'បញ្ចូជំពូកថ្មី', 1, '2018-08-10 23:18:55', 1, '2018-08-10 23:33:03', 1),
+(203, 273, 1, 'បញ្ចូលសំណួរ', 1, '2018-08-11 13:35:14', NULL, NULL, 1),
+(204, 274, 1, 'បញ្ជីសំណួរ', 1, '2018-08-11 14:03:03', 1, '2018-08-11 14:06:37', 1);
 
 -- --------------------------------------------------------
 
@@ -17759,7 +17994,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `fullname_kh`, `fullname_en`, `gender`, `photo`, `dob`, `mobile`, `address`, `provincecity`, `email`, `username`, `password`, `notif`, `pending`, `created_by`, `created_date`, `last_updated_by`, `last_updated_date`, `active`) VALUES
-(1, 1, 'សិរីវុធ', 'sereyvuth', 'm', NULL, '0000-00-00', NULL, '', 12, 'vuth@test.com', 'superuser', '5484c47494r2147453s2v2x2w2d4', 1, 0, NULL, NULL, NULL, NULL, 1);
+(1, 1, 'សិរីវុធ', 'sereyvuth', 'm', NULL, '0000-00-00', NULL, '', 12, 'vuth@test.com', 'superuser', '5484c47494r2147453s2v2x2w2d4', 1, 0, NULL, NULL, NULL, NULL, 1),
+(2, 3, 'រស់ ដារា', 'Ros Dara', 'm', 'commentphotos.com_1391963461_1533221078_70440.jpg', NULL, NULL, NULL, NULL, 'rosdara@test.com', 'teacher', '5484c47494r2147453s2v2x2w2d4', 1, 0, 1, '2018-08-02 21:44:38', NULL, NULL, 1),
+(4, 4, 'គុន សិលា', 'Kun Sela', 'm', '37905773_1814665478571706_793531573424095232_o_1533229385_72817.jpg', NULL, NULL, NULL, NULL, 'kunsela@test.com', 'student', '5484c47494r2147453s2v2x2w2d4', 1, 0, 1, '2018-08-03 00:03:06', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -18014,7 +18251,130 @@ INSERT INTO `user_activity` (`id`, `user_id`, `action_id`, `action_data`, `ip`, 
 (227, 1, 207, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-07-31 00:23:12', 1),
 (228, 1, 207, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-07-31 21:56:27', 1),
 (229, 1, 87, '262_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-07-31 22:42:39', 1),
-(230, 1, 90, 'id:262,lang:1|add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-07-31 22:42:52', 1);
+(230, 1, 90, 'id:262,lang:1|add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-07-31 22:42:52', 1),
+(231, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 18:43:49', 1),
+(232, 1, 87, '263_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 19:00:03', 1),
+(233, 1, 90, 'id:263,lang:1|add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 19:00:37', 1),
+(234, 1, 84, '208_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 19:11:39', 1),
+(235, 1, 87, '264_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 19:24:02', 1),
+(236, 1, 90, 'id:264,lang:1|add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 19:24:13', 1),
+(237, 1, 87, '265_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 19:27:10', 1),
+(238, 1, 90, 'id:265,lang:1|add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 19:27:23', 1),
+(239, 1, 87, '266_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 21:41:57', 1),
+(240, 1, 90, 'id:266,lang:1|add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 21:42:12', 1),
+(241, 1, 84, '209_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 21:43:21', 1),
+(242, 1, 106, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 21:44:38', 1),
+(243, 1, 106, '3', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 21:45:06', 1),
+(244, 1, 110, '3_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 21:46:40', 1),
+(245, 1, 109, '3', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 21:48:02', 1),
+(246, 2, 2, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 21:48:21', 1),
+(247, 1, 87, '267_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 21:50:01', 1),
+(248, 1, 90, 'id:267,lang:1|add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 21:50:20', 1),
+(249, 1, 87, '267_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 21:51:03', 1),
+(250, 1, 84, '210_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 21:52:59', 1),
+(251, 1, 84, '210_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 21:54:43', 1),
+(252, 1, 84, '210_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 22:07:31', 1),
+(253, 1, 87, '264_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 22:57:41', 1),
+(254, 1, 87, '262_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 23:03:10', 1),
+(255, 1, 87, '265_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 23:12:07', 1),
+(256, 1, 87, '263_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 23:14:53', 1),
+(257, 2, 2, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 23:43:34', 1),
+(258, 2, 207, '3', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 23:52:35', 1),
+(259, 1, 110, '4_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 23:58:43', 1),
+(260, 1, 90, 'id:261,lang:1|update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-02 23:59:34', 1),
+(261, 1, 109, '4', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 00:00:33', 1);
+INSERT INTO `user_activity` (`id`, `user_id`, `action_id`, `action_data`, `ip`, `isp`, `browser_info`, `datetime`, `active`) VALUES
+(262, 1, 106, '4', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 00:03:06', 1),
+(263, 1, 84, '4_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 00:50:28', 1),
+(264, 1, 84, '4_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 00:50:34', 1),
+(265, 1, 84, '4_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 00:52:36', 1),
+(266, 1, 4, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 01:01:30', 1),
+(267, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 01:01:36', 1),
+(268, 2, 4, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 01:17:30', 1),
+(269, 2, 2, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 01:17:37', 1),
+(270, 2, 4, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 01:20:26', 1),
+(271, 2, 2, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 01:20:30', 1),
+(272, 2, 4, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 01:23:34', 1),
+(273, 2, 2, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 01:23:46', 1),
+(274, 2, 4, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 01:23:50', 1),
+(275, 1, 4, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 01:23:57', 1),
+(276, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"67.0.3396.99\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 01:24:03', 1),
+(277, 2, 2, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 01:24:12', 1),
+(278, 2, 4, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 01:44:53', 1),
+(279, 2, 2, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-03 01:52:10', 1),
+(280, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-04 00:05:01', 1),
+(281, 1, 207, '4', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-04 01:38:18', 1),
+(282, 1, 207, '5', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-04 01:40:59', 1),
+(283, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-04 14:40:00', 1),
+(284, 1, 90, 'id:261,lang:1|update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-04 15:07:10', 1),
+(285, 1, 87, '268_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-04 15:09:28', 1),
+(286, 1, 90, 'id:268,lang:1|add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-04 15:09:36', 1),
+(287, 1, 84, '211_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-04 15:11:17', 1),
+(288, 2, 2, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-04 15:12:14', 1),
+(289, 2, 4, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-04 15:12:26', 1),
+(290, 4, 2, '4', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-04 15:14:15', 1),
+(291, 1, 84, '206_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-04 15:14:49', 1),
+(292, 1, 84, '212_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-04 15:45:16', 1),
+(293, 1, 87, '29_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-04 16:57:17', 1),
+(294, 1, 212, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-04 17:17:48', 1),
+(295, 1, 212, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-04 21:44:10', 1),
+(296, 4, 2, '4', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-05 01:22:27', 1),
+(297, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-06 18:43:11', 1),
+(298, 4, 2, '4', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-06 18:58:43', 1),
+(299, 1, 207, '6', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-06 19:01:20', 1),
+(300, 1, 87, '269_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-06 19:25:46', 1),
+(301, 1, 90, 'id:269,lang:1|add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-06 19:26:02', 1),
+(302, 1, 84, '213_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-06 19:27:23', 1),
+(303, 1, 87, '270_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-06 19:55:13', 1),
+(304, 1, 90, 'id:270,lang:1|add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-06 19:55:19', 1),
+(305, 1, 87, '271_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-06 19:56:24', 1),
+(306, 1, 90, 'id:271,lang:1|add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-06 19:56:37', 1),
+(307, 1, 87, '270_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-06 19:58:19', 1),
+(308, 1, 84, '214_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-06 19:59:48', 1),
+(309, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-06 22:46:14', 1),
+(310, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.84 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.84\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-07 22:51:40', 1),
+(311, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-10 06:15:35', 1),
+(312, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-10 10:18:07', 1),
+(313, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-10 22:33:40', 1),
+(314, 1, 90, 'id:265,lang:1|update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-10 23:15:17', 1),
+(315, 1, 87, '272_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-10 23:18:40', 1),
+(316, 1, 90, 'id:272,lang:1|add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-10 23:18:55', 1),
+(317, 1, 90, 'id:272,lang:1|update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-10 23:33:03', 1),
+(318, 1, 214, '4', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-10 23:40:06', 1),
+(319, 1, 214, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-10 23:57:39', 1),
+(320, 1, 214, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 00:07:50', 1),
+(321, 1, 214, '3', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 00:09:37', 1),
+(322, 1, 214, '4', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 00:10:18', 1),
+(323, 1, 214, '5', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 00:20:20', 1),
+(324, 1, 214, '6', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 00:42:07', 1),
+(325, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 11:53:00', 1),
+(326, 1, 214, '7', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 13:02:32', 1),
+(327, 1, 87, '273_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 13:34:52', 1),
+(328, 1, 90, 'id:273,lang:1|add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 13:35:14', 1),
+(329, 1, 84, '215_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 13:35:54', 1),
+(330, 1, 87, '274_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 14:02:02', 1),
+(331, 1, 87, '274_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 14:02:51', 1),
+(332, 1, 90, 'id:274,lang:1|add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 14:03:03', 1),
+(333, 1, 87, '274_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 14:04:08', 1),
+(334, 1, 84, '216_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 14:05:27', 1),
+(335, 1, 87, '274_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 14:06:28', 1),
+(336, 1, 90, 'id:274,lang:1|update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 14:06:37', 1),
+(337, 1, 87, '274_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 14:07:05', 1),
+(338, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-11 14:54:50', 1),
+(339, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-12 00:01:35', 1),
+(340, 1, 84, '173_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-12 13:55:09', 1),
+(341, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-14 09:34:57', 1),
+(342, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-14 17:45:40', 1),
+(343, 1, 215, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-15 01:40:53', 1),
+(344, 1, 215, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-15 01:41:32', 1),
+(345, 1, 215, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-15 01:43:06', 1),
+(346, 1, 215, '2', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-15 01:45:46', 1),
+(347, 1, 215, '3', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-15 01:48:45', 1),
+(348, 1, 215, '4', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-15 01:50:02', 1),
+(349, 1, 215, '5', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-15 01:51:56', 1),
+(350, 1, 215, '6', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-15 01:58:04', 1),
+(351, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-15 02:05:35', 1),
+(352, 1, 215, '7', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-15 02:24:29', 1);
 
 -- --------------------------------------------------------
 
@@ -18044,8 +18404,10 @@ CREATE TABLE `user_role` (
 --
 
 INSERT INTO `user_role` (`id`, `code`, `title_kh`, `title`, `des`, `icon`, `auth_level`, `privileges`, `homepage`, `created_by`, `created_date`, `last_updated_by`, `last_updated_date`, `active`) VALUES
-(1, 'superuser', 'គណនីគ្រប់គ្រងពិសេស', 'Super User', 'អ្នកគ្រប់គ្រងថ្នាក់ខ្ពស់ ដែលអាចគ្រប់គ្រងគ្រប់ព័ត៌មានទាំងអស់ និងវេបសាយទាំងមូល', '<i class=\"fa fa-user-secret\"></i>', 1, '39,173,68,189,112,113,119,93,62,94,100,101,69,71,81,61,91,63,4,48,115,129,130,114,116,117,118,120,121,102,105,106,107,108,109,110,197,82,84,86,87,88,89,90,92,111,200,206,207', '/admin/dashboard', NULL, NULL, 1, '2018-07-29 21:52:31', 1),
-(2, 'admin', 'គណនីគ្រប់គ្រង', 'Admin', 'អ្នកគ្រប់គ្រងធម្មតា ដែលអាចគ្រប់គ្រងការដាក់ពាក្យ', '<i class=\"fa fa-user-md\"></i>', 2, ',206,207', '/admin/dashboard', NULL, NULL, 1, '2018-03-28 11:10:51', 1);
+(1, 'superuser', 'គណនីគ្រប់គ្រងពិសេស', 'Super User', 'អ្នកគ្រប់គ្រងថ្នាក់ខ្ពស់ ដែលអាចគ្រប់គ្រងគ្រប់ព័ត៌មានទាំងអស់ និងវេបសាយទាំងមូល', '<i class=\"fa fa-user-secret\"></i>', 1, '39,173,68,189,112,113,119,93,62,94,100,101,69,71,81,61,91,63,4,48,115,129,130,114,116,117,118,120,121,102,105,106,107,108,109,110,197,82,84,86,87,88,89,90,92,111,200,206,207,208,212,213,214,215,216', '/admin/dashboard', NULL, NULL, 1, '2018-07-29 21:52:31', 1),
+(2, 'admin', 'គណនីគ្រប់គ្រង', 'Admin', 'អ្នកគ្រប់គ្រងធម្មតា ដែលអាចគ្រប់គ្រងការដាក់ពាក្យ', '<i class=\"fa fa-user-md\"></i>', 2, ',206,207,208,4,212,213,214,215,216', '/admin/dashboard', NULL, NULL, 1, '2018-03-28 11:10:51', 1),
+(3, 'teacher', 'គណនីគ្រូ', 'Teacher', 'សម្រាប់គ្របង្រៀន', '<i class=\"fa fa-user-md\"></i>', 3, '209,206,208,4,207,210,212,213,214,215,216', '/user/dashboard', NULL, NULL, 1, '2018-08-02 21:48:02', 1),
+(4, 'student', 'គណនីសិស្ស', 'Student', 'សម្រាប់សិស្ស', '<i class=\"fa fa-user-md\"></i>', 4, '209,208,210,4,211', '/user/dashboard', NULL, NULL, 1, '2018-08-03 00:00:33', 1);
 
 -- --------------------------------------------------------
 
@@ -18131,6 +18493,12 @@ ALTER TABLE `es_course_member`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `es_course_subject`
+--
+ALTER TABLE `es_course_subject`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `es_exam`
 --
 ALTER TABLE `es_exam`
@@ -18146,6 +18514,24 @@ ALTER TABLE `es_exam_result`
 -- Indexes for table `es_exam_type`
 --
 ALTER TABLE `es_exam_type`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `es_grade`
+--
+ALTER TABLE `es_grade`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `es_grade_group`
+--
+ALTER TABLE `es_grade_group`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `es_grade_subject`
+--
+ALTER TABLE `es_grade_subject`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -18182,18 +18568,13 @@ ALTER TABLE `es_question_options`
 -- Indexes for table `es_question_type`
 --
 ALTER TABLE `es_question_type`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code` (`code`);
 
 --
 -- Indexes for table `es_student_group`
 --
 ALTER TABLE `es_student_group`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `es_subject`
---
-ALTER TABLE `es_subject`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -18218,6 +18599,12 @@ ALTER TABLE `feedback_type`
 -- Indexes for table `fileformat`
 --
 ALTER TABLE `fileformat`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `fileformat_config`
+--
+ALTER TABLE `fileformat_config`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -18388,12 +18775,17 @@ ALTER TABLE `email_template`
 -- AUTO_INCREMENT for table `es_course`
 --
 ALTER TABLE `es_course`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `es_course_member`
 --
 ALTER TABLE `es_course_member`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `es_course_subject`
+--
+ALTER TABLE `es_course_subject`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `es_exam`
 --
@@ -18410,10 +18802,25 @@ ALTER TABLE `es_exam_result`
 ALTER TABLE `es_exam_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `es_grade`
+--
+ALTER TABLE `es_grade`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT for table `es_grade_group`
+--
+ALTER TABLE `es_grade_group`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `es_grade_subject`
+--
+ALTER TABLE `es_grade_subject`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
 -- AUTO_INCREMENT for table `es_lesson`
 --
 ALTER TABLE `es_lesson`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `es_lesson_doc`
 --
@@ -18423,7 +18830,7 @@ ALTER TABLE `es_lesson_doc`
 -- AUTO_INCREMENT for table `es_question`
 --
 ALTER TABLE `es_question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `es_questionnaire`
 --
@@ -18433,27 +18840,22 @@ ALTER TABLE `es_questionnaire`
 -- AUTO_INCREMENT for table `es_question_options`
 --
 ALTER TABLE `es_question_options`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `es_question_type`
 --
 ALTER TABLE `es_question_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `es_student_group`
 --
 ALTER TABLE `es_student_group`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `es_subject`
---
-ALTER TABLE `es_subject`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT for table `es_yesno_options`
 --
 ALTER TABLE `es_yesno_options`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `feedback`
 --
@@ -18469,6 +18871,11 @@ ALTER TABLE `feedback_type`
 --
 ALTER TABLE `fileformat`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `fileformat_config`
+--
+ALTER TABLE `fileformat_config`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `generalsetting`
 --
@@ -18493,7 +18900,7 @@ ALTER TABLE `layout_page_component`
 -- AUTO_INCREMENT for table `layout_page_controller`
 --
 ALTER TABLE `layout_page_controller`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=208;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=217;
 --
 -- AUTO_INCREMENT for table `layout_text_cate`
 --
@@ -18503,7 +18910,7 @@ ALTER TABLE `layout_text_cate`
 -- AUTO_INCREMENT for table `layout_text_item`
 --
 ALTER TABLE `layout_text_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=263;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=275;
 --
 -- AUTO_INCREMENT for table `layout_text_item_sub`
 --
@@ -18518,7 +18925,7 @@ ALTER TABLE `layout_text_item_sub_t`
 -- AUTO_INCREMENT for table `layout_text_item_t`
 --
 ALTER TABLE `layout_text_item_t`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
 --
 -- AUTO_INCREMENT for table `message`
 --
@@ -18548,17 +18955,17 @@ ALTER TABLE `subscription`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `user_activity`
 --
 ALTER TABLE `user_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=231;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=353;
 --
 -- AUTO_INCREMENT for table `user_role`
 --
 ALTER TABLE `user_role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `visitors`
 --

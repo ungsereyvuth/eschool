@@ -42,7 +42,7 @@ $(function() {
 	 tinymce.init({
 		selector: ".richtext",
 		relative_urls : false,
-		statusbar: false,
+		statusbar: false,		
 		remove_script_host : false,
 		valid_elements : '*[*]',
 		//document_base_url : "http://cambodiabesthospitality.org",

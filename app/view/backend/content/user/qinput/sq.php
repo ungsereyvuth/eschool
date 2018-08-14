@@ -7,7 +7,7 @@ $qtype['html_input']='<fieldset class="add_q_choice">
                             <label class="label">ជម្រើសលំដាប់ 
                                     <button type="button" class="btn btn-xs btn-info tooltips addchoice_btn" title="Add sequence item">
                                        <i class="fa fa-plus"></i>
-                                    </button> 
+                                    </button> (កុំបញ្ចូលតាមលំដាប់)
                             </label>  
                         </div>
                     </fieldset>
@@ -40,7 +40,7 @@ $qtype['html_input']='<fieldset class="add_q_choice">
 $choice_input=str_replace(PHP_EOL,'','<div class="row">                                    
                                             <section class="col col-md-9">                                        
                                                 <label class="input">
-                                                    <textarea class="mathinput" name="choices[{key}]"></textarea>
+                                                    <textarea class="mathinput sq_item" name="choices[{key}]" id="{key}"></textarea>
                                                 </label>
                                             </section>  
                                             <section class="col col-md-3">
@@ -77,6 +77,7 @@ function addchoice(e){
         remove_script_host : false,
         menubar:false,
         statusbar: false,
+        min_height: 50,
         valid_elements : '*[*]',
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
@@ -94,7 +95,7 @@ $('.refreshsq_btn').each(function() {
     var thisbtn = $(this);
     thisbtn.click(function(e){
         tinyMCE.triggerSave();
-        var item = thisbtn.closest('.row').find('.mathinput');
+        var item = thisbtn.closest('.row').find('.sq_item');
         $('#sequence .dd-list').empty();$('#sequence_no .dd-list').empty();
         $('#sequence-output').val('');
         item.each(function(index) {

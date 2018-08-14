@@ -2,6 +2,7 @@
 $listname='user_questionlist';
 $formkey='user_addquestion';
 //get options input code
+$tf_format=$pageData->data->content->tf_format;
 if($pageData->data->content->selected_qtype<>''){
     $qtype_file = 'app/view/'.$dir.'content/'.$more_dir.'qinput/'.$pageData->data->content->selected_qtype.'.php';
     if (file_exists($_SERVER['DOCUMENT_ROOT'].'/'.$qtype_file)) {
@@ -36,56 +37,50 @@ if($pageData->data->content->selected_qtype<>''){
                             <fieldset>       
                                 <div class="row">
                                     <section class="col col-md-6">
-                                        <label class="label">Type</label>
+                                        <label class="label">ប្រភេទសំណួរ</label>
                                         <label class="select">
-                                             <select name="type_id" id="type_id" class="input-xs chosen-select">
-                                                <option value="">--- Select ---</option>
+                                             <select name="qtype" id="qtype">
+                                                <option value="">--- ជ្រើសរើស ---</option>
                                                 <?=$pageData->data->content->qtype_opt?>
                                             </select>
                                         </label>
                                     </section>  
                                     <section class="col col-md-6">
-                                        <label class="label">Ordering</label>
+                                        <label class="label">លំដាប់</label>
                                         <label class="input">
-                                            <input type="number" name="ordering" class="input-xs" placeholder="Numner" value="<?=$pageData->data->content->ordering?>">
+                                            <input type="number" name="ordering" placeholder="Numner" value="<?=$pageData->data->content->ordering?>">
                                         </label>
                                     </section>
                                 </div>   
                                 <div class="row">
                                     <section class="col col-md-12">
-                                        <label class="label">Title</label>
+                                        <label class="label">សំណួរ</label>
                                         <label class="input">
-                                            <input type="text" name="title" placeholder="Title">
+                                            <input type="text" name="title" placeholder="សរសេរសំណួរទីនេះ">
                                         </label>
                                     </section>
                                 </div>
                                 <div class="row">
                                     <section class="col col-md-12">
-                                        <label class="label">Description</label>
-                                        <textarea class="richtext" name="description"></textarea>
+                                        <label class="label">បរិយាយបន្ថែម (ប្រសិនបើមាន)</label>
+                                        <textarea class="mathinput" name="description"></textarea>
                                     </section>                         
                                 </div>                  
                                 <div class="row">                                    
                                       
                                     <section class="col col-md-6">
-                                        <label class="label">Active</label>
                                         <label class="toggle inline-block">
                                             <input type="checkbox" name="active" checked="checked">
-                                            <i data-swchon-text="ON" data-swchoff-text="OFF"></i> ON/OFF
+                                            <i data-swchon-text="បើក" data-swchoff-text="បិទ"></i> បើកឬបិទ
                                         </label>
                                         <div id="active_msg"></div>
                                     </section>
                                 </div>             
                                       
                             </fieldset>
-                            <?php
-                            if(isset($qtype['html_input'])){echo $qtype['html_input'];}
-                            ?>
-
-
-                            
+                            <?php if(isset($qtype['html_input'])){echo $qtype['html_input'];}?>                            
                             <footer>
-                                <input class="removable" type="hidden" name="recordid" value="" />
+                                <input class="removable" type="hidden" name="recordid" value="<?=encodeString($pageData->data->content->lesson_info->lesson_id.'_'.time(),$encryptKey)?>" />
                                 <input type="hidden" name="cmd" value="<?=$formkey?>" />                                  
                                 <button type="submit" class="btn btn-primary btn-sm">Save</button>
                                 <button type="reset" class="btn btn-default btn-sm" onclick="javascript: window.history.back();">Back</button>
@@ -142,8 +137,8 @@ if($pageData->data->content->selected_qtype<>''){
 $pageurl = $pageData->label->label->user_addquestion->url.'/'.encodeString($pageData->data->content->lesson_info->lesson_id,$encryptKey);
 $late_script = "
 //switch q type
-$('#type_id').change(function(){
-    var param = $(this).val()>0?('?type_id='+$(this).val()):'';
+$('#qtype').change(function(){
+    var param = $(this).val()!=''?('?type='+$(this).val()):'';
     window.location.href='$pageurl'+param;
 });
 

@@ -4,20 +4,20 @@
 $qtype=array();
 $qtype['html_input']='<fieldset class="add_q_choice">
                                 <div class="add_choice">
-                                    <label class="label">Possible Answer 
-                                            <button type="button" class="btn btn-xs btn-info tooltips addchoice_btn" title="Add Possible Answer">
+                                    <label class="label">ជម្រើសចម្លើយ
+                                            <button type="button" class="btn btn-xs btn-info tooltips addchoice_btn" title="បន្ថែមជម្រើសចម្លើយ">
                                                <i class="fa fa-plus"></i>
-                                            </button> 
+                                            </button> ចម្លើយត្រូវអាចមានច្រើនជាង១
                                     </label>  
                                 </div>
                             </fieldset>';
 $choice_input=str_replace(PHP_EOL,'','<div class="row">                                    
-                                            <section class="col col-md-6">                                        
+                                            <section class="col col-md-8">                                        
                                                 <label class="input">
                                                     <textarea class="mathinput" name="choices[{key}]"></textarea>
                                                 </label>
                                             </section>  
-                                            <section class="col col-md-6">
+                                            <section class="col col-md-4">
                                                 លុបចោល <button type="button" class="btn btn-xs btn-danger tooltips removeChoice_btn" title="Remove Coice">
                                                    <i class="fa fa-times"></i>
                                                 </button><br />
@@ -56,6 +56,7 @@ function addchoice(e){
         remove_script_host : false,
         menubar:false,
         statusbar: false,
+        min_height: 50,
         valid_elements : '*[*]',
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',

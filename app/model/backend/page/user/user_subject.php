@@ -19,7 +19,11 @@ class user_subject{
 		$subject_info= (object) $subject_info[0];
 
 		//get all lessons
-		$lessons_row = $qry->qry_assoc("select * from es_lesson l where l.subject_id=$subject_info->id and l.active=1 order by l.ordering");
+		$lessons_row = $qry->qry_assoc("select l.*,count(COALESCE(q.id,NULL)) totalq from es_lesson l 
+										left join es_question q on q.lesson_id=l.id
+										where l.subject_id=$subject_info->id and l.active=1 
+										group by l.id
+										order by l.ordering");
 		//organize lesson
 		$lessons=array();
 		foreach($lessons_row as $key=>$value){
