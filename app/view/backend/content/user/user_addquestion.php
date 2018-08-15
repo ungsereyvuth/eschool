@@ -62,8 +62,15 @@ if($pageData->data->content->selected_qtype<>''){
                                 </div>
                                 <div class="row">
                                     <section class="col col-md-12">
-                                        <label class="label">បរិយាយបន្ថែម (ប្រសិនបើមាន)</label>
-                                        <textarea class="mathinput" name="description"></textarea>
+                                        <label class="label">បរិយាយបន្ថែម
+                                        	<label class="toggle inline-block">
+                                                <input type="checkbox" id="add_des">
+                                                <i data-swchon-text="បើក" data-swchoff-text="បិទ"></i> (ប្រសិនបើមាន) 
+                                            </label>
+                                        </label>
+                                        <div class="hidden" id="des_box">
+                                        	<textarea class="mathinput" name="description"></textarea>
+                                        </div>
                                     </section>                         
                                 </div>                  
                                 <div class="row">                                    
@@ -140,6 +147,12 @@ $late_script = "
 $('#qtype').change(function(){
     var param = $(this).val()!=''?('?type='+$(this).val()):'';
     window.location.href='$pageurl'+param;
+});
+
+$('#add_des').change(function(){
+	if($(this).prop('checked')){
+		$('#des_box').removeClass('hidden');
+	}else{ $('#des_box').addClass('hidden');tinyMCE.get('description').setContent('');tinyMCE.triggerSave();}
 });
 
 function confirmDialog(message,e) {
