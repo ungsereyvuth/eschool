@@ -1,5 +1,5 @@
 <?php
-class user_courses{
+class user_programview{
 	public function data($data){
 		global $encryptKey,$language,$usersession,$layout,$layout_label,$lang;
 		$qry = new connectDb; $_POST=$data;
