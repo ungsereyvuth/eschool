@@ -60,11 +60,7 @@ if($photo<>$picPath){$photo = !file_exists($_SERVER['DOCUMENT_ROOT'].$photo)?$no
 											<span class="input-group-addon add-on"><i data-time-icon="fa fa-clock-o" data-date-icon="fa fa-calendar" class="fa fa-calendar"></i></span>
 										</div>
                                         <div id="dob_msg"></div>
-	                            </div>	   
-                                <div class="col-sm-6">
-	                                	<label><?=$pageData->label->label->id_card->title?></label>
-	                                    <input type="text" name="id_card" placeholder="ID Card" class="form-control" value="<?=$pageData->data->content->userinfo->id_card?>">
-	                            </div>                        
+	                            </div>	                       
 	                        </div>
 	                        <div class="row margin-bottom-10">	                            
 	                            <div class="col-sm-6">

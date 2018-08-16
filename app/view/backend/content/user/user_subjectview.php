@@ -12,7 +12,7 @@
                     	<div class="row">
                             <?php
                             foreach ($pageData->data->content->subject_info as $key => $value) {
-                                $lessonview_url = $pageData->label->label->user_lessonview->url.'/'.encodeString($pageData->data->content->grade_id.'_'.$value['id'],$encryptKey);
+                                $lessonview_url = $pageData->label->label->user_lessoncontent->url.'/'.encodeString($pageData->data->content->grade_id.'_'.$value['id'],$encryptKey);
                                 echo '<div class="col-xs-12 col-sm-6 col-md-3">
                                         <a href="'.$lessonview_url.'">
                                             <div class="panel panel-success pricing-big roundpic">

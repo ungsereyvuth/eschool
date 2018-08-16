@@ -13,14 +13,13 @@ class userprofile_update{
 											'fullname_en'=>addslashes($_POST['fullname_en']),
 											'gender'=>addslashes($_POST['gender']),										
 											'dob'=>addslashes($_POST['dob']),
-											'id_card'=>addslashes($_POST['id_card']),
 											'mobile'=>addslashes($_POST['mobile']),
 											'address'=>addslashes($_POST['address']),
 											'provincecity'=>addslashes($_POST['provincecity'])),
 							'email'=>array('email'=>addslashes($_POST['email'])),
 							'file'=>array(	'photo'=>$_FILES['photo']));
 		
-		$opt_fields = array('photo','dob','id_card','mobile','address','provincecity');
+		$opt_fields = array('photo','dob','mobile','address','provincecity');
 	
 		$err_fields=validateForm($reg_fields,$opt_fields);		
 		if(!count($err_fields)){
@@ -76,7 +75,6 @@ class userprofile_update{
 							fullname_en='".$reg_fields['text']['fullname_en']."',
 							gender='".$reg_fields['text']['gender']."',
 							dob='".$reg_fields['text']['dob']."',
-							id_card='".$reg_fields['text']['id_card']."',
 							email='".$reg_fields['email']['email']."',
 							$photo
 							mobile='".$reg_fields['text']['mobile']."',
