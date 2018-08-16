@@ -37,8 +37,7 @@
                                         $add_q_url = $pageData->label->label->user_addquestion->url.'/'.encodeString($svalue['id'],$encryptKey);
 	                            		$sub.='<li style="display:none">
 		                                            <a href="'.$lesson_view_url.'"><span><i class="fa fa-file-text-o"></i> មេរៀនទី'.enNum_khNum($sub_no).'៖ <u>'.$svalue['title'].'</u></span></a>
-		                                            <i class="fa fa-crosshairs"></i> '.enNum_khNum($svalue['totalq']).' សំណួរ 
-                                                    <i class="fa fa-file-o"></i> ៥ ឯកសារ
+		                                            <i class="fa fa-files-o"></i> '.enNum_khNum($svalue['totalq']).' សំណួរ 
                                                     <a href="'.$add_q_url.'" class="btn btn-xs btn-success fs11 pull-right">'.$pageData->label->label->user_addquestion->icon.' '.$pageData->label->label->user_addquestion->title.'</a>
 		                                        </li>';
                                         $sub_no++;
@@ -46,7 +45,7 @@
 	                            	$sub.='<li style="display:none">
 	                                            <a href="'.$add_sub_url.'"><span class="bluecolor"><i class="fa fa-plus"></i> បញ្ចូលមេរៀនថ្មី</span></a>
 	                                        </li>';
-	                            	$main.='<span><i class="fa fa-lg fa-folder-open"></i> ជំពូកទី'.enNum_khNum($main_no).'៖ '.$mainrow['title'].' <label class="pull-right"><i class="fa fa-crosshairs"></i> '.enNum_khNum($totalq).' សំណួរ</label></span>';
+	                            	$main.='<span><i class="fa fa-lg fa-folder-open"></i> ជំពូកទី'.enNum_khNum($main_no).'៖ '.$mainrow['title'].' <label class="pull-right"><i class="fa fa-files-o"></i> '.enNum_khNum($totalq).' សំណួរ</label></span>';
 	                            	$main.="<ul>$sub</ul>";
 	                            	$lesson_items.="<li>$main</li>";
                                     $main_no++;
