@@ -37,6 +37,14 @@ class user_pretest{
 				$lessons[$value['id']]['info']=$value;
 			}
 		}
+
+		//check if have unfinished automatic quiz
+		$bylesson_sql = ($lesson_id?"and e.lesson_id=$lesson_id":"and e.lesson_id is NULL");
+		$unfinished_exam = $qry->qry_assoc("select r.id from es_exam_result r 
+								left join es_exam e on e.id=r.exam_id 
+								where r.student_id=".$usersession->info()->id." and r.finished=0 
+								and e.course_subject_id=".$subject_info['id']." $bylesson_sql and e.auto_generated=1 
+								order by r.id desc limit 1");
 		
 		$breadcrumb = array('user_programview',
 							array('title'=>$subject_info['gradename'],'url'=>$layout_label->label->user_subjectview->url.'/'.(encodeString($subject_info['grade_id'],$encryptKey))),
@@ -45,7 +53,7 @@ class user_pretest{
 		
 		$pageExist=true;
 		returnStatus:
-		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'lessons'=>$lessons,'search_inputs'=>$search_inputs,'subject_info'=>(object) $subject_info,'lesson_id'=>$lesson_id);
+		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'lessons'=>$lessons,'search_inputs'=>$search_inputs,'subject_info'=>(object) $subject_info,'lesson_id'=>$lesson_id,'unfinished_exam'=>$unfinished_exam);
 	}	
 }
 ?>

@@ -57,7 +57,20 @@ $formkey='generate_test';
                             <section>
                                 <label>អ្នកក៏អាចធ្វើតេស្តលើកម្រងសំណួរដែលបង្កើតភ្លាមៗដោយប្រព័ន្ធ ដោយចុចប៊ូតុងខាងក្រោម។</label>
                                 <div class="row">
-                                    
+                                    <?php
+                                    $unfinished_exam=$pageData->data->content->unfinished_exam;
+                                    if(count($pageData->data->content->unfinished_exam)){
+                                        $test_code = encodeString($unfinished_exam[0]['id'],$encryptKey);
+                                        $dotest_url = $pageData->label->label->user_dotest->url.'/'.$test_code;
+                                    ?>
+
+                                    <section class="col-md-4 col-md-offset-4 v_pad10">
+                                        <a href="<?=$dotest_url?>" class="btn btn-warning btn-block"><i class="fa fa-play-circle-o"></i> បន្តធ្វើតេស្ត</a>
+                                    </section>
+
+                                    <?php 
+                                    }else{
+                                    ?>
                                         <form class="ajaxfrm" role="form" id="<?=$formkey?>-form" data-func="submit_form" data-reset="0" action="" method="post">
 
                                             <fieldset class="clearfix">
@@ -74,6 +87,7 @@ $formkey='generate_test';
                                             </fieldset>
 
                                         </form>
+                                    <?php } ?>
                                 </div>
                             </section>
                         </fieldset>
