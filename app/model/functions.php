@@ -1313,6 +1313,14 @@ function khDatePeriod($from,$to){
 	return (in_array($from,$blankdate)?'N/A':khmerDate($from)).' → '.(in_array($to,$blankdate)?'N/A':khmerDate($to));
 }
 
+function randomArray($arr,$length=1){
+    if($length<=count($arr)){
+        $rand_keys = array_rand($arr, $length);
+        $rnd = array_intersect_key($arr, array_flip($rand_keys));
+    }else{$rnd = array();}
+    return $rnd;
+}
+
 //=============================== custom functions =====================================================================================================
 
 

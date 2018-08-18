@@ -265,9 +265,10 @@ ajaxRequest.showList= function(navAction,cmd,qryData){
 		$("<div id='overlay_"+get_time+"'></div>").addClass("myoverlay").appendTo($("#"+cmd+" .mytable").css("position", "relative"));	
 		if($("#"+cmd+" .nav_info").length){$("#"+cmd+" .nav_info").html('<span>'+$("#"+cmd+" .nav_info").data('loadtxt')+'</span>');}
 		var loadMode = $("#"+cmd).attr('data-loadmode')?$("#"+cmd).attr('data-loadmode'):'list'; //default loadmode is list
+		var customNumItem = $("#"+cmd).attr('data-rowsPerPage')?$("#"+cmd).attr('data-rowsPerPage'):0;
 		if(loadMode=='loadmore'){$("#"+cmd+" .nav_next").html('<img src="/assets/frontend/img/loading.gif" />Loading...')}
 		var currentPage = $("#"+cmd+" .nav_currentPage").val();
-		var rowsPerPage = $("#"+cmd+" .nav_rowsPerPage").length?$("#"+cmd+" .nav_rowsPerPage").val():10;
+		var rowsPerPage = customNumItem?customNumItem:($("#"+cmd+" .nav_rowsPerPage").length?$("#"+cmd+" .nav_rowsPerPage").val():10);
 		$.post(siteSetting.ajaxurl,{cmd:cmd,qryData:qryData,currentPage:currentPage,rowsPerPage:rowsPerPage,navAction:navAction} ,function(data){
 				//console.log(data);
 				var errmsg = 'Access Denied! please login again.';

@@ -1,6 +1,6 @@
 <?php
 $listname='createdtest';
-$formkey='createdtest';
+$formkey='generate_test';
 
 ?>
 <section id="widget-grid" class="">
@@ -38,7 +38,7 @@ $formkey='createdtest';
                             </section>
                             <section>
                                 <label class="label">កម្រងសំណួរដែលរៀបចំជាស្រេច</label>
-                                <div class="datalist txtLeft" id="<?=$listname?>">
+                                <div class="datalist txtLeft" id="<?=$listname?>" data-rowsPerPage="5">
                                     <div class="list_filters hidden">
                                     <?=$pageData->data->content->search_inputs?>
                                     </div>
@@ -57,9 +57,23 @@ $formkey='createdtest';
                             <section>
                                 <label>អ្នកក៏អាចធ្វើតេស្តលើកម្រងសំណួរដែលបង្កើតភ្លាមៗដោយប្រព័ន្ធ ដោយចុចប៊ូតុងខាងក្រោម។</label>
                                 <div class="row">
-                                    <div class="col-md-4 col-md-offset-4 v_pad10">
-                                        <a href="#" class="btn btn-info btn-block">ធ្វើតេស្ត</a>
-                                    </div>
+                                    
+                                        <form class="ajaxfrm" role="form" id="<?=$formkey?>-form" data-func="submit_form" data-reset="0" action="" method="post">
+
+                                            <fieldset class="clearfix">
+                                                <section class="col-md-4 col-md-offset-4 v_pad10">
+                                                    <input class="removable" type="hidden" name="recordid" value="<?=encodeString($pageData->data->content->subject_info->id.'_'.$pageData->data->content->lesson_id.'_'.time(),$encryptKey)?>" />
+                                                    <input type="hidden" name="cmd" value="<?=$formkey?>" />                                  
+                                                    <button type="submit" class="btn btn-info btn-block"><i class="fa fa-pencil-square-o"></i> ធ្វើតេស្ត</button>
+                                                </section>                                                
+                                            </fieldset>
+                                            <fieldset>
+                                                <section class="col-md-12 v_pad10">
+                                                    <div id="<?=$formkey?>_msg" data-loadtxt='<?=htmlspecialchars($pageData->label->label->processing->icon.' '.$pageData->label->label->processing->title)?>'></div>
+                                                </section>
+                                            </fieldset>
+
+                                        </form>
                                 </div>
                             </section>
                         </fieldset>
