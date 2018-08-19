@@ -10,14 +10,14 @@ $formkey='generate_test';
         <article class="col-md-8 col-md-offset-2">
         	<div class="jarviswidget" id="id_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false">
                 <header>
-                    <h2><strong><?=$pageData->label->label->user_pretest->title?></strong></h2>    
+                    <h2><strong><?=$pageData->label->label->user_pretest->title?></strong></h2> 
                 </header>
                 <div>
                     <div class="widget-body "> 
-                        <fieldset class="smart-form">
+                        <fieldset>
                             <section>
                                 <label class="label">ជ្រើសមេរៀនសម្រាប់ធ្វើតេស្ត</label>
-                                <select class="form-control" id="lessontotest">
+                                <select  style="width:100%" class="chosen-select form-control" id="lessontotest">
                                     <option value="">គ្រប់មេរៀន</option>
                                     <?php
                                     $main_no=1;
@@ -52,7 +52,7 @@ $formkey='generate_test';
                                     <?php include("app/view/backend/layout/listPagination.php");?>  
                                 </div>
                             </section>                            
-                        </fieldset>
+                        </fieldset><br />
                         <fieldset>
                             <section>
                                 <label>អ្នកក៏អាចធ្វើតេស្តលើកម្រងសំណួរដែលបង្កើតភ្លាមៗដោយប្រព័ន្ធ ដោយចុចប៊ូតុងខាងក្រោម។</label>

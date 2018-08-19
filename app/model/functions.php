@@ -1324,6 +1324,61 @@ function randomArray($arr,$length=1){
 //=============================== custom functions =====================================================================================================
 
 
+function renderq($ids,$output_type='array',$answer=array()){//$output_type = array,input,text	
+	$qry = new connectDb;
+	//convert ids to string
+	$ids = is_array($ids)?implode(",",$ids):$ids;
+	//get all q and its options
+	$q = $qry->qry_assoc("select q.*,o.id opt_id,o.choice,o.is_answer,o.ordering,t.title typename,t.code typecode,yn.yes,yn.no from es_question q 
+							left join es_question_type t on t.id=q.type_id
+							left join es_question_options o on o.question_id=q.id
+							left join es_yesno_options yn on yn.id=o.choice and t.code='tf'
+							where q.id IN ($ids) and o.active=1 and t.active=1");
+	//put question into 2D array
+	$q_arr=array();
+	foreach ($q as $key => $value) {
+		if(!isset($q_arr[$value['id']]['q'])){$q_arr[$value['id']]['q']=$value;$q_arr[$value['id']]['opt']=array();}
+		$q_arr[$value['id']]['opt'][$value['opt_id']]=$value;
+		
+	}
+	//prepare output
+	$output='';
+	foreach ($q_arr as $key => $value) {
+		$qinfo=$value['q'];$type = $qinfo['typecode'];$opt='';
+		foreach ($value['opt'] as $okey => $ovalue) {
+			if($type=='qcm'){
+				$opt.='<label class="radio inline-block h_mgn10">
+							<input type="radio" name="'.$qinfo['id'].'" value="'.$ovalue['opt_id'].'"><i></i>'.$ovalue['choice'].'
+						</label>';
+			}elseif($type=='tf'){
+				$opt.='<label class="radio inline-block h_mgn10">
+							<input type="radio" name="'.$qinfo['id'].'" value="'.$ovalue['opt_id'].'"><i></i>'.$ovalue['yes'].'
+						</label>
+						<label class="radio inline-block h_mgn10">
+							<input type="radio" name="'.$qinfo['id'].'" value="'.$ovalue['opt_id'].'"><i></i>'.$ovalue['no'].'
+						</label>';
+			}elseif($type=='mc'){
+				$opt.='<label class="checkbox inline-block h_mgn10">
+							<input type="checkbox" name="'.$qinfo['id'].'[]" value="'.$ovalue['opt_id'].'"><i></i>'.$ovalue['choice'].'
+						</label>';
+			}elseif($type=='fg'){
+				$opt.='<label class="input">
+							<input type="text" name="'.$qinfo['id'].'" class="input-sm">
+						</label>';
+			}elseif($type=='pw'){
+				$opt.='<label class="textarea textarea-expandable"> 										
+							<textarea rows="3" name="'.$qinfo['id'].'" class="custom-scroll"></textarea> 
+						</label>';
+			}elseif($type=='sq'){
+				$opt.='<label class="checkbox inline-block h_mgn10">
+							<input type="checkbox" name="'.$qinfo['id'].'[]" value="'.$ovalue['opt_id'].'"><i></i>'.$ovalue['choice'].'
+						</label>';
+			}
+		}
+		$output.='<section><label class="label">'.enNum_khNum($key).'. '.$qinfo['title'].'</label>'.$opt.'</section>';
+	}
+	return $output;
+}
 
 
 
