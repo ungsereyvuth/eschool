@@ -32,7 +32,11 @@ class generate_test{
 												where l.subject_id=$subject_id and l.active=1 and q.active=1 $bylesson_sql");
 						if(count($qrow) and count($qrow)>=$minq){
 							$rnd_qrow = randomArray($qrow,$minq); // random row
-							$rndq =  array_values(array_map('current', $rnd_qrow)); //convert to 1D arr with array_map, reset keys with array_values
+							$order_arr =  array_values(array_map('current', $rnd_qrow)); //convert to 1D arr with array_map, reset keys with array_values
+							$rndq=array();
+							foreach ($order_arr as $key => $value) {
+								$rndq[$value]=array('id'=>$value);
+							}
 						}else{$msg='មិនអាចធ្វើតេស្តបានទេ! ចំនួនសំណួរមិនគ្រប់គ្រាន់សម្រាប់ធ្វើតេស្ត។';$err_fields[]= array('name'=>'error','msg'=>$msg);}
 					}else{$msg='សូមបញ្ចប់តេស្តមុនៗសិន ដើម្បីធ្វើតេស្តថ្មីទៀត។';$err_fields[]= array('name'=>'error','msg'=>$msg);}					
 				}else{$msg='Invalid data request';$err_fields[]= array('name'=>'error','msg'=>$msg);}

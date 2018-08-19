@@ -1335,47 +1335,67 @@ function renderq($ids,$output_type='array',$answer=array()){//$output_type = arr
 							left join es_yesno_options yn on yn.id=o.choice and t.code='tf'
 							where q.id IN ($ids) and o.active=1 and t.active=1");
 	//put question into 2D array
-	$q_arr=array();
+	$q_arr=array(); //arr[id]:info,opt
 	foreach ($q as $key => $value) {
 		if(!isset($q_arr[$value['id']]['q'])){$q_arr[$value['id']]['q']=$value;$q_arr[$value['id']]['opt']=array();}
 		$q_arr[$value['id']]['opt'][$value['opt_id']]=$value;
 		
 	}
 	//prepare output
-	$output='';
+	$output='';$qno=1;$sqno='';
 	foreach ($q_arr as $key => $value) {
-		$qinfo=$value['q'];$type = $qinfo['typecode'];$opt='';
+		$qinfo=$value['q'];$type = $qinfo['typecode'];$opt='';$ono=1;
 		foreach ($value['opt'] as $okey => $ovalue) {
 			if($type=='qcm'){
 				$opt.='<label class="radio inline-block h_mgn10">
-							<input type="radio" name="'.$qinfo['id'].'" value="'.$ovalue['opt_id'].'"><i></i>'.$ovalue['choice'].'
+							<input type="radio" name="q_'.$qinfo['id'].'" value="'.$ovalue['opt_id'].'"><i></i>'.$ovalue['choice'].'
 						</label>';
 			}elseif($type=='tf'){
 				$opt.='<label class="radio inline-block h_mgn10">
-							<input type="radio" name="'.$qinfo['id'].'" value="'.$ovalue['opt_id'].'"><i></i>'.$ovalue['yes'].'
+							<input type="radio" name="q_'.$qinfo['id'].'" value="'.$ovalue['opt_id'].'"><i></i>'.$ovalue['yes'].'
 						</label>
 						<label class="radio inline-block h_mgn10">
-							<input type="radio" name="'.$qinfo['id'].'" value="'.$ovalue['opt_id'].'"><i></i>'.$ovalue['no'].'
+							<input type="radio" name="q_'.$qinfo['id'].'" value="'.$ovalue['opt_id'].'"><i></i>'.$ovalue['no'].'
 						</label>';
 			}elseif($type=='mc'){
 				$opt.='<label class="checkbox inline-block h_mgn10">
-							<input type="checkbox" name="'.$qinfo['id'].'[]" value="'.$ovalue['opt_id'].'"><i></i>'.$ovalue['choice'].'
+							<input type="checkbox" name="q_'.$qinfo['id'].'[]" value="'.$ovalue['opt_id'].'"><i></i>'.$ovalue['choice'].'
 						</label>';
 			}elseif($type=='fg'){
 				$opt.='<label class="input">
-							<input type="text" name="'.$qinfo['id'].'" class="input-sm">
+							<input type="text" name="q_'.$qinfo['id'].'" class="input-sm" placeholder="សូមសរសេរចម្លើយទីនេះ">
 						</label>';
 			}elseif($type=='pw'){
 				$opt.='<label class="textarea textarea-expandable"> 										
-							<textarea rows="3" name="'.$qinfo['id'].'" class="custom-scroll"></textarea> 
+							<textarea rows="3" name="q_'.$qinfo['id'].'" class="custom-scroll"></textarea> 
 						</label>';
 			}elseif($type=='sq'){
-				$opt.='<label class="checkbox inline-block h_mgn10">
-							<input type="checkbox" name="'.$qinfo['id'].'[]" value="'.$ovalue['opt_id'].'"><i></i>'.$ovalue['choice'].'
-						</label>';
+				$sqno.='<li class="dd-item"><div class="dd-handle">'.enNum_khNum($ono).'</div></li>';
+				$opt.='<li class="dd-item" data-id="'.$ovalue['opt_id'].'"><div class="dd-handle"><p>'.$ovalue['choice'].'</p></div></li>';
 			}
+			$ono++;
 		}
-		$output.='<section><label class="label">'.enNum_khNum($key).'. '.$qinfo['title'].'</label>'.$opt.'</section>';
+		if($type=='sq'){
+			$output.='<section><label class="label">'.enNum_khNum($qno).'. '.$qinfo['title'].'</label>
+								<div class="clearfix">
+                                    <section class="col-xs-1">
+                                        <div class="dd">
+                                            <ol class="dd-list">'.$sqno.'</ol>
+                                        </div>
+                                    </section>
+                                    <section class="col-xs-11">
+                                        <div class="dd sequence" data-outputid="q_'.$qinfo['id'].'">
+                                            <ol class="dd-list">'.$opt.'</ol>
+                                        </div>
+                                    </section>
+                                    <input type="hidden" name="q_'.$qinfo['id'].'" id="q_'.$qinfo['id'].'" value="[]">
+                                </div>
+			</section>';
+		}else{
+			$output.='<section><label class="label">'.enNum_khNum($qno).'. '.$qinfo['title'].'</label>'.$opt.'<div id="q_'.$qinfo['id'].'_msg"></div></section>';
+		}
+		
+		$qno++;
 	}
 	return $output;
 }
