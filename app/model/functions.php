@@ -1321,6 +1321,11 @@ function randomArray($arr,$length=1){
     return $rnd;
 }
 
+function isJson($string) {
+ json_decode($string);
+ return ((json_last_error() == JSON_ERROR_NONE) and !is_numeric($string));
+}
+
 //=============================== custom functions =====================================================================================================
 
 
@@ -1352,10 +1357,10 @@ function renderq($ids,$output_type='array',$answer=array()){//$output_type = arr
 						</label>';
 			}elseif($type=='tf'){
 				$opt.='<label class="radio inline-block h_mgn10">
-							<input type="radio" name="q_'.$qinfo['id'].'" value="'.$ovalue['opt_id'].'"><i></i>'.$ovalue['yes'].'
+							<input type="radio" name="q_'.$qinfo['id'].'" value="1"><i></i>'.$ovalue['yes'].'
 						</label>
 						<label class="radio inline-block h_mgn10">
-							<input type="radio" name="q_'.$qinfo['id'].'" value="'.$ovalue['opt_id'].'"><i></i>'.$ovalue['no'].'
+							<input type="radio" name="q_'.$qinfo['id'].'" value="0"><i></i>'.$ovalue['no'].'
 						</label>';
 			}elseif($type=='mc'){
 				$opt.='<label class="checkbox inline-block h_mgn10">
