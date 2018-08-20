@@ -35,12 +35,16 @@ class user_dotest{
 				}
 				//verify complete answer
 				if(count($formdata) == $examdata['totalq']){
-					//prepre saving data
+					//calculate score
+					foreach ($formdata as $key => $value) {
+						
+					}
 
 				}else{
 					//check for missing answer, then show error
 					foreach ($question_ids as $key => $value) {
-						if(!array_key_exists($key,$formdata) or $formdata[$key]==''){$err_fields[]= array('name'=>'q_'.$key,'msg'=>'អ្នកមិនទាន់បានឆ្លើយ');}
+						if(!array_key_exists($key,$formdata) or $formdata[$key]==''){
+							$err_fields[]= array('name'=>'q_'.$key,'msg'=>'អ្នកមិនទាន់បានឆ្លើយ');}
 					}
 				}
 				//var_dump($formdata);exit;
@@ -50,7 +54,7 @@ class user_dotest{
 		if(!count($err_fields)){
 			$datetime = date("Y-m-d H:i:s");		
 			$sql = "";
-			$qry->update("update es_exam_result set $sql end_datetime='$datetime' where id=$exam_result_id limit 1");		
+			$qry->update("update es_exam_result set answer=$sql and correctq=,totalscore=,end_datetime='$datetime',elapsed_time=,finished=1 where id=$exam_result_id limit 1");		
 			//add to user log			
 			adduserlog($_POST['cmd'],$exam_result_id);
 			$result = true;$msg=$layout_label->message->insert_success->icon.' '.$layout_label->message->insert_success->title;;
