@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 18, 2018 at 02:21 PM
+-- Generation Time: Aug 20, 2018 at 11:51 AM
 -- Server version: 5.6.35
 -- PHP Version: 5.6.30
 
@@ -16502,7 +16502,7 @@ CREATE TABLE `es_exam` (
   `exam_type_id` int(11) DEFAULT NULL,
   `title` varchar(300) DEFAULT NULL,
   `description` text,
-  `question_ids` text,
+  `question_ids` text COMMENT '2D Arr => [id]{id,score}',
   `totalq` int(11) DEFAULT NULL,
   `fullscore` int(11) DEFAULT NULL,
   `duration` int(11) DEFAULT NULL,
@@ -16522,8 +16522,8 @@ CREATE TABLE `es_exam` (
 --
 
 INSERT INTO `es_exam` (`id`, `course_subject_id`, `lesson_id`, `exam_type_id`, `title`, `description`, `question_ids`, `totalq`, `fullscore`, `duration`, `start_datetime`, `end_datetime`, `student_group_id`, `auto_generated`, `created_by`, `created_date`, `last_updated_by`, `last_updated_date`, `active`) VALUES
-(3, 2, 2, 1, NULL, NULL, '[\"1\",\"2\",\"3\",\"4\",\"6\"]', 5, 5, NULL, NULL, NULL, NULL, 1, 4, '2018-08-18 18:10:08', NULL, NULL, 1),
-(6, 2, NULL, 1, NULL, NULL, '[\"1\",\"3\",\"4\",\"5\",\"6\"]', 5, 5, NULL, NULL, NULL, NULL, 1, 4, '2018-08-18 19:18:12', NULL, NULL, 1);
+(7, 2, 2, 1, NULL, NULL, '{\"1\":{\"id\":\"1\"},\"2\":{\"id\":\"2\"},\"4\":{\"id\":\"4\"},\"6\":{\"id\":\"6\"},\"7\":{\"id\":\"7\"}}', 5, 5, NULL, NULL, NULL, NULL, 1, 4, '2018-08-19 18:14:12', NULL, NULL, 1),
+(8, 2, NULL, 1, NULL, NULL, '{\"1\":{\"id\":\"1\"},\"2\":{\"id\":\"2\"},\"3\":{\"id\":\"3\"},\"5\":{\"id\":\"5\"},\"7\":{\"id\":\"7\"}}', 5, 5, NULL, NULL, NULL, NULL, 1, 4, '2018-08-19 18:30:13', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -16535,7 +16535,7 @@ CREATE TABLE `es_exam_result` (
   `id` int(11) NOT NULL,
   `student_id` int(11) DEFAULT NULL,
   `exam_id` int(11) DEFAULT NULL,
-  `answer` text COMMENT '3D Arr: {id,score,timestamp}',
+  `answer` text COMMENT '2D Arr[id]: {answer,score,timestamp}',
   `totalq` int(11) DEFAULT NULL,
   `correctq` int(11) DEFAULT NULL,
   `totalscore` decimal(11,2) DEFAULT NULL,
@@ -16553,8 +16553,8 @@ CREATE TABLE `es_exam_result` (
 --
 
 INSERT INTO `es_exam_result` (`id`, `student_id`, `exam_id`, `answer`, `totalq`, `correctq`, `totalscore`, `start_datetime`, `end_datetime`, `elapsed_time`, `finished`, `created_by`, `created_date`, `active`) VALUES
-(2, 4, 3, NULL, 5, NULL, NULL, '2018-08-18 18:10:08', NULL, NULL, 0, 4, '2018-08-18 18:10:08', 1),
-(5, 4, 6, NULL, 5, NULL, NULL, '2018-08-18 19:18:12', NULL, NULL, 0, 4, '2018-08-18 19:18:12', 1);
+(6, 4, 7, NULL, 5, NULL, NULL, '2018-08-19 18:14:12', NULL, NULL, 0, 4, '2018-08-19 18:14:12', 1),
+(7, 4, 8, NULL, 5, NULL, NULL, '2018-08-19 18:30:13', NULL, NULL, 0, 4, '2018-08-19 18:30:13', 1);
 
 -- --------------------------------------------------------
 
@@ -16761,8 +16761,8 @@ INSERT INTO `es_question` (`id`, `type_id`, `lesson_id`, `title`, `description`,
 CREATE TABLE `es_question_options` (
   `id` int(11) NOT NULL,
   `question_id` int(11) DEFAULT NULL,
-  `choice` varchar(300) DEFAULT NULL,
-  `is_answer` int(11) DEFAULT NULL,
+  `choice` varchar(300) DEFAULT NULL COMMENT 'if yesno, it''s yesno id',
+  `is_answer` int(11) DEFAULT NULL COMMENT 'if yesno, it''s boolean',
   `ordering` int(11) DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -17438,7 +17438,8 @@ INSERT INTO `layout_text_item` (`id`, `cate_id`, `code`, `title`, `content_code`
 (275, 3, 'user_subjectview', 'View Subject', '', 0, '/user/subjectview', '', 1, '', 1, '2018-08-15 21:39:19', NULL, NULL, 1),
 (276, 3, 'user_lessoncontent', 'View Lesson', '', 0, '/user/lessoncontent', '', 1, '', 1, '2018-08-15 22:19:36', 1, '2018-08-16 19:21:13', 1),
 (277, 3, 'user_pretest', 'Pre Test', '', 0, '/user/pretest', '', 1, '', 1, '2018-08-16 22:58:39', NULL, NULL, 1),
-(278, 3, 'user_dotest', 'Start Test', '', 0, '/user/dotest', '', 1, '', 1, '2018-08-18 19:07:58', 1, '2018-08-18 19:19:18', 1);
+(278, 3, 'user_dotest', 'Start Test', '', 0, '/user/dotest', '', 1, '', 1, '2018-08-18 19:07:58', 1, '2018-08-18 19:19:18', 1),
+(279, 3, 'questionnaire', 'Questionnaire', '', 0, '', '', 0, '', 1, '2018-08-19 00:42:06', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -17696,7 +17697,8 @@ INSERT INTO `layout_text_item_t` (`id`, `item_id`, `language_id`, `title`, `crea
 (205, 275, 1, 'មុខវិជ្ជា', 1, '2018-08-15 21:39:29', NULL, NULL, 1),
 (206, 276, 1, 'មេរៀន', 1, '2018-08-15 22:19:48', NULL, NULL, 1),
 (207, 277, 1, 'រៀបចំធ្វើតេស្ត', 1, '2018-08-16 22:59:01', NULL, NULL, 1),
-(208, 278, 1, 'ចាប់ផ្តើមធ្វើតេស្ត', 1, '2018-08-18 19:08:24', 1, '2018-08-18 19:19:30', 1);
+(208, 278, 1, 'ចាប់ផ្តើមធ្វើតេស្ត', 1, '2018-08-18 19:08:24', 1, '2018-08-18 19:19:30', 1),
+(209, 279, 1, 'កម្រងសំណួរ', 1, '2018-08-19 00:42:22', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -18460,7 +18462,15 @@ INSERT INTO `user_activity` (`id`, `user_id`, `action_id`, `action_data`, `ip`, 
 INSERT INTO `user_activity` (`id`, `user_id`, `action_id`, `action_data`, `ip`, `isp`, `browser_info`, `datetime`, `active`) VALUES
 (394, 4, 221, '5', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-18 19:18:12', 1),
 (395, 1, 87, '278_update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-18 19:19:18', 1),
-(396, 1, 90, 'id:278,lang:1|update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-18 19:19:30', 1);
+(396, 1, 90, 'id:278,lang:1|update', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-18 19:19:30', 1),
+(397, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-19 00:41:38', 1),
+(398, 1, 87, '279_add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-19 00:42:06', 1),
+(399, 1, 90, 'id:279,lang:1|add', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-19 00:42:22', 1),
+(400, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-19 12:59:42', 1),
+(401, 4, 221, '6', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-19 18:14:12', 1),
+(402, 4, 222, '6', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-19 18:29:41', 1),
+(403, 4, 221, '7', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.183 Safari\\/537.36 Vivaldi\\/1.96.1147.55\",\"name\":\"Google Chrome\",\"version\":\"65.0.3325.183\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-19 18:30:13', 1),
+(404, 1, 2, '1', '::1', '', '{\"userAgent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/68.0.3440.106 Safari\\/537.36\",\"name\":\"Google Chrome\",\"version\":\"68.0.3440.106\",\"platform\":\"mac\",\"pattern\":\"#(?<browser>Version|Chrome|other)[\\/ ]+(?<version>[0-9.|a-zA-Z.]*)#\"}', '2018-08-19 22:43:35', 1);
 
 -- --------------------------------------------------------
 
@@ -18870,12 +18880,12 @@ ALTER TABLE `es_course_subject`
 -- AUTO_INCREMENT for table `es_exam`
 --
 ALTER TABLE `es_exam`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `es_exam_result`
 --
 ALTER TABLE `es_exam_result`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `es_exam_type`
 --
@@ -18985,7 +18995,7 @@ ALTER TABLE `layout_text_cate`
 -- AUTO_INCREMENT for table `layout_text_item`
 --
 ALTER TABLE `layout_text_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=279;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=280;
 --
 -- AUTO_INCREMENT for table `layout_text_item_sub`
 --
@@ -19000,7 +19010,7 @@ ALTER TABLE `layout_text_item_sub_t`
 -- AUTO_INCREMENT for table `layout_text_item_t`
 --
 ALTER TABLE `layout_text_item_t`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=210;
 --
 -- AUTO_INCREMENT for table `message`
 --
@@ -19035,7 +19045,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_activity`
 --
 ALTER TABLE `user_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=397;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=405;
 --
 -- AUTO_INCREMENT for table `user_role`
 --
