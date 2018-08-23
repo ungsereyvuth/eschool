@@ -274,6 +274,11 @@ div.uploadpic input {
 .visible{ display:block !important;}
 .noborder{ border:0px solid white !important;}
 
+.border-red{ border: 1px solid red; }
+.border-green{ border: 1px solid green; }
+.border-blue{ border: 1px solid blue; }
+.border-gold{ border: 1px solid gold; }
+
 .clickable{ cursor:pointer;}
 
 .hover_box:hover{ 
@@ -465,6 +470,7 @@ box-shadow: inset 0px 0px 43px -9px rgba(0,0,0,0.75);
 -moz-box-shadow: 5px 5px 19px -10px rgba(0,0,0,0.75);
 box-shadow: 5px 5px 19px -10px rgba(0,0,0,0.75);
 }
+
 
 /*.txt-overflow-main {
   display: table;

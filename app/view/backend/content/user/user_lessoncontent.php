@@ -78,20 +78,36 @@ $main_test_url = $pageData->label->label->user_pretest->url.'/'.encodeString($su
 	            
 	            <div class="jarviswidget" id="lessonquizlist_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false">
                     <header>
-                        <h2><strong>បញ្ជីតេស្ត</strong></h2> 
+                        <h2><strong>លត្ធផលតេស្តចុងក្រោយ</strong></h2> 
+                        <div class="widget-toolbar" role="menu">
+                        <div class="btn-group v_mgn5">
+                            <a class="btn btn-xs btn-default" href="#">
+                               <i class="fa fa-list"></i> មើលទាំងអស់
+                            </a>                            
+                        </div>
+                    </div>
                     </header>
                     <div>
                     <div class="widget-body"> 
-                        <a href="#"><div class="quiz_item alert alert-info khmertitle v_mgn3 fs12">
-							<div><span class="tooltips" title="មេរៀនទី១">លំយោស៊ីនូយសូអ៊ីត</span> <span class="label label-warning pull-right tooltips" title="មិនទាន់បានបញ្ចប់"><i class="fa fa-clock-o"></i></span></div>
-                            <hr class="v_mgn3" />
-                            <div><?=date("d/m/Y H:i")?><code class="pull-right">4/10</code></div>
-                        </div></a>
-                        <a href="#"><div class="quiz_item alert alert-info khmertitle v_mgn3 fs12">
-							<div><span class="tooltips" title="មេរៀនទី៦">លំយោលត្រង់</span> <span class="label label-success pull-right tooltips" title="បានបញ្ចប់">Done</span></div>
-                            <hr class="v_mgn3" />
-                            <div><?=date("d/m/Y H:i")?><code class="pull-right">9/10</code></div>
-                        </div></a>
+                        <?php
+                        foreach ($pageData->data->content->testResult as $key => $value) {
+                            if($value['finished']){
+                                $result_url = $pageData->label->label->user_testresult->url.'/'.encodeString($value['id'],$encryptKey);
+                            }else{
+                                $result_url = $pageData->label->label->user_dotest->url.'/'.encodeString($value['id'],$encryptKey);
+                            }
+                            
+                            $lessonname = $value['lesson_id']?$value['lessonname']:'គ្រប់មេរៀន';
+                            $resultq = enNum_khNum(($value['correctq']?$value['correctq']:0).'/'.$value['totalq']);
+                            $status_btn = $value['finished']?'<span class="label label-success pull-right tooltips" title="បានបញ្ចប់"><i class="fa fa-check"></i></span>':'<span class="label label-warning pull-right tooltips" title="មិនទាន់បានបញ្ចប់"><i class="fa fa-clock-o"></i></span>';
+                            echo '<a href="'.$result_url.'"><div class="quiz_item alert alert-info khmertitle v_mgn3 fs12">
+                                    <div><span class="tooltips" title="មេរៀនទី១">'.$lessonname.'</span> '.$status_btn.'</div>
+                                    <hr class="v_mgn3" />
+                                    <div class="fs11">'.khmerDate($value['start_datetime'],'full_dt').'<code class="pull-right">'. $resultq.'</code></div>
+                                </div></a>';
+                        }
+
+                        ?>
                     </div>
                     </div>
                 </div>

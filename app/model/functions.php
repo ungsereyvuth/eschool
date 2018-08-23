@@ -1326,11 +1326,15 @@ function isJson($string) {
  return ((json_last_error() == JSON_ERROR_NONE) and !is_numeric($string));
 }
 
+function TrimTrailingZeroes($nbr) {
+    return strpos($nbr,'.')!==false ? rtrim(rtrim($nbr,'0'),'.') : $nbr;
+}
+
 //=============================== custom functions =====================================================================================================
 
 
-function renderq($ids,$output_type='array',$answer=array()){//$output_type = array,input,text	
-	$qry = new connectDb;
+function renderq($ids,$output_type='input',$answer=array()){//$output_type = array,input,text	
+	$qry = new connectDb; $showAnswer=count($answer)?true:false;
 	//convert ids to string
 	$ids = is_array($ids)?implode(",",$ids):$ids;
 	//get all q and its options
@@ -1346,42 +1350,115 @@ function renderq($ids,$output_type='array',$answer=array()){//$output_type = arr
 		$q_arr[$value['id']]['opt'][$value['opt_id']]=$value;
 		
 	}
+	$opt_no_kh=array('ក','ខ','គ','ឃ','ង','ច','ឆ','ជ','ឈ','ញ');
 	//prepare output
-	$output='';$qno=1;$sqno='';
+	$output='';$qno=1;$sqno='';$diabled=$showAnswer?' disabled':'';
 	foreach ($q_arr as $key => $value) {
-		$qinfo=$value['q'];$type = $qinfo['typecode'];$opt='';$ono=1;
+		$qinfo=$value['q'];$type = $qinfo['typecode'];$opt='';
+		$correct=array(false);$opt_no=1;$is_answer=array();$answerSign='';
 		foreach ($value['opt'] as $okey => $ovalue) {
+			$checked='';
 			if($type=='qcm'){
-				$opt.='<label class="radio inline-block h_mgn10">
-							<input type="radio" name="q_'.$qinfo['id'].'" value="'.$ovalue['opt_id'].'"><i></i>'.$ovalue['choice'].'
+				if($showAnswer){		
+					if(array_key_exists($qinfo['id'], $answer) and $answer[$qinfo['id']]['answer']==$ovalue['opt_id']){
+						$checked='checked';$correct=array($ovalue['is_answer']?true:false);
+					}
+					if($ovalue['is_answer']){
+						$is_answer[]=$opt_no_kh[$opt_no-1];
+					}
+				}
+				
+				$opt.='<label class="radio inline-block h_mgn10">							
+							<input type="radio" name="q_'.$qinfo['id'].'" value="'.$ovalue['opt_id'].'" '.$checked.$diabled.'><i></i>'.$opt_no_kh[$opt_no-1].'. '.remove_tag_p($ovalue['choice']).'
 						</label>';
-			}elseif($type=='tf'){
+			}elseif($type=='tf'){		
+				$yeschecked=$nochecked='';		
+				if($showAnswer){	
+					if(array_key_exists($qinfo['id'], $answer) and $answer[$qinfo['id']]['answer']==$ovalue['is_answer']){
+						$correct=array(true);
+					}
+					if($ovalue['is_answer']){
+						$is_answer[]='ក';$yeschecked=$correct[0]?'checked':'';$nochecked=$correct[0]?'':'checked';
+					}else{$is_answer[]='ខ';$yeschecked=$correct[0]?'':'checked';$nochecked=$correct[0]?'checked':'';}
+					
+				}
+
 				$opt.='<label class="radio inline-block h_mgn10">
-							<input type="radio" name="q_'.$qinfo['id'].'" value="1"><i></i>'.$ovalue['yes'].'
+							<input type="radio" name="q_'.$qinfo['id'].'" value="1" '.$yeschecked.$diabled.'><i></i>ក. '.$ovalue['yes'].'
 						</label>
 						<label class="radio inline-block h_mgn10">
-							<input type="radio" name="q_'.$qinfo['id'].'" value="0"><i></i>'.$ovalue['no'].'
+							<input type="radio" name="q_'.$qinfo['id'].'" value="0" '.$nochecked.$diabled.'><i></i>ខ. '.$ovalue['no'].'
 						</label>';
 			}elseif($type=='mc'){
+				if($showAnswer){	
+					if(array_key_exists($qinfo['id'], $answer) and in_array($ovalue['opt_id'], $answer[$qinfo['id']]['answer'])){
+						$checked='checked';$correct[]=$ovalue['is_answer']?true:false;
+					}
+					if($ovalue['is_answer']){
+						$is_answer[]=$opt_no_kh[$opt_no-1];
+					}
+				}
 				$opt.='<label class="checkbox inline-block h_mgn10">
-							<input type="checkbox" name="q_'.$qinfo['id'].'[]" value="'.$ovalue['opt_id'].'"><i></i>'.$ovalue['choice'].'
+							<input type="checkbox" name="q_'.$qinfo['id'].'[]" value="'.$ovalue['opt_id'].'" '.$checked.$diabled.'><i></i>'.$opt_no_kh[$opt_no-1].'. '.remove_tag_p($ovalue['choice']).'
 						</label>';
 			}elseif($type=='fg'){
+				$answertxt='';
+				if($showAnswer){		
+					if(array_key_exists($qinfo['id'], $answer) and $answer[$qinfo['id']]['answer']==$ovalue['choice']){
+						$correct=array($ovalue['is_answer']?true:false);
+					}
+					$is_answer[]=$ovalue['choice'];$answertxt=$answer[$qinfo['id']]['answer'];
+				}
 				$opt.='<label class="input">
-							<input type="text" name="q_'.$qinfo['id'].'" class="input-sm" placeholder="សូមសរសេរចម្លើយទីនេះ">
+							<input type="text" name="q_'.$qinfo['id'].'" class="input-sm" placeholder="សូមសរសេរចម្លើយទីនេះ" value="'.$answertxt.'" '.$diabled.'>
 						</label>';
 			}elseif($type=='pw'){
+				$answertxt='';
+				if($showAnswer){		
+					if(array_key_exists($qinfo['id'], $answer) and $answer[$qinfo['id']]['answer']==$ovalue['choice']){
+						$correct=array($ovalue['is_answer']?true:false);
+					}
+					$is_answer[]=$ovalue['choice'];$answertxt=$answer[$qinfo['id']]['answer'];
+				}
 				$opt.='<label class="textarea textarea-expandable"> 										
-							<textarea rows="3" name="q_'.$qinfo['id'].'" class="custom-scroll"></textarea> 
+							<textarea rows="3" name="q_'.$qinfo['id'].'" class="custom-scroll" '.$diabled.'>'.$answertxt.'</textarea> 
 						</label>';
 			}elseif($type=='sq'){
-				$sqno.='<li class="dd-item"><div class="dd-handle">'.enNum_khNum($ono).'</div></li>';
-				$opt.='<li class="dd-item" data-id="'.$ovalue['opt_id'].'"><div class="dd-handle"><p>'.$ovalue['choice'].'</p></div></li>';
+				$user_answer='';
+				if($showAnswer){
+					if(array_key_exists($qinfo['id'], $answer) and $ovalue['is_answer']==(array_search($ovalue['opt_id'],$answer[$qinfo['id']]['answer'])+1)){
+						$correct[]=true;
+					}else{
+						$correct[]=false;
+					}
+
+					$user_answer='<span class="redcolor bold">('.$opt_no_kh[array_search($ovalue['opt_id'],$answer[$qinfo['id']]['answer'])].')</span>';
+
+					$is_answer[$ovalue['is_answer']]=$opt_no_kh[$opt_no-1];
+					ksort($is_answer);
+				}
+				
+				$sqno.='<li class="dd-item"><div class="dd-handle">'.$opt_no_kh[$opt_no-1].'</div></li>';
+				$opt.='<li class="dd-item" data-id="'.$ovalue['opt_id'].'"><div class="dd-handle"><p>'.remove_tag_p($ovalue['choice']).' '.$user_answer.'</p></div></li>';
 			}
-			$ono++;
+			$opt_no++;
 		}
+
+		$opt_answer='';
+		if($showAnswer){
+			if(in_array(false, $correct)){
+				if($type=='sq'){
+					$opt_answer='<div class="v_pad5 bold greencolor"><i class="fa fa-hand-o-right"></i> ចម្លើយ៖ '.implode('<i class="fa fa-long-arrow-right"></i>',$is_answer).'</div>';
+				}else{
+					$opt.='<div class="v_pad5 bold greencolor"><i class="fa fa-hand-o-right"></i> ចម្លើយ៖ '.implode(',',$is_answer).'</div>';
+				}
+			}
+			$answerSign = (in_array(false, $correct)?'<i class="fa fa-times-circle redcolor"></i>':'<i class="fa fa-check-circle greencolor"></i>');
+		}
+		
+
 		if($type=='sq'){
-			$output.='<section><label class="label">'.enNum_khNum($qno).'. '.$qinfo['title'].'</label>
+			$output.='<section><label class="label">'.enNum_khNum($qno).'. '.$qinfo['title'].$answerSign.'</label>
 								<div class="clearfix">
                                     <section class="col-xs-1">
                                         <div class="dd">
@@ -1395,9 +1472,10 @@ function renderq($ids,$output_type='array',$answer=array()){//$output_type = arr
                                     </section>
                                     <input type="hidden" name="q_'.$qinfo['id'].'" id="q_'.$qinfo['id'].'" value="[]">
                                 </div>
+                                '.$opt_answer.'
 			</section>';
 		}else{
-			$output.='<section><label class="label">'.enNum_khNum($qno).'. '.$qinfo['title'].'</label>'.$opt.'<div id="q_'.$qinfo['id'].'_msg"></div></section>';
+			$output.='<section><label class="label">'.enNum_khNum($qno).'. '.$qinfo['title'].$answerSign.'</label>'.$opt.'<div id="q_'.$qinfo['id'].'_msg"></div></section>';
 		}
 		
 		$qno++;

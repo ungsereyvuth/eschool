@@ -41,7 +41,7 @@ class user_addquestion{
 					if(count($choices) and array_key_exists($correct_choices, $choices)){
 						foreach ($choices as $key => $value) {
 							$is_answer=$key==$correct_choices?1:0;
-							if(trim($value) <>''){$opt_sql[] = ",choice='$value',is_answer=$is_answer";}
+							if(trim($value) <>''){$opt_sql[] = ",choice='".remove_tag_p($value)."',is_answer=$is_answer";}
 							else{$err_fields[]= array('name'=>"choices[$key]",'msg'=>'សូមសរសេរជម្រើស');}
 						}
 					}else{$msg='សូមជ្រើសរើសចម្លើយត្រឹមត្រូវ';$err_fields[]= array('name'=>'error','msg'=>$msg);}
@@ -57,7 +57,7 @@ class user_addquestion{
 					if(count($choices)>2 and count($correct_choices)>1){
 						foreach ($choices as $key => $value) {
 							$is_answer=in_array($key, $correct_choices)?1:0;
-							if(trim($value) <>''){$opt_sql[] = ",choice='$value',is_answer=$is_answer";}
+							if(trim($value) <>''){$opt_sql[] = ",choice='".remove_tag_p($value)."',is_answer=$is_answer";}
 							else{$err_fields[]= array('name'=>"choices[$key]",'msg'=>'សូមសរសេរជម្រើស');}
 						}
 					}else{$msg='សូមកំណត់ជម្រើសច្រើនជាង២ និងចម្លើយត្រឹមត្រូវច្រើនជាង១';$err_fields[]= array('name'=>'error','msg'=>$msg);}
@@ -80,7 +80,7 @@ class user_addquestion{
 						foreach ($choices as $key => $value) {
 							$is_answer=array_search($key, $correct_order);
 							if(is_numeric($is_answer)){
-								if(trim($value) <>''){$opt_sql[] = ",choice='$value',is_answer=".($is_answer+1);}
+								if(trim($value) <>''){$opt_sql[] = ",choice='".remove_tag_p($value)."',is_answer=".($is_answer+1);}
 								else{$err_fields[]= array('name'=>"choices[$key]",'msg'=>'សូមសរសេរចម្លើយ');}
 							}else{$err_fields[]= array('name'=>"sq_order",'msg'=>'លំដាប់ចម្លើយមិនត្រឹមត្រូវ');}
 						}

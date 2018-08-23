@@ -4,14 +4,14 @@ class user_pretest{
 		$qry = new connectDb;global $usersession,$layout_label,$encryptKey;$breadcrumb=array();$pageExist=false;
 
 		//assign var
-		$lessons=$subject_info=array();$search_inputs='';$lesson_id=0;
+		$lessons=$subject_info=array();$search_inputs='';$lesson_id=$unfinished_exam=0;
 
 		if(!isset($input[0])){
 			goto returnStatus;
 		}else{
 			$codes = explode('_',decodeString($input[0],$encryptKey)); //subject_id,lesson_id
-			if(count($codes)==2 and $codes[0] and $codes[1]){
-				$subject_id=$codes[0];$lesson_id=$codes[1];
+			if(count($codes)==2 and $codes[0]){
+				$subject_id=$codes[0];$lesson_id=$codes[1]?$codes[1]:0; 
 			}elseif(count($codes)==1 and $codes[0]){
 				$subject_id=$codes[0];
 			}else{goto returnStatus;}			

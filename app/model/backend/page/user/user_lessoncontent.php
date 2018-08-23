@@ -49,14 +49,24 @@ class user_lessoncontent{
 				}
 			}
 		}
+
+		//last test record
+		$testResult = $qry->qry_assoc("select r.*,e.lesson_id,l.title lessonname,s.title subjectname from es_exam_result r 
+											left join es_exam e on r.exam_id=e.id
+											left join es_exam_type t on e.exam_type_id=t.id
+											left join es_lesson l on e.lesson_id=l.id
+											left join es_course_subject s on e.course_subject_id=s.id
+											where r.student_id=".$usersession->info()->id." and t.code='qz' and r.active=1 and e.active=1  and s.active=1 
+											order by COALESCE(r.end_datetime,r.start_datetime) desc limit 5");
 		
+
 		$breadcrumb = array('user_programview',
 							array('title'=>$course_info['title'],'url'=>$layout_label->label->user_subjectview->url.'/'.(encodeString($grade_id,$encryptKey))),
 							array('title'=>$course_info['subjectname'],'url'=>'#'));
 		
 		$pageExist=true;
 		returnStatus:
-		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'lessons'=>$lessons,'course_info'=>(object) $course_info);
+		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'lessons'=>$lessons,'course_info'=>(object) $course_info,'testResult'=>$testResult);
 	}	
 }
 ?>
