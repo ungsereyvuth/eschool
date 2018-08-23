@@ -1,5 +1,6 @@
 <?php
-$subject_id= $pageData->data->content->course_info->subject_id;
+$pdata=$pageData->data->content;
+$subject_id= $pdata->course_info->subject_id;
 $main_test_url = $pageData->label->label->user_pretest->url.'/'.encodeString($subject_id,$encryptKey);
 ?>
 <section id="widget-grid" class="">
@@ -14,10 +15,27 @@ $main_test_url = $pageData->label->label->user_pretest->url.'/'.encodeString($su
                             <a href="#" class="btn btn-info btn-lg btn-block"><i class="fa fa-newspaper-o"></i> Flip Card</a>
                             <a href="<?=$main_test_url?>" class="btn btn-success btn-lg btn-block"><i class="fa fa-server"></i> ធ្វើតេស្ត</a>
                             <a href="#" class="btn btn-primary btn-lg btn-block"><i class="fa fa-th-list"></i> ប្រវត្តិតេស្ត</a>
+                            <a href="#" class="btn btn-primary btn-lg btn-block"><i class="fa fa-th-list"></i> វគ្គសិក្សាផ្សេងៗ</a>
                         </div>
                     
                 </div>
-                
+                <div class="jarviswidget visible-md visible-lg" id="lessonteacher_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false">
+                    <header>
+                        <h2><strong>សាស្ត្រាចារ្យរៀបចំ</strong></h2> 
+                    </header>
+                    <div>
+                        <div class="widget-body"> 
+                            <div class="clearfix">
+                                <div class="col-xs-4 col-xs-3 h_pad0">
+                                    <img class="img-responsive bg_pic_cover fullwidth profile-pic" src="/assets/frontend/img/blank_img_square.png" style="background-image:url(<?=$pdata->course_info->teacherphoto?>);">
+                                </div>
+                                <div class="col-xs-8 col-xs-9 h_pad0">
+                                    <p class="alert alert-info khmertitle v_mgn3"><?=$pdata->course_info->teachername?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </article>
         	<article class="col-md-8">
 	        	<div class="jarviswidget" id="lessoncontent_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false">
@@ -30,7 +48,7 @@ $main_test_url = $pageData->label->label->user_pretest->url.'/'.encodeString($su
 	                    </div>
 	                    <div class="widget-body"> 
 	                    	<?php
-							if(!count((array) $pageData->data->content->lessons)){
+							if(!count((array) $pdata->lessons)){
 								echo '<div class="alert alert-info txtCenter">មិនទាន់មានមេរៀន</div>';
 							}
 							
@@ -39,7 +57,7 @@ $main_test_url = $pageData->label->label->user_pretest->url.'/'.encodeString($su
 	                            <ul>
 	                            	<?php 
 	                            	$lesson_items='';$main_no=1;
-	                            	foreach($pageData->data->content->lessons as $key=>$value){
+	                            	foreach($pdata->lessons as $key=>$value){
 	                            		$subrow=isset($value['sub'])?$value['sub']:array();$mainrow=$value['info'];
 	                            		//url new lesson
 	                            		$lesson_view_url = '#';	                            		
@@ -90,7 +108,7 @@ $main_test_url = $pageData->label->label->user_pretest->url.'/'.encodeString($su
                     <div>
                     <div class="widget-body"> 
                         <?php
-                        foreach ($pageData->data->content->testResult as $key => $value) {
+                        foreach ($pdata->testResult as $key => $value) {
                             if($value['finished']){
                                 $result_url = $pageData->label->label->user_testresult->url.'/'.encodeString($value['id'],$encryptKey);
                             }else{
@@ -114,7 +132,7 @@ $main_test_url = $pageData->label->label->user_pretest->url.'/'.encodeString($su
 	        </article>
        	</article>
         <article class="col-md-3 col-lg-3">
-        	<div class="jarviswidget" id="lessonteacher_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false">
+        	<div class="jarviswidget visible-xs visible-sm" id="lessonteacher_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false">
                 <header>
                     <h2><strong>សាស្ត្រាចារ្យរៀបចំ</strong></h2> 
                 </header>
@@ -122,10 +140,10 @@ $main_test_url = $pageData->label->label->user_pretest->url.'/'.encodeString($su
                     <div class="widget-body"> 
                     	<div class="row">
                         	<div class="col-xs-4 col-xs-3">
-                            	<img class="img-responsive bg_pic_cover fullwidth profile-pic" src="/assets/frontend/img/blank_img_square.png" style="background-image:url(<?=$pageData->data->content->course_info->teacherphoto?>);margin-bottom:15px;">
+                            	<img class="img-responsive bg_pic_cover fullwidth profile-pic" src="/assets/frontend/img/blank_img_square.png" style="background-image:url(<?=$pdata->course_info->teacherphoto?>);margin-bottom:15px;">
                             </div>
                             <div class="col-xs-8 col-xs-9">
-                            	<p class="alert alert-info khmertitle v_mgn3"><?=$pageData->data->content->course_info->teachername?></p>
+                            	<p class="alert alert-info khmertitle v_mgn3"><?=$pdata->course_info->teachername?></p>
                             </div>
                         </div>
                     </div>
@@ -138,6 +156,31 @@ $main_test_url = $pageData->label->label->user_pretest->url.'/'.encodeString($su
                 </header>
                 <div class="widget-body"> 
                     <div class="input-group input-group-sm"><input type="text" class="form-control searchinputs" id="txt_search" placeholder="ឈ្មោះសាស្ត្រាចារ្យ"><span class="input-group-btn btn_search"><button class="btn btn-info" type="submit"><i class="fa fa-search"></i></button></span></div>
+
+                    <?php
+                    foreach ($pdata->teacher as $key => $value) {
+                        $photo=$picPath.$value['teacherphoto'];
+                        if($photo<>$picPath){$photo = !file_exists($_SERVER['DOCUMENT_ROOT'].$photo)?$no_pic:$photo;}else{$photo =$no_pic;}
+
+                        echo '<div class="clearfix v_mgn5 bg-gradient-2">
+                                <div class="col-xs-4 col-xs-3 h_pad0">
+                                    <img class="img-responsive bg_pic_cover fullwidth profile-pic" src="/assets/frontend/img/blank_img_square.png" style="background-image:url('.$photo.');">
+                                </div>
+                                <div class="col-xs-8 col-xs-9 h_pad0">
+                                    <a href="#">
+                                        <div class="pad5 fs12">
+                                            <span class="darkgoldenrodcolor">'.$value['teachername'].'</span>
+                                            <hr class="v_mgn0" />
+                                            <div class="v_pad3 fs10 darkblue">'.$value['coursename'].'</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>';
+                    }
+
+                    ?>
+
+                    
                 </div>
             </div>
        	</article>

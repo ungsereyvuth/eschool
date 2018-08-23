@@ -1,5 +1,6 @@
 <?php
 $formkey='user_dotest';
+$pdata = $pageData->data->content;
 ?>
 
 <section id="widget-grid" class="">
@@ -16,15 +17,15 @@ $formkey='user_dotest';
                         <!-- This area used as dropdown edit box -->
                     </div>
                     <div class="widget-body"> 
-                    	<div class="alert alert-info"><?=$pageData->data->content->examdata->lesson_title?></div>
+                    	<div class="alert alert-info"><?=$pdata->subject_info->subjectname.' <i class="fa fa-angle-double-right"></i> '.($pdata->examdata->lesson_title<>''?($pdata->examdata->lesson_title):'គ្រប់មេរៀន')?></div>
                         <form class="ajaxfrm smart-form realtime-upload" role="form" id="<?=$formkey?>-form" data-func="submit_form" data-reset="1" action="" method="post">
                             <fieldset>          
-                            <?=$pageData->data->content->questionnaire?>
+                            <?=$pdata->questionnaire?>
 
                                 
                             </fieldset>
                             <footer>
-                                <input class="removable" type="hidden" name="recordid" value="<?=encodeString($pageData->data->content->examdata->exam_result_id.'_'.time(),$encryptKey)?>" />
+                                <input class="removable" type="hidden" name="recordid" value="<?=encodeString($pdata->examdata->exam_result_id.'_'.time(),$encryptKey)?>" />
                                 <input type="hidden" name="cmd" value="<?=$formkey?>" />                                  
                                 <button type="submit" class="btn btn-primary btn-sm">Save</button>
                                 <button type="reset" class="btn btn-default btn-sm" onclick="javascript: window.history.back();">Back</button>

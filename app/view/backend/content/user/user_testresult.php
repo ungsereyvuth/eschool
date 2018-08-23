@@ -15,11 +15,10 @@ $pdata = $pageData->data->content;
                         <!-- This area used as dropdown edit box -->
                     </div>
                     <div class="widget-body"> 
-                    	<div class="alert alert-info"><?=$pdata->examdata->lesson_title?></div>
+                    	<div class="alert alert-info"><?=$pdata->subject_info->subjectname.' <i class="fa fa-angle-double-right"></i> '.($pdata->examdata->lesson_title<>''?($pdata->examdata->lesson_title):'គ្រប់មេរៀន')?></div>
                         <form class="smart-form" role="form" action="" method="post">
-                            <fieldset>          
-                            <?=$pdata->questionnaire?>
-                                
+                            <fieldset>
+                                <?=$pdata->questionnaire?>
                             </fieldset>
                         </form>
                     </div>
@@ -57,6 +56,7 @@ $pdata = $pageData->data->content;
                         <div>
                             <a href="<?=$pageData->label->label->user_pretest->url.'/'.encodeString($pdata->examdata->course_subject_id.'_'.$pdata->examdata->lesson_id,$encryptKey)?>" class="btn btn-info btn-lg btn-block"><i class="fa fa-refresh"></i> ធ្វើតេស្តម្តងទៀត</a>
                             <a href="#" class="btn btn-primary btn-lg btn-block"><i class="fa fa-th-list"></i> ប្រវត្តិតេស្ត</a>
+                            <a href="<?=$pageData->label->label->user_lessoncontent->url.'/'.encodeString($pdata->subject_info->grade_id.'_'.$pdata->subject_info->grade_subject_id,$encryptKey)?>" class="btn btn-primary btn-lg btn-block"><i class="fa fa-book"></i> មើលមេរៀន</a>
                         </div>
                     </div>
                 </div>
