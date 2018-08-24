@@ -35,7 +35,8 @@ body{font-size:14px; background-color: #ebeff2;}
 
 .khmerNormal{font-family: khmerNormal, Roboto-Regular,"Helvetica Neue","Helvetica","Arial",sans-serif !important;}
 .khmerTitle{font-family: khmerMool1, Roboto-Regular,"Helvetica Neue","Helvetica","Arial",sans-serif !important;}
-.engFont{font-family:Roboto-Regular,"Helvetica Neue","Helvetica","Arial",sans-serif !important;}
+.engFont * {font-family:Roboto-Regular,"Helvetica Neue","Helvetica","Arial",sans-serif !important;}
+.mathFont .MathJax * {font-family:Roboto-Regular,"Helvetica Neue","Helvetica","Arial",sans-serif !important;}
 
 
 
@@ -295,6 +296,33 @@ box-shadow: 0px 0px 21px -2px rgba(0,0,0,0.75);
 
  }
 
+.hv-bg-orange:hover{ background-color:orange !important;}
+.hv-bg-black:hover{ background-color:black !important;}
+.hv-bg-gold:hover{ background-color:gold !important;}
+.hv-bg-red:hover{ background-color:rgba(255,0,0,0.7) !important;}
+.hv-bg-blue:hover{ background-color:rgba(15, 42, 148, 0.7) !important;}
+.hv-bg-blue-solid:hover{ background-color:blue !important;}
+.hv-bg-white:hover{ background-color:white !important;}
+.hv-bg-green:hover{ background-color:green !important;}
+.hv-bg_darkblue:hover{ background-color:#104661 !important;}
+.hv-bg-blacklight:hover{background-color:rgba(3, 12, 45, 0.06) !important;}
+.hv-bg-goldlight:hover{background-color:#f9efe6 !important;}
+.hv-bg-gradient-1:hover{background: #1e5799; /* Old browsers */
+background: -moz-linear-gradient(top, #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */}
+.hv-bg-gradient-2:hover{background: #e2e2e2; /* Old browsers */
+background: -moz-linear-gradient(top, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe',GradientType=0 ); /* IE6-9 */}
+.hv-bg-gradient-3:hover{/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f6e6b4+0,ed9017+100;Yellow+3D+%231 */
+background: #f6e6b4; /* Old browsers */
+background: -moz-linear-gradient(top, #f6e6b4 0%, #ed9017 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, #f6e6b4 0%,#ed9017 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, #f6e6b4 0%,#ed9017 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6e6b4', endColorstr='#ed9017',GradientType=0 ); /* IE6-9 */}
 
 
 .package_info_box{height:0;}
@@ -471,7 +499,55 @@ box-shadow: inset 0px 0px 43px -9px rgba(0,0,0,0.75);
 box-shadow: 5px 5px 19px -10px rgba(0,0,0,0.75);
 }
 
+/*start text overflow dotted ========================================================*/
+.flex-parent {
+  display: flex;
+  align-items: center;
+}
+h2 {
+  font-size: 1rem;
+  font-weight: normal;
+}
 
+
+.long-and-truncated {
+  flex: 1;
+  
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.short-and-fixed {
+  white-space: nowrap;
+  > div {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    background: lightgreen;
+    display: inline-block;
+  }
+}
+
+.long-and-truncated-with-child {
+  flex: 1;
+  h2 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.long-and-truncated-with-child-corrected {
+  flex: 1;
+  min-width: 0; /* or some value */
+  h2 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+/*end text overflow dotted ========================================================*/
 /*.txt-overflow-main {
   display: table;
   table-layout: fixed;

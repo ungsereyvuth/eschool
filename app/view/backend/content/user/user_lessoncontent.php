@@ -19,7 +19,7 @@ $main_test_url = $pageData->label->label->user_pretest->url.'/'.encodeString($su
                         </div>
                     
                 </div>
-                <div class="jarviswidget visible-md visible-lg" id="lessonteacher_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false">
+                <div class="jarviswidget visible-md visible-lg" id="lessonteacher_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false"  data-widget-colorbutton="false">
                     <header>
                         <h2><strong>សាស្ត្រាចារ្យរៀបចំ</strong></h2> 
                     </header>
@@ -59,11 +59,9 @@ $main_test_url = $pageData->label->label->user_pretest->url.'/'.encodeString($su
 	                            	$lesson_items='';$main_no=1;
 	                            	foreach($pdata->lessons as $key=>$value){
 	                            		$subrow=isset($value['sub'])?$value['sub']:array();$mainrow=$value['info'];
-	                            		//url new lesson
-	                            		$lesson_view_url = '#';	                            		
-	                            		
 	                            		$sub=$main='';$sub_no=1;$totalq=0;
 	                            		foreach($subrow as $skey=>$svalue){
+	                            			$lesson_view_url = $pageData->label->label->user_lessonview->url.'/'.encodeString($svalue['id'].'_'.time(),$encryptKey);	    
 	                                        //url new question
 	                                        $totalq+=$svalue['totalq'];
 	                                        $sub_test_url = $pageData->label->label->user_pretest->url.'/'.encodeString($subject_id.'_'.$svalue['id'],$encryptKey);
@@ -86,8 +84,6 @@ $main_test_url = $pageData->label->label->user_pretest->url.'/'.encodeString($su
 
 	                            	?>
 	                            </ul>
-	                            
-	                            <!--<iframe src="https://docs.google.com/viewer?url=http://www.khmerdocs.com/files/docs/docs561818030060.pdf&amp;embedded=true" width="100%" height="780" style="border: none;"></iframe>-->
 	                            
 	                        </div>
 	                    </div>
