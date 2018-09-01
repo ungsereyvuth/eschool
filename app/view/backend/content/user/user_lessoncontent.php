@@ -104,6 +104,7 @@ $main_test_url = $pageData->label->label->user_pretest->url.'/'.encodeString($su
                     <div>
                     <div class="widget-body"> 
                         <?php
+                        if(!count($pdata->testResult)){echo '<div class="alert alert-info txtCenter">គ្មានទិន្នន័យ</div>';}
                         foreach ($pdata->testResult as $key => $value) {
                             if($value['finished']){
                                 $result_url = $pageData->label->label->user_testresult->url.'/'.encodeString($value['id'],$encryptKey);

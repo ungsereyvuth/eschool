@@ -1,6 +1,6 @@
 <?php
-include_once("app/model/db.php");
-include_once("app/model/language.php");
+include_once("app/model/lib/db.php");
+include_once("app/model/lib/language.php");
 //layout text category
 $layout = new layout_label;
 $language = $layout->activeLanguage();
@@ -8,12 +8,12 @@ $language_code = $layout->activeLanguage(false);
 $layout_cate = (object) ($layout->layout_cate());
 $layout_label = (object) ($layout->translated($language));
 $lang = (object) $layout->languagecode($language);
-include_once("app/model/functions.php");
-include_once("app/model/checklogin.php");
-include_once("app/model/checksession.php");
+include_once("app/model/lib/functions.php");
+include_once("app/model/lib/checklogin.php");
+include_once("app/model/lib/checksession.php");
 //app variables
 $usersession = new usersession($language); //isLoign(),info()
-include_once("app/model/phpExcel/standardReport.php");
+include_once("app/model/lib/phpExcel/standardReport.php");
 //include_once("app/model/upload.php");
 
 class application{

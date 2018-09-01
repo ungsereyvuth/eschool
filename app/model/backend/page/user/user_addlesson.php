@@ -3,7 +3,7 @@ class user_addlesson{
 	public function data($input){
 		$qry = new connectDb;global $usersession,$encryptKey,$layout_label;$breadcrumb=array();$pageExist=false;
 
-		$chapter_info='';
+		$chapter_info=$lesson_data='';$editmode=false;
 
 		if(!isset($input[0])){
 			goto returnStatus;
@@ -34,6 +34,19 @@ class user_addlesson{
 		$ordering=1;
 		$lesson_info = $qry->qry_assoc("select ordering from es_lesson where subject_id=$subject_id and ".($addmain?"parent_id is NULL":"parent_id = $parent_id")." order by ordering desc limit 1");
 		if(count($lesson_info)){$ordering+=$lesson_info[0]['ordering'];}
+
+		//get lesson data if in edit mode
+		if(isset($_GET['id']) and $_GET['id']<>''){
+			$editcodes = explode('_',decodeString($_GET['id'],$encryptKey)); //lesson_id,time
+			if(count($editcodes)==2 and $editcodes[0] and $editcodes[1]){
+				$lesson_id=$editcodes[0];
+				$lesson_data = $qry->qry_assoc("select * from es_lesson where id=$lesson_id limit 1");
+				if(count($lesson_data)){
+					$lesson_data=$lesson_data[0];
+					$editmode=true;
+				}				
+			}
+		}
 		
 
 		$breadcrumb = array('user_coursemgmt',
@@ -45,7 +58,7 @@ class user_addlesson{
 
 		$pageExist=true;
 		returnStatus:
-		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'subject_info'=>$subject_info,'codes'=>$input[0],'addmain'=>$addmain,'chapter_info'=>$chapter_info,'ordering'=>$ordering);
+		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'subject_info'=>$subject_info,'codes'=>$input[0],'addmain'=>$addmain,'chapter_info'=>$chapter_info,'ordering'=>$ordering,'editmode'=>$editmode,'lesson_data'=> (object) $lesson_data);
 	}	
 }
 ?>

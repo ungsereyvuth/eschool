@@ -16,15 +16,15 @@ class user_lessoncontent{
 		}
 
 		$course_info = $qry->qry_assoc("select c.*,s.id subject_id,u.fullname_kh teachername,u.photo teacherphoto,gs.title subjectname from es_course c 
-										left join es_course_subject s on s.course_id=c.id and s.grade_subject_id=$grade_subject_id
+										left join es_course_subject s on s.course_id=c.id 
 										left join es_grade_subject gs on gs.id=$grade_subject_id
 										left join users u on u.id=c.teacher_id
 										left join user_role r on r.id=u.role_id
-										where c.grade_id=$grade_id and c.active=1 and r.code in ('admin','superuser') 
+										where c.grade_id=$grade_id and s.grade_subject_id=$grade_subject_id and c.active=1 and r.code in ('admin','superuser') 
 										order by created_date desc limit 1");
 		if(!count($course_info)){goto returnStatus;}
 		$course_info=$course_info[0];
-		$course_sunject_id = $course_info['subject_id'];
+		$course_sunject_id = $course_info['subject_id']?$course_info['subject_id']:0;
 		
 		$web_config = web_config(array('profile_pic_path','no_pic'));
 		$picPath = $web_config['profile_pic_path'];$no_pic = $web_config['no_pic'];
@@ -56,7 +56,7 @@ class user_lessoncontent{
 											left join es_exam_type t on e.exam_type_id=t.id
 											left join es_lesson l on e.lesson_id=l.id
 											left join es_course_subject s on e.course_subject_id=s.id
-											where r.student_id=".$usersession->info()->id." and t.code='qz' and r.active=1 and e.active=1  and s.active=1 
+											where r.student_id=".$usersession->info()->id." and e.course_subject_id=$course_sunject_id and t.code='qz' and r.active=1 and e.active=1  and s.active=1 
 											order by COALESCE(r.end_datetime,r.start_datetime) desc limit 5");
 		
 

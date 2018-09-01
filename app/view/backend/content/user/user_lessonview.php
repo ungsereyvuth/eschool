@@ -62,7 +62,7 @@ foreach ($filenames as $key => $value) {
 
        	</article>
        	<article class="col-sm-8">
-        	<div class="jarviswidget" id="docview_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false">
+        	<div class="jarviswidget" id="docview_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
                 <!-- widget options:
                 usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
