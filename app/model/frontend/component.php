@@ -10,8 +10,18 @@ class frontend_menu{
 	public function data($input){	
 		global $usersession,$layout_label;
 		$qry = new connectDb;	
+
+		$grades=array();
+		$grade_row = $qry->qry_assoc("select gg.*,g.id gradeid,g.title gradename,g.subject_ids from es_grade_group gg 
+										left join es_grade g on g.grade_group_id=gg.id and g.active=1
+										where gg.active=1");
+		foreach ($grade_row as $key => $value) {
+			$value['subjects']= $qry->qry_assoc("select * from es_grade_subject where id in (".$value['subject_ids'].") and active=1");			
+			$grades[$value['id']][]=$value;
+		}
 		
-		return $layout_label->menu;
+		//return $layout_label->menu;
+		return $grades;
 	}	
 }
 class topinfo{

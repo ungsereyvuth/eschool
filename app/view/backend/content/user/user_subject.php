@@ -24,6 +24,9 @@
                     	<div class="tree smart-form">
                             <ul>
                             	<?php 
+                                //url new main
+                                $add_main_url = $pageData->label->label->user_addlesson->url.'/'.encodeString($pageData->data->content->subject_info->id,$encryptKey);
+                                
                             	$lesson_items='';$main_no=1;
                             	foreach($pageData->data->content->lessons as $key=>$value){
                             		$subrow=isset($value['sub'])?$value['sub']:array();$mainrow=$value['info'];
@@ -69,7 +72,7 @@
 	                                            <a href="'.$add_sub_url.'"><span class="bluecolor"><i class="fa fa-plus"></i> បញ្ចូលមេរៀនថ្មី</span></a>
 
 
-                                                <a class="btn btn-xs btn-info" href="'.$add_sub_url.'&id='.encodeString($value['id'].'_'.time(),$encryptKey).'"><i class="fa fa-pencil"></i> កែប្រែជំពូក</a>
+                                                <a class="btn btn-xs btn-info" href="'.$add_main_url.'&id='.encodeString($mainrow['id'].'_'.time(),$encryptKey).'"><i class="fa fa-pencil"></i> កែប្រែជំពូក</a>
 	                                        </li>';
 	                            	$main.='<span><i class="fa fa-lg fa-folder-open"></i> ជំពូកទី'.enNum_khNum($main_no).'៖ '.$mainrow['title'].' <label class="pull-right"><i class="fa fa-files-o"></i> '.enNum_khNum($totalq).' សំណួរ</label></span>';
 	                            	$main.="<ul>$sub</ul>";
@@ -79,8 +82,7 @@
 
                             	echo $lesson_items;
 
-                            	//url new main
-                            	$add_main_url = $pageData->label->label->user_addlesson->url.'/'.encodeString($pageData->data->content->subject_info->id,$encryptKey);
+                            	
 
                             	?>
 
