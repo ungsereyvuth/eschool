@@ -1332,6 +1332,14 @@ function TrimTrailingZeroes($nbr) {
 
 //=============================== custom functions =====================================================================================================
 
+function decode($input){
+	global $encryptKey;
+	return decodeString($input,$encryptKey);
+}
+function encode($input){
+	global $encryptKey;
+	return encodeString($input,$encryptKey);
+}
 
 function renderq($ids,$output_type='input',$answer=array()){//$output_type = array,input,text	
 	$qry = new connectDb; $showAnswer=count($answer)?true:false;

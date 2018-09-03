@@ -60,6 +60,7 @@
 </div>
 <?php include('app/view/'.$dir.'layout/waitbox.php');?>
 <?php include('app/view/'.$dir.'layout/script.php');?>
+<?=isset($late_script_file)?$late_script_file:''?>
 <script>
 	jQuery(document).ready(function() {
 		<?php if(isset($late_script)){echo $late_script;} ?>

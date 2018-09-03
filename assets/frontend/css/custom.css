@@ -35,7 +35,8 @@ body{font-size:14px; background-color: #ebeff2;}
 
 .khmerNormal{font-family: khmerNormal, Roboto-Regular,"Helvetica Neue","Helvetica","Arial",sans-serif !important;}
 .khmerTitle{font-family: khmerMool1, Roboto-Regular,"Helvetica Neue","Helvetica","Arial",sans-serif !important;}
-.engFont{font-family:Roboto-Regular,"Helvetica Neue","Helvetica","Arial",sans-serif !important;}
+.engFont * {font-family:Roboto-Regular,"Helvetica Neue","Helvetica","Arial",sans-serif !important;}
+.mathFont .MathJax * {font-family:Roboto-Regular,"Helvetica Neue","Helvetica","Arial",sans-serif !important;}
 
 
 

@@ -21,6 +21,7 @@
 	<!-- CSS Theme -->
 	<link rel="stylesheet" href="/assets/frontend/css/theme-colors/default.css" id="style_color">
 	<link rel="stylesheet" href="/assets/frontend/css/theme-skins/dark.css">
+	<link rel="stylesheet" href="/assets/frontend/plugins/tipsy-master/tipsy.css">
 
 	<!-- CSS Customization -->
 	<link rel="stylesheet" href="/assets/frontend/css/custom.css">

@@ -55,6 +55,13 @@ class pageController{
 		}		
 		//-------- start checking page validity --------------- -> also check if there is inherited class for the page instead of it std name
 		$checkpage = $qry->qry_assoc("select id,dir,is_ajax,is_webpage,is_backend,inherited from layout_page_controller where model='$getClassName' and active=1");
+		//recheck model
+		if(!count($checkpage)){
+			$getClassName = $param[0];$request_data = array();
+			foreach($param as $key=>$value){if($key>0){$request_data[] = $value;}}
+			$checkpage = $qry->qry_assoc("select id,dir,is_ajax,is_webpage,is_backend,inherited from layout_page_controller where model='$getClassName' and active=1");
+		}
+
 		$pagevalid = count($checkpage)?true:false; 
 		if(!$pagevalid){$getClassName='pagenotfound';$request_data='';}else{
 			$inherited = $checkpage[0]['inherited'];$more_dir=$checkpage[0]['dir'];
