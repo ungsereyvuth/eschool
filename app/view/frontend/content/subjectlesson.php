@@ -3,6 +3,7 @@ $pdata=$pageData->data->content;
 //get attached file
 $file_item='';
 $filedata = $pdata->lessonData->filenames;
+$mainurl = $pageData->label->label->subjectlesson->url.'/'.$pdata->code.'&lid='.encode($pdata->lessonData->id);
 if($filedata<>''){
 	$filenames = explode('|',$pdata->lessonData->filenames);
 	$filepath = web_config('post_doc_path');
@@ -12,8 +13,11 @@ if($filedata<>''){
 	    $itemname = explode('_',$value);
 	    unset($itemname[count($itemname)-1]); unset($itemname[count($itemname)-1]);
 
-	    $doc_view_url = $pageData->label->label->user_lessonview->url.'/'.encodeString($pdata->lessonData->id.'_'.time(),$encryptKey).'&doc='.$value;
-	    $file_item.='<li class="v_pad5" style="border-bottom:1px dotted #e8e7e7;">
+	    //active doc
+	    if(isset($_GET['doc']) and $_GET['doc']<>'' and $value==$_GET['doc']){$activedoc=true;}else{$activedoc=false;}
+
+	    $doc_view_url = $mainurl.'&doc='.$value;
+	    $file_item.='<li class="v_pad5 '.($activedoc?'sub-info':'').'" style="border-bottom:1px dotted #e8e7e7;">
 	                    <a href="'.$doc_view_url.'" class="tooltips" title="'.$file_detail['name_kh'].'">
 	                          '.$file_detail['icon'].' '.implode('',$itemname).'
 	                    </a>
@@ -31,11 +35,11 @@ $file_item=$file_item==''?'<div class="alert alert-warning v_pad3 fs12">គ្�
 					<div class="col-md-3">
 						<ul class="list-group sidebar-nav-v1" id="sidebar-nav">
 							<?php 
-                        	$lesson_items='';$main_no=1;
+                        	$lesson_items='';$main_no=1;$lessonids=array();
                         	foreach($pdata->lessons as $key=>$value){
                         		$subrow=isset($value['sub'])?$value['sub']:array();$mainrow=$value['info'];
                         		$sub=$main='';$sub_no=1;$totalq=0;
-                        		foreach($subrow as $skey=>$svalue){
+                        		foreach($subrow as $skey=>$svalue){ $lessonids[]=$svalue['id'];
                         			$lesson_view_url = $pageData->label->label->subjectlesson->url.'/'.$pdata->code.'&lid='.encode($svalue['id']);	    
                                     //url new question
                                     $totalq+=$svalue['totalq'];
@@ -56,8 +60,7 @@ $file_item=$file_item==''?'<div class="alert alert-warning v_pad3 fs12">គ្�
                             	$lesson_items.="<li class='list-group-item list-toggle active'>$main</li>";
                                 $main_no++;
                         	}
-
-                        	echo $lesson_items;
+                        	echo $lesson_items;                        	
 
                         	?>
 							
@@ -71,12 +74,12 @@ $file_item=$file_item==''?'<div class="alert alert-warning v_pad3 fs12">គ្�
 						<!-- News v3 -->
 						<div class="news-v3 bg-color-white margin-bottom-30">
 							<div class="pad15">
-								<div class="headline v_mgn5">
-									<h3 class="khmerTitle"><?=$pdata->lessonData->title?></h3>
-								</div>
 								<ul class="list-inline posted-info p_title fs12">
 									<li><?=$pdata->lessonData->subjectname?></li>
 									<li><?=khmerDate($pdata->lessonData->created_date)?></li>
+									<li>សាស្ត្រាចារ្យ៖ <?=$pdata->teacher->teachername?></li>
+									<?=(isset($_GET['doc']) and $_GET['doc']<>'')?('<li><a class="btn btn-xs btn-primary whitecolor rounded" href="'.$mainurl.'"><i class="fa fa-reply"></i> ត្រឡប់ទៅខ្លឹមសារមេរៀន</a></li>'):''?>
+									
 								</ul>
 								
 								<?php
@@ -103,8 +106,21 @@ $file_item=$file_item==''?'<div class="alert alert-warning v_pad3 fs12">គ្�
 								
 							</div>
 						</div>
-							<a class="btn btn-info" href="#"><i class="fa fa-chevron-left"></i> មេរៀនមុន</a>	
-							<a class="btn btn-info pull-right" href="#">មេរៀនបន្ទាប់ <i class="fa fa-chevron-right"></i></a>	
+							<?php
+							//get prev & next lesson
+                        	if($pdata->lessonid){
+                        		$currentkey = array_search($pdata->lessonid,$lessonids);                        		
+                        	}else{$currentkey = 0;}
+                        	$previd=$currentkey?$lessonids[$currentkey-1]:0;
+                        	$nextid=(($currentkey+1)==count($lessonids))?0:$lessonids[$currentkey+1];
+
+                        	$prev_url=$next_url='';
+                        	if($previd){$prev_url=$pageData->label->label->subjectlesson->url.'/'.$pdata->code.'&lid='.encode($previd);}
+                        	if($nextid){$next_url=$pageData->label->label->subjectlesson->url.'/'.$pdata->code.'&lid='.encode($nextid);}
+
+							?>
+							<a class="btn btn-info <?=$previd?'':'hidden'?>" href="<?=$prev_url?>"><i class="fa fa-chevron-left"></i> មេរៀនមុន <?=$previd?></a>	
+							<a class="btn btn-info pull-right <?=$nextid?'':'hidden'?>" href="<?=$next_url?>">មេរៀនបន្ទាប់ <i class="fa fa-chevron-right"> <?=$nextid?></i></a>	
 						<div>
 
 						</div>

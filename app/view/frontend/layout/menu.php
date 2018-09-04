@@ -38,8 +38,10 @@
             <div class="collapse navbar-collapse mega-menu navbar-responsive-collapse">
                 <div class="container">
                     <ul class="nav navbar-nav">
-                        
+                        <li><a href="/">ទំព័រដើម</a></li>
                         <?=$menu?>
+                        <li><a href="/contactus">ទំនាក់ទំនង</a></li>
+                        <li><a href="/about">អំពីយើង</a></li>
                     </ul>
                 </div><!--/end container-->
             </div><!--/navbar-collapse-->

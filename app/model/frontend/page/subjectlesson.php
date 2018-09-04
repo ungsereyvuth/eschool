@@ -36,6 +36,7 @@ class subjectlesson{
 		//organize lesson
 		$startup_lessonid=0;
 		foreach($lessons_row as $key=>$value){
+
 			if($value['parent_id']){$startup_lessonid=$startup_lessonid?$startup_lessonid:$value['id'];
 				$lessons[$value['parent_id']]['sub'][$value['id']]=$value;
 			}else{
@@ -70,7 +71,7 @@ class subjectlesson{
 		$pageExist=true; 
 		
 		returnStatus:
-		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'code'=>$input[0],'lessonid'=>$lessonid,'lessons'=>$lessons,'lessonData'=>(object) $lessonData);
+		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'code'=>$input[0],'lessonid'=>$lessonid,'lessons'=>$lessons,'lessonData'=>(object) $lessonData,'teacher'=>(object) $latest_subject);
 	}	
 }
 ?>
