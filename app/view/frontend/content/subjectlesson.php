@@ -13,7 +13,7 @@ if($filedata<>''){
 	    unset($itemname[count($itemname)-1]); unset($itemname[count($itemname)-1]);
 
 	    $doc_view_url = $pageData->label->label->user_lessonview->url.'/'.encodeString($pdata->lessonData->id.'_'.time(),$encryptKey).'&doc='.$value;
-	    $file_item.='<li class="v_pad5">
+	    $file_item.='<li class="v_pad5" style="border-bottom:1px dotted #e8e7e7;">
 	                    <a href="'.$doc_view_url.'" class="tooltips" title="'.$file_detail['name_kh'].'">
 	                          '.$file_detail['icon'].' '.implode('',$itemname).'
 	                    </a>
@@ -90,34 +90,12 @@ $file_item=$file_item==''?'<div class="alert alert-warning v_pad3 fs12">គ្�
 		                        ?>
 		                        <hr class="v_mgn10" />
 		                        <div class="row">
-		                        	<div class="col-md-8">
-		                        		<div class="v_pad10">ឯកសារ</div>
+		                        	<div class="col-md-12">
+		                        		<div class="v_pad10">ឯកសារមេរៀន</div>
 				                        <div>
 				                            <?=$file_item?>
 
 				                        </div>
-		                        	</div>
-		                        	<div class="col-md-4 txtCenter">
-		                        		<ul class="post-shares post-shares-lg">
-											<li>
-												<a href="#">
-													<i class="rounded-x icon-speech"></i>
-													<span>28</span>
-												</a>
-											</li>
-											<li>
-												<a href="#">
-													<i class="rounded-x icon-share"></i>
-													<span>355</span>
-												</a>
-											</li>
-											<li>
-												<a href="#">
-													<i class="rounded-x icon-heart"></i>
-													<span>107</span>
-												</a>
-											</li>
-										</ul>
 		                        	</div>
 		                        </div>
 		                        
@@ -125,24 +103,27 @@ $file_item=$file_item==''?'<div class="alert alert-warning v_pad3 fs12">គ្�
 								
 							</div>
 						</div>
+							<a class="btn btn-info" href="#"><i class="fa fa-chevron-left"></i> មេរៀនមុន</a>	
+							<a class="btn btn-info pull-right" href="#">មេរៀនបន្ទាប់ <i class="fa fa-chevron-right"></i></a>	
+						<div>
+
+						</div>
 						<!-- End News v3 -->
 
-						<!-- Blog Post Author -->
-						<div class="blog-author margin-bottom-30">
-							<img src="https://ep01.epimg.net/brasil/imagenes/2016/06/23/politica/1466654550_367696_1466879337_noticia_normal.jpg" alt="">
-							<div class="blog-author-desc">
-								<div class="overflow-h">
-									<h4 class="khmerNormal">លោកគ្រូ រស់ ចិត្រា</h4>
-									<ul class="list-inline">
-										<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-										<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-										<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-									</ul>
+						<div id="testimonials-1" class="blog-author carousel slide testimonials testimonials-v1 hidden">
+							<div class="carousel-inner">
+								<div class="item active">
+									<p>ការសិក្សាជាមូលដ្ឋានគ្រឹះឆ្ពោះទៅកាន់ភាពជោគជ័យ។ លោកគ្រូ អ្នកគ្រូ កសាងមនុស្សឲ្យ មានចំណេះដឹង សីលធម៌ គុណធម៌ ខុសពីការបង្កើតទូរស័ព្ទមួយគ្រឿង។</p>
+									<div class="testimonial-info">
+										<img class="rounded-x" src="https://ep01.epimg.net/brasil/imagenes/2016/06/23/politica/1466654550_367696_1466879337_noticia_normal.jpg" alt="">
+										<span class="testimonial-author">
+											លោកគ្រូ រស់ ចិត្រា
+											<em>លោកគ្រូសាស្ត្រាចារ្យប្រចាំសាលាជ័យថាវី</em>
+										</span>
+									</div>
 								</div>
-								<p>លោកគ្រូ អ្នកគ្រូ កសាងមនុស្សឲ្យ មានចំណេះដឹង សីលធម៌ គុណធម៌ ខុសពីការបង្កើតទូរស័ព្ទមួយគ្រឿង។</p>
 							</div>
 						</div>
-						<!-- End Blog Post Author -->
 
 						
 					</div>

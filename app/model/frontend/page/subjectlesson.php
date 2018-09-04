@@ -1,6 +1,7 @@
 <?php
 class subjectlesson{
 	public function data($input){
+		global $layout_label;
 		$qry = new connectDb;$pageExist=false;	
 
 		$lessons=$lessonData=$breadcrumb=array();$lessonid=0;
@@ -44,19 +45,26 @@ class subjectlesson{
 		//show lesson content
 		$lessonid=(isset($_GET['lid']) and decode($_GET['lid']))?decode($_GET['lid']):$startup_lessonid;
 		if($lessonid){
-			$lessonData = $qry->qry_assoc("select l.*,p.title maintitle,s.title subjectname,gs.id grade_subject_id,c.title coursename,g.id grade_id,g.title gradename 
+			$lessonData = $qry->qry_assoc("select l.*,p.title maintitle,s.title subjectname,gs.id grade_subject_id,c.title coursename,g.id grade_id,g.title gradename,g.grade_group_id,gg.title grade_group_name
 									from es_lesson l 
 									left join es_lesson p on p.id=l.parent_id
 									left join es_course_subject s on s.id=l.subject_id
 									left join es_course c on c.id=s.course_id
 									left join es_grade g on g.id=c.grade_id
+									left join es_grade_group gg on gg.id=g.grade_group_id
 									left join es_grade_subject gs on gs.id=s.grade_subject_id
 									where l.id=$lessonid limit 1");
 			if(!count($lessonData)){goto returnStatus;}
 			$lessonData=$lessonData[0];
-		}
+		}else{goto returnStatus;}
 
 		//teacher info
+
+
+
+		$breadcrumb = array(array('title'=>$lessonData['grade_group_name'],'url'=>$layout_label->label->edu->url.'/'.encode($lessonData['grade_group_id'])),
+							array('title'=>$lessonData['coursename'],'url'=>$layout_label->label->grade->url.'/'.encode($gradeid)),
+							array('title'=>$lessonData['title'],'url'=>'#'));
 
 
 		$pageExist=true; 

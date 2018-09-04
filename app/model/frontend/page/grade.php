@@ -1,6 +1,7 @@
 <?php
 class grade{
 	public function data($input){
+		global $layout_label;
 		$qry = new connectDb;$pageExist=false;	
 
 		$items = $breadcrumb=array();
@@ -21,6 +22,9 @@ class grade{
 		$gradeinfo=$gradeinfo[0];
 
 		$items = $qry->qry_assoc("select * from es_grade_subject where id in (".$gradeinfo['subject_ids'].")");
+
+		$breadcrumb = array(array('title'=>$gradeinfo['grade_groupname'],'url'=>$layout_label->label->edu->url.'/'.encode($gradeinfo['grade_groupid'])),
+							array('title'=>$gradeinfo['title'],'url'=>'#'));
 
 		$pageExist=true; 
 		
