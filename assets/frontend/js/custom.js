@@ -156,8 +156,8 @@ function displaySaveMsg(id,msgType,text){
 
 (function ($) {
 	
-var ajaxRequest = {},runResult = {},lang_url=getLanguage()!=''?('/'+getLanguage()):'';
-var siteSetting = {language:getLanguage(),ajaxurl:lang_url+'/admin/ajax_request',loginurl:lang_url+'/login/start',exportexcel:lang_url+'/admin/ajax_exportexcel',ajaxrealtimeupload:lang_url+'/admin/ajax_realtimeupload'};
+var ajaxRequest = {},runResult = {};
+var siteSetting = {language:getLanguage(),ajaxurl:'/'+getLanguage()+'/ajax_request',loginurl:'/'+getLanguage()+'/login/start',exportexcel:'/'+getLanguage()+'/ajax_exportexcel',ajaxrealtimeupload:'/'+getLanguage()+'/ajax_realtimeupload',accessdenied:'Access Denied! please login again.'};
 
 //--- start modal ----
 var confirmDialog_timeout = 0,dialog_wait=0;
@@ -165,7 +165,7 @@ function confirmDialog(modal,headerTxt,bodyTxt,mainBtnName,data,funcName){
 	clearTimeout(confirmDialog_timeout);		
 	confirmDialog_timeout = setTimeout(function(){		
 		$("#"+modal+"_modalLabel").html(headerTxt);
-		$("#"+modal+"_modalLabelBodyText").html(bodyTxt);
+		if(bodyTxt!=null){$("#"+modal+"_modalLabelBodyText").html(bodyTxt);}
 		$("#"+modal+"_actionBtn").html(mainBtnName).prop('disabled',false);
 		$("#"+modal+"_confirmData").val(data);	
 		$( "#"+modal+"_btn" ).trigger( "click" );
@@ -179,7 +179,7 @@ function confirmDialog(modal,headerTxt,bodyTxt,mainBtnName,data,funcName){
 
 function popupMsg(modal,headerTxt,bodyTxt){
 	$("#"+modal+"_modalLabel").html(headerTxt);
-	$("#"+modal+"_modalLabelBodyText").html(bodyTxt);
+	if(bodyTxt!=null){$("#"+modal+"_modalLabelBodyText").html(bodyTxt);}
 	$("#"+modal+"_actionBtn").hide();
 	$( "#"+modal+"_btn" ).trigger( "click" );
 }	 
@@ -239,10 +239,14 @@ ajaxRequest.showList= function(navAction,cmd,qryData){
 		var loadMode = $("#"+cmd).attr('data-loadmode')?$("#"+cmd).attr('data-loadmode'):'list'; //default loadmode is list
 		if(loadMode=='loadmore'){$("#"+cmd+" .nav_next").html('<img src="/assets/frontend/img/loading.gif" />Loading...')}
 		var currentPage = $("#"+cmd+" .nav_currentPage").val();
-		var rowsPerPage = $("#"+cmd+" .nav_rowsPerPage").length?$("#"+cmd+" .nav_rowsPerPage").val():10;
+		var rowsPerPage = $("#"+cmd+" .nav_rowsPerPage").length?$("#"+cmd+" .nav_rowsPerPage").val():6;
 		$.post(siteSetting.ajaxurl,{cmd:cmd,qryData:qryData,currentPage:currentPage,rowsPerPage:rowsPerPage,navAction:navAction} ,function(data){
 				//console.log(data);
-				if(!isJSON(data) || !("list" in JSON.parse(data))){$("#"+cmd+" tbody").html("<tr><td colspan='"+qryData['col']+"' class='txtCenter'><span class='redcolor'>"+(data=='Access Denied!'?'Access Denied!':(("msg" in JSON.parse(data))?JSON.parse(data).msg:'Technical Error'))+"</span></td></tr>");$("#"+cmd+" .nav_info").html('');$("#overlay_"+get_time).remove();return false;}	
+				if(!isJSON(data) || !("list" in JSON.parse(data))){
+					//$("#"+cmd+" tbody").html("<tr><td colspan='"+qryData['col']+"' class='txtCenter'><span class='redcolor'>"+(data==siteSetting.accessdenied?data:(("msg" in JSON.parse(data))?JSON.parse(data).msg:'Technical Error'))+"</span></td></tr>");
+					runResult.ajaxErrLog(cmd,data,'list',qryData['col']);
+					$("#"+cmd+" .nav_info").html('');$("#overlay_"+get_time).remove();return false;
+				}	
 				var data = JSON.parse(data);
 				
 				if(loadMode=='loadmore'){
@@ -256,9 +260,6 @@ ajaxRequest.showList= function(navAction,cmd,qryData){
 					if(!data.nav_btn_disable.nav_next){$("#"+cmd+" .nav_next").addClass('hidden').unbind("click");}
 					else{$("#"+cmd+" .nav_next").html('<i class="fa fa-angle-double-down"></i> Load More').unbind("click").bind("click",function(){ajaxRequest.showList('next',cmd,qryData)});}
 				}else{
-					//hide list nav if row <= item per page					
-					if(data.totalRow>rowsPerPage){$("#"+cmd+" .listnav").removeClass("hidden");}
-
 					//set sql for excel export	
 					if($("#"+cmd+" #fullexport").length){
 						$("#"+cmd+" #fullexport").unbind('click').click(function(){ajaxRequest.exportexcel(cmd,data.fullsql)});
@@ -299,14 +300,22 @@ ajaxRequest.showList= function(navAction,cmd,qryData){
 
 ajaxRequest.login= function(frm){
 		var formName = 'login';
+		var redirect=$("#"+formName).data('redirect'),ispopup=$("#"+formName).data('ispopup');
+		redirect = (typeof redirect === 'undefined')?true:redirect;ispopup = (typeof ispopup === 'undefined')?false:ispopup;		
 		$("#"+formName+"_msg").html('<div class="alert alert-info">'+$("#"+formName+"_msg").data('loadtxt')+'</div>');
+		
 		var username=$("#email").val(),password = $("#password").val(),nexturl = $("#nexturl").length?$("#nexturl").val():'';
-		$.post(siteSetting.loginurl,{username:username,password:password,nexturl:nexturl} ,function(data){ console.log(data);
+		$.post(siteSetting.loginurl,{username:username,password:password,nexturl:nexturl} ,function(data){		
+				if(!isJSON(data)){// check ajax return valid json/error
+					runResult.ajaxErrLog(formName,data,'form');
+					frm.find(':submit').prop("disabled",false);return false;
+				}	
 				var data = JSON.parse(data);
 				$("#login_btn_icon").html('<i class="fa fa-key fa-fw"></i>');
 				if(data.result){		
 					$("#"+formName+"_msg").html('<div class="alert alert-success">'+data.msg+'</div>');
-					window.location.href=data.url;
+					if(redirect){window.location.href=data.url;}
+					if(ispopup){$("#"+formName+"_modalCloseBtn").trigger("click");$("#"+formName+"_msg").html('');frm.find(':submit').prop("disabled",false);}
 				}else{
 					$("#"+formName+"_msg").html('<div class="alert alert-danger">'+data.msg+'</div>');
 					frm.find(':submit').prop("disabled",false);
@@ -442,7 +451,8 @@ ajaxRequest.saveData = function(frm){
 			success: function(data)   // A function to be called if request succeeds
 			{ 
 				if(!isJSON(data)){// check ajax return valid json/error
-					$("#"+formName+"_msg").html('<div class="alert-danger pad5"><span class="glyphicon glyphicon-warning-sign"></span> Error: '+(data=='Access Denied!'?'Access Denied!':'Technical Error')+'</div>');
+					//$("#"+formName+"_msg").html('<div class="alert-danger pad5"><span class="glyphicon glyphicon-warning-sign"></span> Error: '+(data==siteSetting.accessdenied?data:'Technical Error')+'</div>');
+					runResult.ajaxErrLog(formName,data,'form');
 					frm.find(':submit').prop("disabled",false);return false;
 				}	
 				
@@ -451,8 +461,29 @@ ajaxRequest.saveData = function(frm){
 				runResult[formName](frm,data);
 			},
 			error: function (responseData, textStatus, errorThrown) {
-				$("#"+formName+"_msg").html('<div class="alert-danger pad5"><span class="glyphicon glyphicon-warning-sign"></span> Error: '+textStatus+'</div>');
+				$("#"+formName+"_msg").html('<div class="alert-danger pad5"><span class="glyphicon glyphicon-warning-sign"></span> '+textStatus+': Pleae check your internet connection!</div>');
 				frm.find(':submit').prop("disabled",false);
+			}
+		});
+};
+
+runResult.ajaxErrLog= function(id,data,type='form',moredata=''){
+		if(type=='form'){
+			var ErrLogBtnEle = '<span id="'+id+'_errlog" class="pull-right fs11 btn btn-xs rounded btn-danger">'+(data==siteSetting.accessdenied?'Login':'Show Error Log')+'</span>';
+			var msg = (data==siteSetting.accessdenied)?data:'Technical Error';
+			$("#"+id+"_msg").html('<div class="alert-danger pad5"><span class="glyphicon glyphicon-warning-sign"></span> Error: '+msg+ErrLogBtnEle+'</div>');
+		}else if(type=='list'){
+			var msg = (data==siteSetting.accessdenied)?data:((isJSON(data) && "msg" in JSON.parse(data))?JSON.parse(data).msg:'Technical Error');
+			var ErrLogBtnEle = '<span id="'+id+'_errlog" class="fs11 btn btn-xs rounded btn-danger">'+(data==siteSetting.accessdenied?'Login':'Show Error Log')+'</span>';
+			$("#"+id+" tbody").html("<tr><td colspan='"+moredata+"' class='txtCenter'><span class='redcolor'>"+msg+"</span> "+ErrLogBtnEle+"</td></tr>");
+			
+		}else{return false;}
+		var showErrbtn = $("#"+id+'_errlog'),curURL = window.location.href;
+		showErrbtn.unbind('click').click(function(){
+			if(data==siteSetting.accessdenied){
+				confirmDialog("login",'ចូលគណនី',null,null,null,null);
+			}else{
+				confirmDialog("yesno",'កូដមានបញ្ហា','<div class="alert alert-danger txtCenter v_pad3 v_mgn0">សូម Copy រួចផ្ញើរកូដទាំងអស់ខាងក្រោមទៅកាន់អ្នកបច្ចេកទេស</div><br />Error URL: '+curURL+'<br />'+data,null,null,null);
 			}
 		});
 };
@@ -538,7 +569,7 @@ ajaxRequest.switch_status= function(getData){//[0]:recordid,[1]:list,[2]:cmd
 	$("#"+element+"_actionBtn").prop('disabled',true);
 	$.post(siteSetting.ajaxurl,{cmd:getData[2],recordid:getData[0]} ,function(data){
 			//alert(data);	
-			if(!isJSON(data)){displaySaveMsg(element,'danger',data=='Access Denied!'?data:'Technical Error');$("#"+element+"_actionBtn").prop('disabled',false);return false;}
+			if(!isJSON(data)){displaySaveMsg(element,'danger',data==siteSetting.accessdenied?data:'Technical Error');$("#"+element+"_actionBtn").prop('disabled',false);return false;}
 			var data = JSON.parse(data);
 			if(data.result){
 				displaySaveMsg(element,'success',data.msg);
@@ -554,21 +585,6 @@ ajaxRequest.switch_status= function(getData){//[0]:recordid,[1]:list,[2]:cmd
 	});
 }
 
-ajaxRequest.notif= function(){	
-	$.post(siteSetting.ajaxurl,{cmd:'notif'} ,function(data){
-			if(!isJSON(data)){console.log(data=='Access Denied!'?data:'Technical Error');return false;}
-			var data = JSON.parse(data);
-			//console.log(data);
-			//show unread msg
-			if(data.total_unread_msg){$(".total_unread_msg,#menu_admin_messagebox,#menu_admin_messageinbox").html(' <span class="badge badge-red rounded-x">'+data.total_unread_msg+'</span>');}
-			if(data.total_scheduled_bookings){$(".total_scheduled_bookings").html(' <span class="badge badge-red rounded-x">'+data.total_scheduled_bookings+'</span>');}
-			if(data.total_requesting_bookings){$(".total_requesting_bookings,#menu_admin_bookingmanagement,#menu_admin_reviewingbooking").html(' <span class="badge badge-red rounded-x">'+data.total_requesting_bookings+'</span>');}
-			if(data.total_requested_routes){$("#menu_admin_requestedroutes,#menu_admin_drivermanagement,.total_requestingroutes").html(' <span class="badge badge-red rounded-x">'+data.total_requested_routes+'</span>');}
-			setTimeout(ajaxRequest.notif,5000)
-			
-	});
-}
-//ajaxRequest.notif();
 ajaxRequest.form_select= function(element){ 
 	element.submit(function(e){$(this).find(':submit').prop("disabled",true);});
 	var targets = element.attr('data-targets').split(",");
@@ -577,7 +593,7 @@ ajaxRequest.form_select= function(element){
 		//console.log(data);	
 		if(!isJSON(data)){// check ajax return valid json/error			
 			$.each(targets, function(key, value) {
-				$("select[name="+value+"]").html("<option>"+(data=='Access Denied!'?'Access Denied!':'Technical Error')+"</option>");
+				$("select[name="+value+"]").html("<option>"+(data==siteSetting.accessdenied?data:'Technical Error')+"</option>");
 			});return false
 		}
 		var data = JSON.parse(data);	
@@ -601,7 +617,8 @@ ajaxRequest.load_formdata= function(element){
 		$("#"+target_formid+"_msg").html('');
 		//console.log(data);	
 		if(!isJSON(data)){// check ajax return valid json/error			
-			$("#"+target_formid+"_msg").html('<div class="alert-danger pad5"><span class="glyphicon glyphicon-warning-sign"></span> Error: '+(data=='Access Denied!'?'Access Denied!':'Technical Error')+'</div>');
+			//$("#"+target_formid+"_msg").html('<div class="alert-danger pad5"><span class="glyphicon glyphicon-warning-sign"></span> Error: '+(data==siteSetting.accessdenied?data:'Technical Error')+'</div>');
+			runResult.ajaxErrLog(target_formid,data,'form');
 			return false
 		}
 		var data = JSON.parse(data);	

@@ -18,6 +18,18 @@
 	<link rel="stylesheet" href="/assets/frontend/plugins/parallax-slider/css/parallax-slider.css">
 	<link rel="stylesheet" href="/assets/frontend/plugins/owl-carousel/owl-carousel/owl.carousel.css">
 
+	<link rel="stylesheet" href="/assets/frontend/plugins/sky-forms-pro/skyforms/css/sky-forms.css">
+	<link rel="stylesheet" href="/assets/frontend/plugins/sky-forms-pro/skyforms/custom/custom-sky-forms.css">
+
+	<!-- CSS Global Compulsory -->
+	<link rel="stylesheet" href="/assets/frontend/plugins/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/assets/frontend/css/shop.style.css">
+	<link rel="stylesheet" href="/assets/frontend/css/blocks.css">
+
+	<!-- CSS Header and Footer -->
+	<link rel="stylesheet" href="/assets/frontend/css/headers/header-v5.css">
+	<link rel="stylesheet" href="/assets/frontend/css/footers/footer-v4.css">
+
 	<!-- CSS Theme -->
 	<link rel="stylesheet" href="/assets/frontend/css/theme-colors/default.css" id="style_color">
 	<link rel="stylesheet" href="/assets/frontend/css/theme-skins/dark.css">

@@ -8,8 +8,9 @@ class user_addsubject{
 			goto returnStatus;
 		}else{$course_id=decodeString($input[0],$encryptKey);}
 		
-		$course_info = $qry->qry_assoc("select c.*,if(c.max_student>0,c.max_student,'∞') max_student,u.fullname_kh,u.photo,count(COALESCE(m.id,NULL)) total_student from es_course c 
+		$course_info = $qry->qry_assoc("select c.*,if(c.max_student>0,c.max_student,'∞') max_student,u.fullname_kh,u.photo,count(COALESCE(m.id,NULL)) total_student,g.subject_ids from es_course c 
 										left join es_course_member m on m.course_id=c.id and m.active=1
+										left join es_grade g on g.id=c.grade_id
 										left join users u on u.id=c.teacher_id
 										where c.id=$course_id and c.active=1 limit 1");
 		if(!count($course_info)){goto returnStatus;}
@@ -17,7 +18,7 @@ class user_addsubject{
 
 		//get standard subject (grade subject)
 		$std_subject_opt='';
-		$std_subject = $qry->qry_assoc("select * from es_grade_subject where active=1 order by ordering");
+		$std_subject = $qry->qry_assoc("select * from es_grade_subject where id IN ($course_info->subject_ids) and active=1 order by ordering");
 		foreach ($std_subject as $key => $value) {
 			$std_subject_opt.='<option value="'.$value['id'].'">'.$value['title'].'</option>';
 		}

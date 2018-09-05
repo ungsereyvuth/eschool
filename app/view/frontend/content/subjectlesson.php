@@ -21,7 +21,22 @@ if($filedata<>''){
 	                    <a href="'.$doc_view_url.'" class="tooltips" title="'.$file_detail['name_kh'].'">
 	                          '.$file_detail['icon'].' '.implode('',$itemname).'
 	                    </a>
-	                    <span class="label bg-color-teal pull-right rounded">'.$size.'</span>
+	                    <span class="pull-right hidden-xs">
+
+							<div class="btn-group">
+								<button type="button" class="btn btn-primary btn-xs ">
+									'.$size.'
+								</button>
+								<button type="button" class="btn btn-primary btn-xs btn-u-split-blue dropdown-toggle" data-toggle="dropdown">
+									<i class="fa fa-angle-down"></i>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<ul class="dropdown-menu fs11 v_pad0" role="menu">
+									<li><a href="#"><i class="fa fa-download"></i> ទាញយក</a></li>
+									<li><a href="#"><i class="fa fa-file-text-o"></i> បើកឯកសារ</a></li>
+								</ul>
+							</div>
+	                    </span>
 	                </li>';
 	}
 }
@@ -93,12 +108,15 @@ $file_item=$file_item==''?'<div class="alert alert-warning v_pad3 fs12">គ្�
 		                        ?>
 		                        <hr class="v_mgn10" />
 		                        <div class="row">
-		                        	<div class="col-md-12">
+		                        	<div class="col-md-8 bg-gradient-3">
 		                        		<div class="v_pad10">ឯកសារមេរៀន</div>
 				                        <div>
 				                            <?=$file_item?>
-
 				                        </div>
+		                        	</div>
+		                        	<div class="col-md-4">
+		                        		<a href="<?=$pageData->label->label->user_pretest->url.'/'.$pdata->teacher->grade_subject_id?>" class="btn-u btn-brd btn-brd-hover rounded btn-u-sea btn-u-lg btn-block"><i class="fa fa-hand-o-right"></i> ធ្វើតេស្ត</a>
+		                        		<a href="#" class="btn-u btn-brd btn-brd-hover rounded btn-u-sea btn-u-lg btn-block"><i class="fa fa-hand-o-right"></i> Flip Card</a>
 		                        	</div>
 		                        </div>
 		                        
@@ -119,8 +137,8 @@ $file_item=$file_item==''?'<div class="alert alert-warning v_pad3 fs12">គ្�
                         	if($nextid){$next_url=$pageData->label->label->subjectlesson->url.'/'.$pdata->code.'&lid='.encode($nextid);}
 
 							?>
-							<a class="btn btn-info <?=$previd?'':'hidden'?>" href="<?=$prev_url?>"><i class="fa fa-chevron-left"></i> មេរៀនមុន <?=$previd?></a>	
-							<a class="btn btn-info pull-right <?=$nextid?'':'hidden'?>" href="<?=$next_url?>">មេរៀនបន្ទាប់ <i class="fa fa-chevron-right"> <?=$nextid?></i></a>	
+							<a class="btn btn-info <?=$previd?'':'hidden'?>" href="<?=$prev_url?>"><i class="fa fa-chevron-left"></i> មេរៀនមុន</a>	
+							<a class="btn btn-info pull-right <?=$nextid?'':'hidden'?>" href="<?=$next_url?>">មេរៀនបន្ទាប់ <i class="fa fa-chevron-right"></i></a>	
 						<div>
 
 						</div>

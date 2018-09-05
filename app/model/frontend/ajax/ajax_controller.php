@@ -17,7 +17,7 @@ class ajax_request{
 					include_once("app/model/".$input['dir']."ajax/".$ajax_command.".php");
 				}
 				//check ajax class
-				if(!class_exists($ajax_command)){echo 'Invalid request';exit;}
+				if(!class_exists($ajax_command)){echo 'Command not exist';exit;}
 				//calling ajax class
 				$ajax_call = new $ajax_command;	
 				//return ajax output

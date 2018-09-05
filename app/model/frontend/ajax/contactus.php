@@ -6,6 +6,7 @@ class contactus{
 		$result=false;$msg=$layout_label->message->insert_failed->icon.' '.$layout_label->message->insert_failed->title;		$err_fields=array();$datetime = date("Y-m-d H:i:s");
 		
 		
+		
 		$reg_fields = array('text'=>array('contact_fullname'=>addslashes($_POST['contact_fullname']),'contact_subject'=>addslashes($_POST['contact_subject']),'message'=>addslashes($_POST['message']),'captcha'=>addslashes($_POST['captcha'])),
 						'email'=>array('contact_email'=>addslashes($_POST['contact_email'])),
 						'file'=>array());
