@@ -2,7 +2,7 @@
 <div class="log-reg-v3">
         <div class="row">
             <div class="col-md-5">
-            	<form id="login" method="post" class="ajaxfrm form-horizontal log-reg-block bg-white" role="form">
+            	<form id="login" method="post" class="ajaxfrm form-horizontal log-reg-block bg-white pad15" role="form">
                     <h2 class="khmerNormal"><?=$pageData->label->label->login->title?></h2>
 
                     <section>

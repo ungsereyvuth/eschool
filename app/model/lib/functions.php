@@ -1483,7 +1483,7 @@ function renderq($ids,$output_type='input',$answer=array()){//$output_type = arr
                                 '.$opt_answer.'
 			</section>';
 		}else{
-			$output.='<section><label class="label">'.enNum_khNum($qno).'. '.$qinfo['title'].$answerSign.'</label>'.$opt.'<div id="q_'.$qinfo['id'].'_msg"></div></section>';
+			$output.='<section><label class="label">'.enNum_khNum($qno).'. '.$qinfo['title'].$answerSign.'</label><div>'.$qinfo['description'].'</div>'.$opt.'<div id="q_'.$qinfo['id'].'_msg"></div></section>';
 		}
 		
 		$qno++;

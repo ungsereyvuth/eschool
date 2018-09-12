@@ -14,7 +14,7 @@ $main_test_url = $pageData->label->label->user_pretest->url.'/'.encodeString($su
                         <div class="widget-body"> 
                             <a href="#" class="btn btn-info btn-lg btn-block"><i class="fa fa-newspaper-o"></i> Flip Card</a>
                             <a href="<?=$main_test_url?>" class="btn btn-success btn-lg btn-block"><i class="fa fa-server"></i> ធ្វើតេស្ត</a>
-                            <a href="#" class="btn btn-primary btn-lg btn-block"><i class="fa fa-th-list"></i> ប្រវត្តិតេស្ត</a>
+                            <a href="<?=$pageData->label->label->user_testresultlist->url?>" class="btn btn-primary btn-lg btn-block"><i class="fa fa-th-list"></i> ប្រវត្តិតេស្ត</a>
                             <a href="#" class="btn btn-primary btn-lg btn-block"><i class="fa fa-th-list"></i> វគ្គសិក្សាផ្សេងៗ</a>
                         </div>
                     
@@ -184,9 +184,6 @@ $main_test_url = $pageData->label->label->user_pretest->url.'/'.encodeString($su
     </div>
 </section>
 
-<style>
-	.quiz_item:hover{ background-color:#c7d0de;border-color:green;}
-</style>
 
 <?php
 $late_script = "pageSetUp();

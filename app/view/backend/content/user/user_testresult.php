@@ -55,7 +55,7 @@ $pdata = $pageData->data->content;
                         </ul>
                         <div>
                             <a href="<?=$pageData->label->label->user_pretest->url.'/'.encodeString($pdata->examdata->course_subject_id.'_'.$pdata->examdata->lesson_id,$encryptKey)?>" class="btn btn-info btn-lg btn-block"><i class="fa fa-refresh"></i> ធ្វើតេស្តម្តងទៀត</a>
-                            <a href="#" class="btn btn-primary btn-lg btn-block"><i class="fa fa-th-list"></i> ប្រវត្តិតេស្ត</a>
+                            <a href="<?=$pageData->label->label->user_testresultlist->url?>" class="btn btn-primary btn-lg btn-block"><i class="fa fa-th-list"></i> ប្រវត្តិតេស្ត</a>
                             <a href="<?=$pageData->label->label->user_lessoncontent->url.'/'.encodeString($pdata->subject_info->grade_id.'_'.$pdata->subject_info->grade_subject_id,$encryptKey)?>" class="btn btn-primary btn-lg btn-block"><i class="fa fa-book"></i> មើលមេរៀន</a>
                         </div>
                     </div>

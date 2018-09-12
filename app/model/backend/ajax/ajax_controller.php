@@ -30,7 +30,6 @@ class admin_ajax_request{
 class admin_ajax_realtimeupload {
 	public function data($input){
 		//global $encryptKey,$language,$usersession,$layout,$layout_label,$lang;
-
 		//$qry = new connectDb;
 		$uploadpath = web_config('post_doc_path');
 		$newfile= 'upload';$upload_data=array();

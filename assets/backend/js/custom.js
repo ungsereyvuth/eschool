@@ -370,7 +370,7 @@ ajaxRequest.realtime_upload = function (frm,e,frmData,file){
 			cache: false,             // To unable request pages to be cached
 			processData:false,        // To send DOMDocument or non processed data file it is set to false
 			success: function(data)   // A function to be called if request succeeds
-			{
+			{ 
 				//console.log(data);var data = JSON.parse(data);								
 				if(data.result==1){		
 					$("#allfiles_"+criteriaid).val($("#allfiles_"+criteriaid).val()+($("#allfiles_"+criteriaid).val()==''?'':'|')+data.newfilename);

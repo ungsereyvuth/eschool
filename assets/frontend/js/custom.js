@@ -424,7 +424,7 @@ ajaxRequest.saveData = function(frm){
 						var percentComplete = parseInt((evt.loaded / evt.total)*100);  
 						//Do something with upload progress here
 						if(!frm.attr("data-noprogressbar")){
-							$("#"+frm.attr('id')+" #"+formName+"_msg").html('<div class="progress progress-striped active"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: '+percentComplete+'%;">បញ្ជូនទិន្នន័យបាន '+percentComplete+'%។ សូមរងចាំ...</div></div>');		
+							$("#"+frm.attr('id')+" #"+formName+"_msg").html('<div class="progress progress-striped active" style="float: none;"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: '+percentComplete+'%;">បញ្ជូនទិន្នន័យបាន '+percentComplete+'%។ សូមរងចាំ...</div></div>');		
 						}
 						
 					}

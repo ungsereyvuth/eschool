@@ -14,10 +14,15 @@ if(@json_decode($pageData->label->system_title->sys->data)){
             <li class="topbar-devider"></li>
             <li><a href="javascript:void(0);"><i class="fa fa-envelope-o"></i> អ៊ីម៉ែល៖ info@eschool.com</a></li></li>
         </ul>
-        <ul class="loginbar pull-right center-xs h_pad0">
+        <ul class="loginbar pull-right center-xs h_pad0 <?=$usersession->isLogin()?'hidden':''?>">
             <li class="v_pad0"><a href="<?=$pageData->label->label->register->url?>"><?=$pageData->label->label->register->icon.' '.$pageData->label->label->register->title?></a></li>
             <li class="topbar-devider v_pad0"></li>
             <li class="v_pad0"><a href="<?=$pageData->label->label->login->url?>"><?=$pageData->label->label->login->icon.' '.$pageData->label->label->login->title?></a></li>
+        </ul>
+        <ul class="loginbar pull-right center-xs h_pad0 <?=$usersession->isLogin()?'':'hidden'?>">
+            <li class="v_pad0"><a href="<?=$usersession->info()->homepage?>"><?=$pageData->label->label->dashboard->icon.' '.$pageData->label->label->user_dashboard->title?></a></li>
+            <li class="topbar-devider v_pad0"></li>
+            <li class="v_pad0"><a href="<?=$pageData->label->label->logout->url?>"><?=$pageData->label->label->logout->icon.' '.$pageData->label->label->logout->title?></a></li>
         </ul>
     </div>
     <!-- End Topbar -->

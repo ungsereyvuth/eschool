@@ -547,6 +547,8 @@ h2 {
     text-overflow: ellipsis;
   }
 }
+
+.quiz_item:hover{ background-color:#c7d0de;border-color:green;}
 /*end text overflow dotted ========================================================*/
 /*.txt-overflow-main {
   display: table;

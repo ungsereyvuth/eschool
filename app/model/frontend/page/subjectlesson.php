@@ -46,7 +46,7 @@ class subjectlesson{
 		//show lesson content
 		$lessonid=(isset($_GET['lid']) and decode($_GET['lid']))?decode($_GET['lid']):$startup_lessonid;
 		if($lessonid){
-			$lessonData = $qry->qry_assoc("select l.*,p.title maintitle,s.title subjectname,gs.id grade_subject_id,c.title coursename,g.id grade_id,g.title gradename,g.grade_group_id,gg.title grade_group_name
+			$lessonData = $qry->qry_assoc("select l.*,p.title maintitle,s.title subjectname,s.id course_subject_id,gs.id grade_subject_id,c.title coursename,g.id grade_id,g.title gradename,g.grade_group_id,gg.title grade_group_name
 									from es_lesson l 
 									left join es_lesson p on p.id=l.parent_id
 									left join es_course_subject s on s.id=l.subject_id

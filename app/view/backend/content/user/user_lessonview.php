@@ -13,8 +13,11 @@ foreach ($filenames as $key => $value) {
     $itemname = explode('_',$value);
     unset($itemname[count($itemname)-1]); unset($itemname[count($itemname)-1]);
 
+    //active doc
+    if(isset($_GET['doc']) and $_GET['doc']<>'' and $value==$_GET['doc']){$activedoc=true;}else{$activedoc=false;}
+
     $doc_view_url = $pageData->label->label->user_lessonview->url.'/'.encodeString($pdata->lessonData->id.'_'.time(),$encryptKey).'&doc='.$value;
-    $file_item.='<li class="v_pad5 hv-bg-gradient-2">
+    $file_item.='<li class="v_pad5 hv-bg-gradient-2 '.($activedoc?'sub-info':'').'">
                     <a href="'.$doc_view_url.'">
                         <div class="flex-parent">
                           <div class="flex-child long-and-truncated tooltips" title="'.$file_detail['name_kh'].'">
@@ -93,10 +96,25 @@ foreach ($filenames as $key => $value) {
                     <div class="widget-body"> 
                         <?php
 
-                        if(isset($_GET['doc'])){
-                            echo '<iframe src="https://docs.google.com/viewer?url=http://www.khmerdocs.com/files/docs/docs561818030060.pdf&amp;embedded=true" width="100%" height="780" style="border: none;"></iframe>';
+                        if(isset($_GET['doc']) and trim($_GET['doc'])<>''){
+                            //check if file exist
+                            $docPath = web_config('post_doc_path');
+                            //profile photo
+                            $docfile=$docPath.$_GET['doc'];
+                            $docfile = !file_exists($_SERVER['DOCUMENT_ROOT'].$docfile)?'':$docfile;
+                            if($docfile<>''){
+                                $file_url = $pageData->label->system_title->sys->url.$docfile;
+                                if(@is_array(getimagesize($_SERVER['DOCUMENT_ROOT'].$docfile))){
+                                    echo '<img src="'.$file_url.'" class="fullwidth" />';
+                                }else{
+                                    echo '<iframe src="https://docs.google.com/viewer?url='.$file_url.'&embedded=true" width="100%" height="780" style="border: none;"></iframe>';
+                                }
+                                
+                            }else{
+                                echo '<div class="alert alert-warning txtCenter">គ្មានឯកសារ</div>';
+                            }
+                            
                         }else{
-
                             echo '<div class="mathFont">'.$pdata->lessonData->description.'</div>';
                         }
                         ?>

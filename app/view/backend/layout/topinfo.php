@@ -3,15 +3,15 @@
     <div id="logo-group">
 
         <!-- PLACE YOUR LOGO HERE -->
-        <span id="logo"> <img src="http://eschooldemo.ezonecloud.com/images/logo.png" alt="E-School"> </span>
+        <span id="logo"> <a href="/"><img src="http://eschooldemo.ezonecloud.com/images/logo.png" alt="E-School"></a> </span>
         <!-- END LOGO PLACEHOLDER -->
 
         <!-- Note: The activity badge color changes when clicked and resets the number to 0
         Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->
-        <span id="activity" class="activity-dropdown"> <i class="fa fa-user"></i> <b class="badge"> 21 </b> </span>
+        <span id="activity" class="activity-dropdown hidden"> <i class="fa fa-user"></i> <b class="badge"> 21 </b> </span>
 
         <!-- AJAX-DROPDOWN : control this dropdown height, look and feel from the LESS variable file -->
-        <div class="ajax-dropdown">
+        <div class="ajax-dropdown hidden">
 
             <!-- the ID links are fetched via AJAX to the ajax container "ajax-notifications" -->
             <div class="btn-group btn-group-justified" data-toggle="buttons">
@@ -50,8 +50,8 @@
         <!-- END AJAX-DROPDOWN -->
     </div>
 
-    <!-- projects dropdown -->
-    <div class="project-context hidden-xs">
+    <!-- projects dropdown hidden-xs-->
+    <div class="project-context hidden">
 
         <span class="label">Projects:</span>
         <span class="project-selector dropdown-toggle" data-toggle="dropdown">Recent projects <i class="fa fa-angle-down"></i></span>
@@ -119,7 +119,7 @@
 
         <!-- logout button -->
         <div id="logout" class="btn-header transparent pull-right">
-            <span> <a href="login.html" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span>
+            <span> <a href="<?=$pageData->label->label->logout->url?>" title="<?=$pageData->label->label->logout->title?>" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span>
         </div>
         <!-- end logout button -->
 

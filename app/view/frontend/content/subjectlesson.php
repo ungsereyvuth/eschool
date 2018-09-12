@@ -89,41 +89,15 @@ $file_item=$file_item==''?'<div class="alert alert-warning v_pad3 fs12">គ្�
 						<!-- News v3 -->
 						<div class="news-v3 bg-color-white margin-bottom-30">
 							<div class="pad15">
-								<ul class="list-inline posted-info p_title fs12">
-									<li><?=$pdata->lessonData->subjectname?></li>
-									<li><?=khmerDate($pdata->lessonData->created_date)?></li>
-									<li>សាស្ត្រាចារ្យ៖ <?=$pdata->teacher->teachername?></li>
-									<?=(isset($_GET['doc']) and $_GET['doc']<>'')?('<li><a class="btn btn-xs btn-primary whitecolor rounded" href="'.$mainurl.'"><i class="fa fa-reply"></i> ត្រឡប់ទៅខ្លឹមសារមេរៀន</a></li>'):''?>
-									
-								</ul>
-								
-								<?php
-
-		                        if(isset($_GET['doc'])){
-		                            echo '<iframe src="https://docs.google.com/viewer?url=http://www.khmerdocs.com/files/docs/docs561818030060.pdf&amp;embedded=true" width="100%" height="780" style="border: none;"></iframe>';
-		                        }else{
-
-		                            echo '<div class="mathFont">'.$pdata->lessonData->description.'</div>';
-		                        }
-		                        ?>
-		                        <hr class="v_mgn10" />
-		                        <div class="row">
-		                        	<div class="col-md-8 bg-gradient-3">
-		                        		<div class="v_pad10">ឯកសារមេរៀន</div>
-				                        <div>
-				                            <?=$file_item?>
-				                        </div>
-		                        	</div>
-		                        	<div class="col-md-4">
-		                        		<a href="<?=$pageData->label->label->user_pretest->url.'/'.$pdata->teacher->grade_subject_id?>" class="btn-u btn-brd btn-brd-hover rounded btn-u-sea btn-u-lg btn-block"><i class="fa fa-hand-o-right"></i> ធ្វើតេស្ត</a>
-		                        		<a href="#" class="btn-u btn-brd btn-brd-hover rounded btn-u-sea btn-u-lg btn-block"><i class="fa fa-hand-o-right"></i> Flip Card</a>
-		                        	</div>
-		                        </div>
-		                        
-
-								
-							</div>
-						</div>
+								<div class="p_title">
+									<ul class="list-inline posted-info fs12 inline-block v_mgn0">
+										<li><?=$pdata->lessonData->subjectname?></li>
+										<li><?=khmerDate($pdata->lessonData->created_date)?></li>
+										<li>សាស្ត្រាចារ្យ៖ <?=$pdata->teacher->teachername?></li>
+										<?=(isset($_GET['doc']) and $_GET['doc']<>'')?('<li><a class="btn btn-xs btn-primary whitecolor rounded" href="'.$mainurl.'"><i class="fa fa-reply"></i> ត្រឡប់ទៅខ្លឹមសារមេរៀន</a></li>'):''?>
+										
+									</ul>
+									<div class="pull-right">
 							<?php
 							//get prev & next lesson
                         	if($pdata->lessonid){
@@ -137,6 +111,54 @@ $file_item=$file_item==''?'<div class="alert alert-warning v_pad3 fs12">គ្�
                         	if($nextid){$next_url=$pageData->label->label->subjectlesson->url.'/'.$pdata->code.'&lid='.encode($nextid);}
 
 							?>
+
+										<a href="<?=$previd?$prev_url:'javascript: void(0)'?>" class="btn btn-xs btn-info <?=$previd?'':'disabled'?>"><i class="fa fa-chevron-left"></i></a>
+										<a href="<?=$nextid?$next_url:'javascript: void(0)'?>" class="btn btn-xs btn-info <?=$nextid?'':'disabled'?>"><i class="fa fa-chevron-right"></i></a>
+									</div>
+								</div>
+								<?php
+
+		                        if(isset($_GET['doc']) and trim($_GET['doc'])<>''){
+		                        	//check if file exist
+		                        	$docPath = web_config('post_doc_path');
+									//profile photo
+									$docfile=$docPath.$_GET['doc'];
+									$docfile = !file_exists($_SERVER['DOCUMENT_ROOT'].$docfile)?'':$docfile;
+									if($docfile<>''){
+										$file_url = $pageData->label->system_title->sys->url.$docfile;
+										if(@is_array(getimagesize($_SERVER['DOCUMENT_ROOT'].$docfile))){
+											echo '<img src="'.$file_url.'" class="fullwidth" />';
+										}else{
+											echo '<iframe src="https://docs.google.com/viewer?url='.$file_url.'&embedded=true" width="100%" height="780" style="border: none;"></iframe>';
+										}
+										
+									}else{
+										echo '<div class="alert alert-warning txtCenter">គ្មានឯកសារ</div>';
+									}
+		                            
+		                        }else{
+		                            echo '<div class="mathFont">'.$pdata->lessonData->description.'</div>';
+		                        }
+		                        ?>
+		                        <hr class="v_mgn10" />
+		                        <div class="row">
+		                        	<div class="col-md-8 bg-gradient-3">
+		                        		<div class="v_pad10">ឯកសារមេរៀន</div>
+				                        <div>
+				                            <?=$file_item?>
+				                        </div>
+		                        	</div>
+		                        	<div class="col-md-4">
+		                        		<a href="<?=$pageData->label->label->user_pretest->url.'/'.encode($pdata->lessonData->course_subject_id)?>" class="btn-u btn-brd btn-brd-hover rounded btn-u-sea btn-u-lg btn-block"><i class="fa fa-hand-o-right"></i> ធ្វើតេស្ត</a>
+		                        		<a href="#" class="btn-u btn-brd btn-brd-hover rounded btn-u-sea btn-u-lg btn-block"><i class="fa fa-hand-o-right"></i> Flip Card</a>
+		                        	</div>
+		                        </div>
+		                        
+
+								
+							</div>
+						</div>
+							
 							<a class="btn btn-info <?=$previd?'':'hidden'?>" href="<?=$prev_url?>"><i class="fa fa-chevron-left"></i> មេរៀនមុន</a>	
 							<a class="btn btn-info pull-right <?=$nextid?'':'hidden'?>" href="<?=$next_url?>">មេរៀនបន្ទាប់ <i class="fa fa-chevron-right"></i></a>	
 						<div>

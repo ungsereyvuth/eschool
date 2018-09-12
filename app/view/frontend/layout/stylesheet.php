@@ -32,6 +32,7 @@
 
 	<!-- CSS Theme -->
 	<link rel="stylesheet" href="/assets/frontend/css/theme-colors/default.css" id="style_color">
+	<link rel="stylesheet" href="/assets/frontend/plugins/datepicker/bootstrap-datetimepicker.min.css"> 
 	<link rel="stylesheet" href="/assets/frontend/css/theme-skins/dark.css">
 	<link rel="stylesheet" href="/assets/frontend/plugins/tipsy-master/tipsy.css">
 
