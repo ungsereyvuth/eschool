@@ -19,21 +19,21 @@ $nextcard_url = $card->next_cardid?($pageData->label->label->user_flipcard->url.
                     <div class="widget-body"> 
                         <div class="row">
                             <div class="col-sm-1">
-                                <a href="<?=$prevcard_url?>" class="btn btn-info rounded margin-bottom-10 <?=$card->prev_cardid?'':'disabled'?>">Prev</a>
-                                <a href="<?=$nextcard_url?>" class="pull-right btn btn-info rounded visible-xs <?=$card->next_cardid?'':'disabled'?>">Next</a>
+                                <a href="<?=$prevcard_url?>" class="btn btn-info rounded margin-bottom-10 <?=$card->prev_cardid?'':'disabled'?>"><i class="fa fa-chevron-left"></i> ថយ</a>
+                                <a href="<?=$nextcard_url?>" class="pull-right btn btn-info rounded visible-xs <?=$card->next_cardid?'':'disabled'?>">បន្ទាប់ <i class="fa fa-chevron-right"></i></a>
                             </div>
                             <div class="col-sm-10">
                                 <div class="card"> 
-                                  <div class="front fs20 rounded20 shadow v_pad20 fullwidth bg-red txtCenter whitecolor" style="min-height: 300px;"> 
-                                    <?=$card->front?>
+                                  <div class="front fs20 rounded20 shadow v_pad20 fullwidth txtCenter whitecolor" style="min-height: 300px; border: 3px solid white;background-color: <?=$card->fcolor?>;"> 
+                                    <div class="<?=(strpos($card->front, '<img') !== false)?'':'centerDiv'?>"><?=$card->front?></div>
                                   </div> 
-                                  <div class="back fs15 rounded20 shadow v_pad20 fullwidth bg-blue txtCenter whitecolor" style="min-height: 300px;">
-                                    <?=$card->back?>
+                                  <div class="back fs15 rounded20 shadow v_pad20 fullwidth txtCenter whitecolor" style="min-height: 300px;border: 3px solid white;background-color: <?=$card->bcolor?>;">
+                                    <div class="<?=(strpos($card->back, '<img') !== false)?'':'centerDiv'?>"><?=$card->back?></div>
                                   </div> 
                                 </div>
                             </div>
                             <div class="col-sm-1 hidden-xs">
-                                <a href="<?=$nextcard_url?>" class="btn btn-info rounded <?=$card->next_cardid?'':'disabled'?>">Next</a>
+                                <a href="<?=$nextcard_url?>" class="btn btn-info rounded <?=$card->next_cardid?'':'disabled'?>">បន្ទាប់ <i class="fa fa-chevron-right"></i></a>
                             </div>
                         </div>
                     	

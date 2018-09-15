@@ -10,7 +10,7 @@ $formCmd='user_addflipcard';
         <article class="col-md-8">
         	<div class="jarviswidget" id="id_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false">
                 <header>
-                    <h2><strong><?=$pageData->label->label->user_addflipcard->title?> សម្រាប់ "<?=$pageData->data->content->lesson_info->lesson_title?>"</strong></h2>    
+                    <h2><strong><?=$pageData->data->content->editmode?'កែប្រែ':'បញ្ចូល'?> Flip Card សម្រាប់ "<?=$pageData->data->content->lesson_info->lesson_title?>"</strong></h2>    
                 </header>
                 <div>
                     <div class="jarviswidget-editbox">
@@ -22,37 +22,37 @@ $formCmd='user_addflipcard';
                                 <div class="row">
                                     <section class="col col-md-12">
                                         <label class="label">Front Card</label>
-                                        <textarea class="minRichText" name="front_card"></textarea>
+                                        <textarea class="minRichText" name="front_card"><?=$pageData->data->content->editmode?$pageData->data->content->card_data->front:''?></textarea>
                                     </section>                         
                                 </div>
                                 <div class="row">
                                     <section class="col col-md-12">
                                         <label class="label">Back Card</label>
-                                        <textarea class="minRichText" name="back_card"></textarea>
+                                        <textarea class="minRichText" name="back_card"><?=$pageData->data->content->editmode?$pageData->data->content->card_data->back:''?></textarea>
                                     </section>                         
                                 </div>
                                 <div class="row">
                                     <section class="col col-md-4">
                                         <label class="label">Front Card Color</label>
                                         <label class="input">
-                                            <input type="text" name="front_card_color" class="colorpicker input-sm" placeholder="" value="rgba(0,194,255,0.78)" data-color-format="rgba" style="background-color: rgba(0,194,255,0.78);">
+                                            <input type="text" name="front_card_color" class="colorpicker input-sm" placeholder="" value="<?=$pageData->data->content->editmode?$pageData->data->content->card_data->fcolor:''?>" data-color-format="rgba" style="background-color: <?=$pageData->data->content->editmode?$pageData->data->content->card_data->fcolor:''?>;">
                                         </label>
                                     </section>
                                     <section class="col col-md-4">
                                         <label class="label">Back Card Color</label>
                                         <label class="input">
-                                            <input type="text" name="back_card_color" class="colorpicker input-sm" placeholder="" value="rgba(247,148,172,0.78)" data-color-format="rgba" style="background-color: rgba(247,148,172,0.78);">
+                                            <input type="text" name="back_card_color" class="colorpicker input-sm" placeholder="" value="<?=$pageData->data->content->editmode?$pageData->data->content->card_data->bcolor:''?>" data-color-format="rgba" style="background-color: <?=$pageData->data->content->editmode?$pageData->data->content->card_data->bcolor:''?>;">
                                         </label>
                                     </section>
                                     <section class="col col-md-4">
                                         <label class="label">Ordering</label>
                                         <label class="input">
-                                            <input type="Number" name="ordering" class="input-sm" placeholder="Number" value="<?=$pageData->data->content->ordering?>">
+                                            <input type="Number" name="ordering" class="input-sm" placeholder="Number" value="<?=$pageData->data->content->editmode?$pageData->data->content->card_data->ordering:$pageData->data->content->ordering?>">
                                         </label>
                                     </section>
                                     <section class="col col-md-4">
                                         <label class="toggle inline-block">
-                                            <input type="checkbox" name="active" checked="checked">
+                                            <input type="checkbox" name="active" <?=$pageData->data->content->editmode?($pageData->data->content->card_data->active?'checked':''):'checked'?>>
                                             <i data-swchon-text="ON" data-swchoff-text="OFF"></i>Active
                                         </label>
                                         <div id="active_msg"></div>
@@ -61,7 +61,7 @@ $formCmd='user_addflipcard';
                             </fieldset>
                             
                             <footer>
-                                <input class="removable" type="hidden" name="recordid" value="<?=encodeString($pageData->data->content->lesson_info->lesson_id.'_'.time(),$encryptKey)?>" />
+                                <input class="removable" type="hidden" name="recordid" value="<?=encodeString($pageData->data->content->code.'_'.time(),$encryptKey)?>" />
                                 <input type="hidden" name="cmd" value="<?=$formCmd?>" />                                
                                 <button type="submit" class="btn btn-primary btn-sm">Save</button>
                                 <button type="reset" class="btn btn-default btn-sm reset_btn">Cancel</button>

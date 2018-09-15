@@ -20,9 +20,18 @@ class user_addflipcard{
 		$opt_fields = array('active');
 		$err_fields=validateForm($reg_fields,$opt_fields);		
 		if(!count($err_fields)){
-			//check code (lesson_id)
-			$codes = explode('_',decodeString($reg_fields['text']['recordid'],$encryptKey)); //lesson_id,time
-			if(count($codes)==2 and $codes[0] and $codes[1]){
+			//check code
+			$editmode=false;
+			$codes = explode('_',decodeString($reg_fields['text']['recordid'],$encryptKey)); //lesson_id,cardid,time
+			if(count($codes)==3 and $codes[0] and $codes[1] and $codes[2]){
+				$lesson_id = $codes[0];$cardid = $codes[1];$editmode=true;
+				//check if lesson exist
+				$lessonexist = $qry->exist("select id from es_lesson where id=$lesson_id limit 1");
+				if(!$lessonexist){$msg='Invalid lesson data request';$err_fields[]= array('name'=>'error','msg'=>$msg);}
+				//check if card exist
+				$cardexist = $qry->exist("select id from es_flipcard where id=$cardid limit 1");
+				if(!$cardexist){$msg='Invalid card data request';$err_fields[]= array('name'=>'error','msg'=>$msg);}
+			}elseif(count($codes)==2 and $codes[0] and $codes[1]){
 				$lesson_id = $codes[0];
 				//check if lesson exist
 				$lessonexist = $qry->exist("select id from es_lesson where id=$lesson_id limit 1");
@@ -40,8 +49,14 @@ class user_addflipcard{
 					bcolor='".$reg_fields['text']['back_card_color']."',
 					ordering=".$reg_fields['text']['ordering'].",
 					active=".$reg_fields['text']['active'].",";
-			$recordid=$qry->insert("insert into es_flipcard set $sql created_by=".$usersession->info()->id.",created_date='$datetime'");	
-			adduserlog($_POST['cmd'],$recordid);
+			if($editmode){
+				$recordid=$cardid;
+				$qry->update("update es_flipcard set $sql last_updated_by=".$usersession->info()->id.",last_updated_date='$datetime' where id=$cardid limit 1");
+			}else{
+				$recordid=$qry->insert("insert into es_flipcard set $sql created_by=".$usersession->info()->id.",created_date='$datetime'");
+			}
+				
+			adduserlog($_POST['cmd'],json_encode(array('id'=>$recordid,'action'=>$editmode?'update':'insert')));
 			$result = true;$msg=$layout_label->message->insert_success->icon.' '.$layout_label->message->insert_success->title;			
 		}	
 		return json_encode(array('result'=>$result,'msg'=>$msg,'err_fields'=>$err_fields,'url'=>''));	

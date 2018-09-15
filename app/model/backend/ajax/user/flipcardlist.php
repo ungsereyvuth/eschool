@@ -10,20 +10,21 @@ class flipcardlist{
 		//if(is_numeric($qryData->status)){$sql_condition.=" and c.active=$qryData->status";}
 		if($qryData->txt_search<>''){$sql_condition.=" and (f.front like '%$qryData->txt_search%' or f.back like '%$qryData->txt_search%')";}
 			
-		$sql_statement = "SELECT f.*,l.title lessontitle from es_flipcard f 
+		$sql_statement = "SELECT f.*,l.title lessontitle,l.id lesson_id from es_flipcard f 
 							left join es_lesson l on l.id=f.lesson_id
 							where f.active=1 and l.active=1 $sql_condition 
 							order by f.ordering";						
 		extract(generateList($language,intval(post("currentPage")),post("rowsPerPage"),post("navAction"),$sql_statement));
 		$dataListString = '';$i=$startIndex+1;
 		foreach($rowData as $key=>$value){	
-			//$url = $layout_label->label->user_course->url.'/'.encodeString($value['id'],$encryptKey);
+			$edit_url = $layout_label->label->user_addflipcard->url.'/'.encodeString($value['lesson_id'].'_'.$value['id'],$encryptKey);
 			$dataListString .= '<tr>
 									<td class="txtCenter" style="width:30px;">'.enNum_khNum($i).'</td>
 									<td>
 										<a href="#"><span class=" mgn0 fs14">'.$value['front'].'</span></a>
 										<div class="sub-info v_pad0">
-											<span class="tooltips fs11" title="មេរៀន"><i class="fa fa-tag"></i> '.$value['lessontitle'].'</span>
+											<span class="tooltips fs11" title="មេរៀន"><i class="fa fa-tag"></i> '.$value['lessontitle'].'</span> | 
+											<span class="tooltips fs11" title="កែប្រែ"><a href="'.$edit_url.'"><i class="fa fa-pencil"></i> កែប្រែ</a></span> 
 										</div>
 									</td></tr>';
 			
