@@ -150,7 +150,7 @@ $file_item=$file_item==''?'<div class="alert alert-warning v_pad3 fs12">គ្�
 		                        	</div>
 		                        	<div class="col-md-4">
 		                        		<a href="<?=$pageData->label->label->user_pretest->url.'/'.encode($pdata->lessonData->course_subject_id)?>" class="btn-u btn-brd btn-brd-hover rounded btn-u-sea btn-u-lg btn-block"><i class="fa fa-hand-o-right"></i> ធ្វើតេស្ត</a>
-		                        		<a href="#" class="btn-u btn-brd btn-brd-hover rounded btn-u-sea btn-u-lg btn-block"><i class="fa fa-hand-o-right"></i> Flip Card</a>
+		                        		<a href="<?=$pageData->label->label->user_flipcard->url.'/'.encode($pdata->lessonData->course_subject_id)?>" class="btn-u btn-brd btn-brd-hover rounded btn-u-sea btn-u-lg btn-block"><i class="fa fa-hand-o-right"></i> Flip Card</a>
 		                        	</div>
 		                        </div>
 		                        

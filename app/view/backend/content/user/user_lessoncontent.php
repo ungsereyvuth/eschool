@@ -2,6 +2,7 @@
 $pdata=$pageData->data->content;
 $subject_id= $pdata->course_info->subject_id;
 $main_test_url = $pageData->label->label->user_pretest->url.'/'.encodeString($subject_id,$encryptKey);
+$flipcard_url = $pageData->label->label->user_flipcard->url.'/'.encodeString($subject_id,$encryptKey);
 ?>
 <section id="widget-grid" class="">
     <!-- row -->
@@ -12,7 +13,7 @@ $main_test_url = $pageData->label->label->user_pretest->url.'/'.encodeString($su
             	<div class="jarviswidget" id="lessonaction_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false">
                 
                         <div class="widget-body"> 
-                            <a href="#" class="btn btn-info btn-lg btn-block"><i class="fa fa-newspaper-o"></i> Flip Card</a>
+                            <a href="<?=$flipcard_url?>" class="btn btn-info btn-lg btn-block"><i class="fa fa-newspaper-o"></i> Flip Card</a>
                             <a href="<?=$main_test_url?>" class="btn btn-success btn-lg btn-block"><i class="fa fa-server"></i> ធ្វើតេស្ត</a>
                             <a href="<?=$pageData->label->label->user_testresultlist->url?>" class="btn btn-primary btn-lg btn-block"><i class="fa fa-th-list"></i> ប្រវត្តិតេស្ត</a>
                             <a href="#" class="btn btn-primary btn-lg btn-block"><i class="fa fa-th-list"></i> វគ្គសិក្សាផ្សេងៗ</a>

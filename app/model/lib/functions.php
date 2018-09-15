@@ -723,7 +723,7 @@ function rndStr($length) {
     return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
 }
 
-function dateTimeAgo($datetimeString){
+function dateTimeAgo($datetimeString,$lang='kh'){
 	$start_date = new DateTime($datetimeString);
 	$now_datetime = new DateTime(date("Y-m-d H:i:s"));
 											
@@ -734,19 +734,19 @@ function dateTimeAgo($datetimeString){
 	$datetime_ago = '';
 											
 	if($year_ago==0 and $month_ago==0 and $day_ago==0 and $hour_ago==0 and $minute_ago==0){
-	$datetime_ago = ($second_ago<=1?"":(($second_ago>1 and $second_ago<4)?" few":$second_ago)).($second_ago<=1?" just now":" seconds ago");
+	$datetime_ago = ($second_ago<=1?"":(($second_ago>1 and $second_ago<4)?" few":$second_ago)).($lang=='kh'?' វិនាទីមុន':($second_ago<=1?" just now":" seconds ago"));
 	}elseif($year_ago==0 and $month_ago==0 and $day_ago==0 and $hour_ago==0){
-	$datetime_ago = $minute_ago.($minute_ago>1?" minutes ago":" minute ago");
+	$datetime_ago = $minute_ago.($lang=='kh'?' នាទីមុន':($minute_ago>1?" minutes ago":" minute ago"));
 	}elseif($year_ago==0 and $month_ago==0 and $day_ago==0){
-	$datetime_ago = $hour_ago.($hour_ago>1?" hours ago":" hour ago");
+	$datetime_ago = $hour_ago.($lang=='kh'?' ម៉ោងមុន':($hour_ago>1?" hours ago":" hour ago"));
 	}elseif($year_ago==0 and $month_ago==0){
-	$datetime_ago = $day_ago.($day_ago>1?" days ago":" day ago");
+	$datetime_ago = $day_ago.($lang=='kh'?' ថ្ងៃមុន':($day_ago>1?" days ago":" day ago"));
 	}elseif($year_ago==0){
-	$datetime_ago = $month_ago.($month_ago>1?" months ago":" month ago");
+	$datetime_ago = $month_ago.($lang=='kh'?' ខែមុន':($month_ago>1?" months ago":" month ago"));
 	}else{
 	$datetime_ago = $recieved_date;
 	}
-	return $datetime_ago;		
+	return $lang=='kh'?enNum_khNum($datetime_ago):$datetime_ago;		
 }
 
 function timePeriod($startDate,$endDate,$format=true){
@@ -1461,12 +1461,12 @@ function renderq($ids,$output_type='input',$answer=array()){//$output_type = arr
 					$opt.='<div class="v_pad5 bold greencolor"><i class="fa fa-hand-o-right"></i> ចម្លើយ៖ '.implode(',',$is_answer).'</div>';
 				}
 			}
-			$answerSign = (in_array(false, $correct)?'<i class="fa fa-times-circle redcolor"></i>':'<i class="fa fa-check-circle greencolor"></i>');
+			$answerSign = (in_array(false, $correct)?' <i class="fa fa-times-circle redcolor"></i>':' <i class="fa fa-check-circle greencolor"></i>');
 		}
 		
 
 		if($type=='sq'){
-			$output.='<section><label class="label">'.enNum_khNum($qno).'. '.$qinfo['title'].$answerSign.'</label>
+			$output.='<section><label class="label sub-info">'.enNum_khNum($qno).'. '.$qinfo['title'].$answerSign.'</label>
 								<div class="clearfix">
                                     <section class="col-xs-1">
                                         <div class="dd">
@@ -1483,7 +1483,7 @@ function renderq($ids,$output_type='input',$answer=array()){//$output_type = arr
                                 '.$opt_answer.'
 			</section>';
 		}else{
-			$output.='<section><label class="label">'.enNum_khNum($qno).'. '.$qinfo['title'].$answerSign.'</label><div>'.$qinfo['description'].'</div>'.$opt.'<div id="q_'.$qinfo['id'].'_msg"></div></section>';
+			$output.='<section><label class="label sub-info">'.enNum_khNum($qno).'. '.$qinfo['title'].$answerSign.'</label><div>'.$qinfo['description'].'</div>'.$opt.'<div id="q_'.$qinfo['id'].'_msg"></div></section>';
 		}
 		
 		$qno++;

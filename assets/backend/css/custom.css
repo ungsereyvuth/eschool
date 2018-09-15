@@ -87,7 +87,7 @@ box-shadow: 0px 0px 21px -2px rgba(0,0,0,0.75);
 
 .sub-info{ padding:5px; background:#f4f4f4; color:rgba(20,138,148,1.00);}
 /*.sub-info span{margin-left:5px; margin-right:5px;}*/
-.sub-info:hover{ background:#fff;}
+.sub-info:hover{ background:orange;}
 .sub-info .sub-item{ padding:0 5px; border-radius:5px; background:#e7e4e4; font-size:12px;}
 
 .font-shadow{ color:#569603;text-shadow: 1px 1px 0 #FFF, -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF, 3px 3px 5px #333;}
@@ -547,6 +547,16 @@ h2 {
     text-overflow: ellipsis;
   }
 }
+.rounded { border-radius: 5px; }
+.rounded10 { border-radius: 10px; }
+.rounded15 { border-radius: 15px; }
+.rounded20 { border-radius: 20px; }
+.rounded25 { border-radius: 25px; }
+.rounded30 { border-radius: 30px; }
+
+.shadow{-webkit-box-shadow: 6px 6px 16px -5px rgba(0,0,0,0.75);
+-moz-box-shadow: 6px 6px 16px -5px rgba(0,0,0,0.75);
+box-shadow: 6px 6px 16px -5px rgba(0,0,0,0.75);}
 
 .quiz_item:hover{ background-color:#c7d0de;border-color:green;}
 /*end text overflow dotted ========================================================*/

@@ -7,19 +7,6 @@ $listname='user_testresultlist';
         <!-- NEW WIDGET START -->
         <article class="col-md-8">
         	<div class="jarviswidget" id="user_testresultlist_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false">
-                <!-- widget options:
-                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                data-widget-colorbutton="false"
-                data-widget-editbutton="false"
-                data-widget-togglebutton="false"
-                data-widget-deletebutton="false"
-                data-widget-fullscreenbutton="false"
-                data-widget-custombutton="false"
-                data-widget-collapsed="true"
-                data-widget-sortable="false"
-
-                -->
                 <header>
                     <h2><strong><?=$pageData->label->label->user_testresultlist->icon.' '.$pageData->label->label->user_testresultlist->title?></strong></h2>    
                     <div class="widget-toolbar" role="menu">
@@ -51,7 +38,34 @@ $listname='user_testresultlist';
 
        	</article>
        	<article class="col-md-4">
-        	
+       		<?php if(count((array) $pageData->data->content->statistic)){ ?>
+        	<div class="jarviswidget" id="basic_statistic_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false">
+                <header>
+                    <h2><strong>ស្ថិតិ</strong></h2>    
+                </header>
+                <div>
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <div class="widget-body status vote"> 
+                    	<ul class="comments fs12">
+                            <li class="v_pad5">
+                                មធ្យមភាគ៖ <code><?=number_format($pageData->data->content->statistic->avg,2)?>%</code>
+                            </li>
+                            <li class="v_pad5">
+                                ខ្ពស់បំផុត៖ <code><?=number_format($pageData->data->content->statistic->max,2)?>%</code>
+                            </li>
+                            <li class="v_pad5">
+                                ទាបបំផុត៖ <code><?=number_format($pageData->data->content->statistic->min,2)?>%</code>
+                            </li>
+                            <li class="v_pad5">
+                                តេស្តចុងក្រោយ៖ <code><?=khmerDate($pageData->data->content->statistic->max_date,'full_dt')?></code>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        	<?php }?>
        	</article>
     </div>
 </section>

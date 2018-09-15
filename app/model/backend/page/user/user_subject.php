@@ -35,6 +35,9 @@ class user_subject{
 
 			
 		}
+
+		$txt_search = '<div class="col-sm-6"><div class="input-group input-group-sm"><input type="text" class="form-control searchinputs" id="txt_search" placeholder="Search keyword"><span class="input-group-btn btn_search"><button class="btn btn-info" type="submit"><i class="fa fa-search"></i></button></span></div></div>';
+		$search_inputs = '<div class="row v_pad5">'.$txt_search.'</div>';
 		
 		$breadcrumb = array('user_coursemgmt',
 							array('title'=>$subject_info->course_title,'url'=>$layout_label->label->user_course->url.'/'.encodeString($subject_info->course_id,$encryptKey)),
@@ -42,7 +45,7 @@ class user_subject{
 
 		$pageExist=true;
 		returnStatus:
-		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'lessons'=>$lessons,'subject_info'=>$subject_info);
+		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'lessons'=>$lessons,'subject_info'=>$subject_info,'search_inputs'=>$search_inputs);
 	}	
 }
 ?>

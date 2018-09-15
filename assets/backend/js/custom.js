@@ -103,6 +103,24 @@ $(function() {
 							
 					]
 	 });
+	 function trigger_minRichText(){
+	 	tinymce.init({
+			selector: ".minRichText",
+			relative_urls : false,
+			remove_script_host : false,
+			menubar:false,
+			statusbar: false,
+			valid_elements : '*[*]',
+			plugins: [
+				"advlist autolink lists link image charmap print preview anchor",
+				"searchreplace visualblocks fullscreen",
+				"insertdatetime media table contextmenu paste textcolor imagetools colorpicker emoticons"
+			],
+			toolbar: "undo redo | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | link image | emoticons",
+			
+		 });
+	 }
+	 trigger_minRichText();
 	 function trigger_mathinput(){
 	 	tinymce.init({
 			selector: ".mathinput",

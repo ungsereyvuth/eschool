@@ -1,3 +1,6 @@
+<?php
+$listname='flipcardlist';
+?>
 <section id="widget-grid" class="">
     <!-- row -->
     <div class="row">
@@ -40,6 +43,7 @@
                                         //url new question
                                         $totalq+=$svalue['totalq'];
                                         $add_q_url = $pageData->label->label->user_addquestion->url.'/'.encodeString($svalue['id'],$encryptKey);
+                                        $add_flipcard_url = $pageData->label->label->user_addflipcard->url.'/'.encodeString($svalue['id'],$encryptKey);
 	                            		$sub.='<li style="display:none">
 		                                            <a href="'.$lesson_view_url.'"><span><i class="fa fa-file-text-o"></i> មេរៀនទី'.enNum_khNum($sub_no).'៖ <u>'.$svalue['title'].'</u></span></a>
 		                                            <i class="fa fa-files-o"></i> '.enNum_khNum($svalue['totalq']).' សំណួរ 
@@ -54,7 +58,7 @@
                                                             </div>
                                                             <hr class="v_mgn3" />
                                                             <div class="v_pad3 h_pad10">
-                                                                <a href="#"><i class="fa fa-list-alt"></i> បញ្ចូល Flip Card</a>
+                                                                <a href="'.$add_flipcard_url.'"><i class="fa fa-list-alt"></i> បញ្ចូល Flip Card</a>
                                                             </div>
                                                             <hr class="v_mgn3" />
                                                             <div class="v_pad3 h_pad10">
@@ -96,8 +100,41 @@
             </div>
 
        	</article>
-       	<article class="col-md-4">
-        	
+       	<article class="col-md-5">
+        	<div class="jarviswidget" id="flipcardlist_wid" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false">
+                <header>
+                    <h2>Flip Card</h2> 
+                    <div class="widget-toolbar" role="menu">
+                        <div class="btn-group">
+                            <button class="btn btn-xs btn-default switch_list_filters" data-list="<?=$listname?>">
+                               <i class="fa fa-search"></i> Filter
+                            </button>                            
+                        </div>
+                    </div>
+                </header>
+                <div>
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <div class="widget-body">
+                        <div class="datalist txtLeft" id="<?=$listname?>">
+                            <div class="list_filters hidden">
+                            <?=$pageData->data->content->search_inputs?>
+                            </div>
+                            <?php //include("app/view/frontend/layout/pagination_info.php"); ?>
+                            <table width="100%" class="mytable" >
+                                <thead>
+                                    <tr class="hidden"><th style="width:30px;" class="txtCenter">No.</th><th>Course</th><th style="width:70px;" class="txtCenter">Tools</th></tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table> 
+                            <?php include("app/view/backend/layout/listPagination.php");?>  
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
        	</article>
     </div>
 </section>
