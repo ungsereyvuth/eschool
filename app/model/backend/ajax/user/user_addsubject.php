@@ -11,11 +11,13 @@ class user_addsubject{
 											'title'=>addslashes($_POST['title']),	
 											'grade_subject_id'=>addslashes($_POST['grade_subject_id']),	
 											'description'=>addslashes($_POST['description']),	
+											'private'=>isset($_POST['private'])?1:0,
+											'require_membership'=>isset($_POST['require_membership'])?1:0,
 											'active'=>isset($_POST['active'])?1:0),
 							'email'=>array(),
 							'file'=>array());
 
-		$opt_fields = array('active','description');
+		$opt_fields = array('private','require_membership','active','description');
 		$err_fields=validateForm($reg_fields,$opt_fields);		
 		if(!count($err_fields)){
 			$course_id = decodeString($reg_fields['text']['recordid'],$encryptKey);
@@ -31,6 +33,8 @@ class user_addsubject{
 					course_id=$course_id,
 					grade_subject_id=".$reg_fields['text']['grade_subject_id'].",
 					description='".$reg_fields['text']['description']."',
+					private=".$reg_fields['text']['private'].",
+					require_membership=".$reg_fields['text']['require_membership'].",
 					active=".$reg_fields['text']['active'].",";
 			$recordid=$qry->insert("insert into es_course_subject set $sql created_by=".$usersession->info()->id.",created_date='$datetime'");		
 			//add to user log			

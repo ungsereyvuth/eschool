@@ -23,7 +23,7 @@ $nextcard_url = $card->next_cardid?($pageData->label->label->user_flipcard->url.
                                 <a href="<?=$nextcard_url?>" class="pull-right btn btn-info rounded visible-xs <?=$card->next_cardid?'':'disabled'?>">បន្ទាប់ <i class="fa fa-chevron-right"></i></a>
                             </div>
                             <div class="col-sm-10">
-                                <div class="card"> 
+                                <div class="card hidden"> 
                                   <div class="front fs20 rounded20 shadow v_pad20 fullwidth txtCenter whitecolor" style="min-height: 300px; border: 3px solid white;background-color: <?=$card->fcolor?>;"> 
                                     <div class="<?=(strpos($card->front, '<img') !== false)?'':'centerDiv'?>"><?=$card->front?></div>
                                   </div> 
@@ -49,7 +49,7 @@ $nextcard_url = $card->next_cardid?($pageData->label->label->user_flipcard->url.
 
 $late_script_file='<script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>';
 $late_script = '
-                    $(".card").flip();
+                    $(".card").flip().removeClass("hidden");
 ';
 
 ?>

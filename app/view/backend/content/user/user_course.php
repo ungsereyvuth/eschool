@@ -28,8 +28,9 @@
                                                     <div class="alert alert-info price_box box_shadow_in margin-bottom-10">
                                                         <div class="fs16"><i class="fa fa-book"></i> '.$value['title'].'</div><hr class="v_mgn5" />
                                                         <div class="fs12">
+                                                            <span class="inline-block"><i class="fa fa-th-large"></i> '.$value['subjectname'].'</span>
                                                             <span class="inline-block"><i class="fa fa-folder-open"></i> '.enNum_khNum($value['total_lesson']).' មេរៀន</span>
-                                                            <span class="inline-block"><i class="fa fa-files-o"></i> ២៣៤ សំណួរ</span>
+                                                            <span class="tooltips fs11 btn btn-xs btn-info inline-block" title="'.($value['private']?'Private':'Public').'">'.($value['private']?'<i class="fa fa-users"></i>':'<i class="fa fa-globe"></i>').'</span>
                                                         </div>
                                                     </div>
                                                 </a>

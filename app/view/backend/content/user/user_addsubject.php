@@ -51,7 +51,21 @@ $formCmd='user_addsubject';
                                     </section>  
                                 </div>
                                 <div class="row">
-                                    <section class="col col-md-6">
+                                    <section class="col col-md-4">
+                                        <label class="toggle inline-block">
+                                            <input type="checkbox" name="private" checked="checked">
+                                            <i data-swchon-text="ON" data-swchoff-text="OFF"></i>Private
+                                        </label>
+                                        <div id="private_msg"></div>
+                                    </section>
+                                    <section class="col col-md-4">
+                                        <label class="toggle inline-block">
+                                            <input type="checkbox" name="require_membership" checked="checked">
+                                            <i data-swchon-text="ON" data-swchoff-text="OFF"></i>Membership
+                                        </label>
+                                        <div id="require_membership_msg"></div>
+                                    </section>
+                                    <section class="col col-md-4">
                                         <label class="toggle inline-block">
                                             <input type="checkbox" name="active" checked="checked">
                                             <i data-swchon-text="ON" data-swchoff-text="OFF"></i>Active

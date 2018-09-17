@@ -47,10 +47,15 @@ class user_flipcard{
 		$card_data['prev_cardid']=$prev_cardid;
 		$card_data['next_cardid']=$next_cardid;
 		
-		$breadcrumb = array('user_programview',
-							array('title'=>$subject_info['gradename'],'url'=>$layout_label->label->user_subjectview->url.'/'.(encodeString($subject_info['grade_id'],$encryptKey))),
-							array('title'=>$subject_info['subjectname'],'url'=>$layout_label->label->user_lessoncontent->url.'/'.(encodeString($subject_info['grade_id'].'_'.$subject_info['grade_subject_id'],$encryptKey))),
+		
+		if(isThisUserRole($usersession->info()->id,'student')){
+			$breadcrumb = array('user_programview',
+							array('title'=>$subject_info['gradename'],'url'=>$layout_label->label->user_subjectview->url.'/'.(encode($subject_info['grade_id']))),
+							array('title'=>$subject_info['subjectname'],'url'=>$layout_label->label->user_lessoncontent->url.'/'.(encode($subject_info['grade_id'].'_'.$subject_info['grade_subject_id']))),
 							'user_flipcard');
+		}else{
+			$breadcrumb = array('user_flipcard');
+		}
 		
 		$pageExist=true;
 		returnStatus:

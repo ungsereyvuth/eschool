@@ -10,8 +10,9 @@ class user_coursemgmt{
 		if(is_numeric($qryData->status)){$sql_condition.=" and c.active=$qryData->status";}
 		if($qryData->txt_search<>''){$sql_condition.=" and (c.title like '%$qryData->txt_search%')";}
 			
-		$sql_statement = "SELECT c.*,count(COALESCE(s.id,NULL)) total_subject from es_course c 
+		$sql_statement = "SELECT c.*,count(COALESCE(s.id,NULL)) total_subject,g.title gradename from es_course c 
 							left join es_course_subject s on s.course_id=c.id and s.active=1
+							left join es_grade g on g.id= c.grade_id
 							where c.teacher_id=$userid  $sql_condition 
 							group by c.id
 							order by c.created_date";						
@@ -22,10 +23,13 @@ class user_coursemgmt{
 			$dataListString .= '<tr>
 									<td class="txtCenter" style="width:30px;">'.enNum_khNum($i).'</td>
 									<td>
-										<a href="'.$url.'"><span class="tooltips mgn0 fs14" title="'.$value['title'].'">'.$value['title'].'</span></a>
+										<a href="'.$url.'"><span class="mgn0 fs14">'.$value['title'].'</span></a>
 										<div class="sub-info">
-											<span class="tooltips fs11" title="Total subject"><i class="fa fa-clock-o"></i> មុខជ្ជា '.$value['total_subject'].' មុខវិជ្ជា</span>
+											<span class="tooltips fs11" title="ថ្នាក់"><i class="fa fa-th-large"></i> '.$value['gradename'].'</span>
+											<span class="tooltips fs11" title="Total subject"><i class="fa fa-clock-o"></i> មាន '.enNum_khNum($value['total_subject']).' មុខវិជ្ជា</span>
 											<span class="tooltips fs11" title="'.$value['created_date'].'"><i class="fa fa-clock-o"></i> '.khmerDate($value['created_date']).'</span>
+											<span class="tooltips fs11 btn btn-xs btn-info pull-right" title="'.($value['private']?'Private':'Public').'">'.($value['private']?'<i class="fa fa-users"></i>':'<i class="fa fa-globe"></i>').'</span>
+
 										</div>
 									</td>
 

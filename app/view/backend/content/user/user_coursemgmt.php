@@ -113,10 +113,17 @@ $formCmd='newcourse';
                                 <div class="row">
                                     <section class="col col-md-6">
                                         <label class="toggle">
+                                            <input type="checkbox" name="private" checked="checked">
+                                            <i data-swchon-text="ON" data-swchoff-text="OFF"></i>Private
+                                        </label>
+                                        <div id="private_msg"></div>
+                                    </section>
+                                    <section class="col col-md-6">
+                                        <label class="toggle">
                                             <input type="checkbox" name="active" checked="checked">
                                             <i data-swchon-text="ON" data-swchoff-text="OFF"></i>Active
                                         </label>
-                                        <div id="notif_msg"></div>
+                                        <div id="active_msg"></div>
                                     </section>
                                 </div>
                             </fieldset>

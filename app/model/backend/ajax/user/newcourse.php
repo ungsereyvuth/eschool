@@ -13,12 +13,13 @@ class newcourse{
 											'school_id'=>addslashes($_POST['school_id']),						
 											'max_student'=>addslashes($_POST['max_student']),		
 											'description'=>addslashes($_POST['description']),	
-											'year'=>addslashes($_POST['year']),		
+											'year'=>addslashes($_POST['year']),	
+											'private'=>isset($_POST['private'])?1:0,	
 											'active'=>isset($_POST['active'])?1:0),
 							'email'=>array(),
 							'file'=>array());
 
-		$opt_fields = array('recordid','school_id','active','max_student','description');
+		$opt_fields = array('recordid','school_id','private','active','max_student','description');
 		$err_fields=validateForm($reg_fields,$opt_fields);				
 		//add service
 		if(!count($err_fields)){
@@ -29,7 +30,8 @@ class newcourse{
 					school_id='".$reg_fields['text']['school_id']."',
 					max_student='".$reg_fields['text']['max_student']."',	
 					description='".$reg_fields['text']['description']."',	
-					year='".$reg_fields['text']['year']."',				
+					year='".$reg_fields['text']['year']."',	
+					private=".$reg_fields['text']['private'].",			
 					active=".$reg_fields['text']['active'].",";
 			$recordid=$qry->insert("insert into es_course set $sql created_by=".$usersession->info()->id.",created_date='$datetime'");		
 			//add to user log			

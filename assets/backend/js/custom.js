@@ -42,7 +42,6 @@ $(function() {
 	 tinymce.init({
 		selector: ".richtext",
 		relative_urls : false,
-		statusbar: false,		
 		remove_script_host : false,
 		valid_elements : '*[*]',
 		//document_base_url : "http://cambodiabesthospitality.org",
@@ -109,7 +108,6 @@ $(function() {
 			relative_urls : false,
 			remove_script_host : false,
 			menubar:false,
-			statusbar: false,
 			valid_elements : '*[*]',
 			plugins: [
 				"advlist autolink lists link image charmap print preview anchor",

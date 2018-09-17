@@ -24,6 +24,9 @@ class user_subject{
 										where l.subject_id=$subject_info->id and l.active=1 
 										group by l.id
 										order by l.ordering");
+		//count flip card
+		$totalcard = $qry->qry_count("select id from es_flipcard where lesson_id in (select id from es_lesson where subject_id=$subject_info->id and active=1) and active=1");
+
 		//organize lesson
 		$lessons=array();
 		foreach($lessons_row as $key=>$value){
@@ -45,7 +48,7 @@ class user_subject{
 
 		$pageExist=true;
 		returnStatus:
-		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'lessons'=>$lessons,'subject_info'=>$subject_info,'search_inputs'=>$search_inputs);
+		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'lessons'=>$lessons,'totalcard'=>$totalcard,'subject_info'=>$subject_info,'search_inputs'=>$search_inputs);
 	}	
 }
 ?>

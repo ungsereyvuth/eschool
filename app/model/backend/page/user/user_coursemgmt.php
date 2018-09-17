@@ -28,23 +28,36 @@ class user_coursemgmt{
 		$txt_search = '<div class="col-sm-6 col-md-3"><div class="input-group input-group-sm"><input type="text" class="form-control searchinputs" id="txt_search" placeholder="Search keyword"><span class="input-group-btn btn_search"><button class="btn btn-info" type="submit"><i class="fa fa-search"></i></button></span></div></div>';
 
 		//get grade
+		$gid=0;$gradetitle='';
+		if(isset($_GET['gid'])){ $gid=decode($_GET['gid']);}
 		$grade_options = '';$group='';
 		$grades = $qry->qry_assoc("select g.*,gp.title group_title,gp.id group_id from es_grade g 
 									left join es_grade_group gp on gp.id=g.grade_group_id 
 									where gp.active=1 and g.active=1");
 		foreach($grades as $value){
 			if($group==''){$grade_options .= '<optgroup label="'.$value['group_title'].'">';}elseif($group<>$value['group_id']){$grade_options .= '</optgroup><optgroup label="'.$value['group_title'].'">';}
-			$grade_options .= '<option value="'.$value['id'].'">- '.$value['title'].'</option>';
+			if($gid==$value['id']){$selected=true;$gradetitle=$value['title'];}else{$selected=false;}
+			$grade_options .= '<option value="'.$value['id'].'" '.($selected?'selected':'').'>- '.$value['title'].'</option>';
 
 			$group=$value['group_id'];
 		}
 		$grade_options .= '</optgroup>';
+
+		//search by grade
+		$search_grade = '<div class="col-sm-6 col-md-3"><select class="form-control input-sm searchinputs" id="search_grade">
+							<option value="">--- All Grades ---</option>
+							'.$grade_options.'
+						</select></div>';
 		
-		$search_inputs = '<div class="row">'.$year_select.$status.$txt_search.'</div>';
+		$search_inputs = '<div class="row">'.$year_select.$search_grade.$status.$txt_search.'</div>';
 		
+
+		$breadcrumb = array('user_coursemgmt');
+		if($gradetitle<>''){$breadcrumb[]=array('title'=>$gradetitle,'url'=>'#');}
+
 		$pageExist=true;
 		returnStatus:
-		return array('pageExist'=>$pageExist,'input'=>$input,'search_inputs'=>$search_inputs,'grade_options'=>$grade_options,'add_year'=>$add_year);
+		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'input'=>$input,'search_inputs'=>$search_inputs,'grade_options'=>$grade_options,'add_year'=>$add_year);
 	}	
 }
 ?>
