@@ -4,7 +4,7 @@ class user_flipcard{
 		$qry = new connectDb;global $usersession,$layout_label,$encryptKey;$breadcrumb=array();$pageExist=false;
 
 		//assign var
-		$subject_info=$card_data=array();$inputcode='';$prev_cardid=$next_cardid=0;
+		$subject_info=$card_data=array();$inputcode='';$lesson_id=$prev_cardid=$next_cardid=0;
 
 		if(!isset($input[0])){
 			goto returnStatus;
@@ -28,7 +28,8 @@ class user_flipcard{
 
 		//get card data		
 		$cardid_cond = isset($_GET['cardid'])?(" and id=".$_GET['cardid']):'';
-		$cards = $qry->qry_assoc("select * from es_flipcard where active=1 $cardid_cond order by lesson_id,ordering limit 2");
+		$lessonid_cond = $lesson_id?" and lesson_id=$lesson_id":" and lesson_id IN (select id from es_lesson where subject_id=$subject_id)";
+		$cards = $qry->qry_assoc("select * from es_flipcard where active=1 $lessonid_cond $cardid_cond order by lesson_id,ordering limit 2");
 		if(count($cards)==2){
 			$card_data = $cards[0];
 			$cur_card=$card_data['lesson_id'].$card_data['ordering'];

@@ -7,6 +7,7 @@ class flipcardlist{
 		$qryData = (object) $_POST["qryData"];	
 		$sql_condition = '';
 		if(isset($qryData->lesson_id) and is_numeric($qryData->lesson_id)){$sql_condition.=" and f.lesson_id=$qryData->lesson_id";}
+		if(isset($qryData->subject_id) and is_numeric($qryData->subject_id)){$sql_condition.=" and l.subject_id=$qryData->subject_id";}
 		//if(is_numeric($qryData->status)){$sql_condition.=" and c.active=$qryData->status";}
 		if($qryData->txt_search<>''){$sql_condition.=" and (f.front like '%$qryData->txt_search%' or f.back like '%$qryData->txt_search%')";}
 			

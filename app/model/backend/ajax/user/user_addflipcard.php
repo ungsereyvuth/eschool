@@ -26,7 +26,10 @@ class user_addflipcard{
 			if(count($codes)==3 and $codes[0] and $codes[1] and $codes[2]){
 				$lesson_id = $codes[0];$cardid = $codes[1];$editmode=true;
 				//check if lesson exist
-				$lessonexist = $qry->exist("select id from es_lesson where id=$lesson_id limit 1");
+				$lessonexist = $qry->exist("select l.id from es_lesson l 
+											left join es_course_subject s on s.id=l.subject_id
+											left join es_course c on c.id=s.course_id
+											where l.id=$lesson_id and c.teacher_id=".$usersession->info()->id." limit 1");
 				if(!$lessonexist){$msg='Invalid lesson data request';$err_fields[]= array('name'=>'error','msg'=>$msg);}
 				//check if card exist
 				$cardexist = $qry->exist("select id from es_flipcard where id=$cardid limit 1");

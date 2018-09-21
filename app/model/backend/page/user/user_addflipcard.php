@@ -24,9 +24,9 @@ class user_addflipcard{
 		if(!count($lesson_info)){goto returnStatus;}
 		$lesson_info=(object) $lesson_info[0];
 		//get ordering number
-		$ordering=1;
-		$q_info = $qry->qry_assoc("select ordering from es_flipcard where lesson_id=$lesson_id order by ordering desc limit 1");
-		if(count($q_info)){$ordering+=$q_info[0]['ordering'];}
+		$ordering=1;$fcolor=$bcolor='rgba(215,255,214,1)';
+		$q_info = $qry->qry_assoc("select fcolor,bcolor,ordering from es_flipcard where lesson_id=$lesson_id order by ordering desc limit 1");
+		if(count($q_info)){$ordering+=$q_info[0]['ordering'];$fcolor=$q_info[0]['fcolor'];$bcolor=$q_info[0]['bcolor'];}
 
 		//get edit data
 		if($editmode){
@@ -48,7 +48,7 @@ class user_addflipcard{
 
 		$pageExist=true;
 		returnStatus:
-		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'lesson_info'=>$lesson_info,'card_data'=>$card_data,'ordering'=>$ordering,'code'=>$inputcode,'search_inputs'=>$search_inputs,'editmode'=>$editmode);
+		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'lesson_info'=>$lesson_info,'card_data'=>$card_data,'ordering'=>$ordering,'fcolor'=>$fcolor,'bcolor'=>$bcolor,'code'=>$inputcode,'search_inputs'=>$search_inputs,'editmode'=>$editmode);
 	}	
 }
 ?>

@@ -35,13 +35,13 @@ $formCmd='user_addflipcard';
                                     <section class="col col-md-4">
                                         <label class="label">Front Card Color</label>
                                         <label class="input">
-                                            <input type="text" name="front_card_color" class="colorpicker input-sm" placeholder="" value="<?=$pageData->data->content->editmode?$pageData->data->content->card_data->fcolor:''?>" data-color-format="rgba" style="background-color: <?=$pageData->data->content->editmode?$pageData->data->content->card_data->fcolor:''?>;">
+                                            <input type="text" name="front_card_color" class="colorpicker input-sm" placeholder="" value="<?=$pageData->data->content->editmode?$pageData->data->content->card_data->fcolor:$pageData->data->content->fcolor?>" data-color-format="rgba" style="background-color: <?=$pageData->data->content->editmode?$pageData->data->content->card_data->fcolor:$pageData->data->content->fcolor?>;">
                                         </label>
                                     </section>
                                     <section class="col col-md-4">
                                         <label class="label">Back Card Color</label>
                                         <label class="input">
-                                            <input type="text" name="back_card_color" class="colorpicker input-sm" placeholder="" value="<?=$pageData->data->content->editmode?$pageData->data->content->card_data->bcolor:''?>" data-color-format="rgba" style="background-color: <?=$pageData->data->content->editmode?$pageData->data->content->card_data->bcolor:''?>;">
+                                            <input type="text" name="back_card_color" class="colorpicker input-sm" placeholder="" value="<?=$pageData->data->content->editmode?$pageData->data->content->card_data->bcolor:$pageData->data->content->bcolor?>" data-color-format="rgba" style="background-color: <?=$pageData->data->content->editmode?$pageData->data->content->card_data->bcolor:$pageData->data->content->bcolor?>;">
                                         </label>
                                     </section>
                                     <section class="col col-md-4">
