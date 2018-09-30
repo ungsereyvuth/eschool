@@ -153,10 +153,20 @@ $flipcard_url = $pageData->label->label->user_flipcard->url.'/'.encodeString($su
                     <h2><strong>សាស្ត្រាចារ្យផ្សេងទៀត</strong></h2> 
                 </header>
                 <div class="widget-body"> 
-                    <div class="input-group input-group-sm"><input type="text" class="form-control searchinputs" id="txt_search" placeholder="ឈ្មោះសាស្ត្រាចារ្យ"><span class="input-group-btn btn_search"><button class="btn btn-info" type="submit"><i class="fa fa-search"></i></button></span></div>
+                    
+
+                    <div class="datalist txtLeft" id="searchcourse">
+                        <div class="input-group input-group-sm"><input type="text" class="form-control searchinputs" id="txt_search" placeholder="លេខកូដវគ្គសិក្សា"><span class="input-group-btn btn_search"><button class="btn btn-info" type="submit"><i class="fa fa-search"></i></button></span></div>
+                        <input type="hidden" id="grade_subject_id" class="searchinputs" value="<?=$pdata->grade_subject_id?>">
+                        <div class="v_mgn5"></div>
+                        <table width="100%" class="mytable" >
+                            <tbody></tbody>
+                        </table> 
+                        <?php include("app/view/frontend/layout/listPagination.php");?>  
+                    </div> 
 
                     <?php
-                    foreach ($pdata->teacher as $key => $value) {
+                    /*foreach ($pdata->teacher as $key => $value) {
                         $photo=$picPath.$value['teacherphoto'];
                         if($photo<>$picPath){$photo = !file_exists($_SERVER['DOCUMENT_ROOT'].$photo)?$no_pic:$photo;}else{$photo =$no_pic;}
 
@@ -174,7 +184,7 @@ $flipcard_url = $pageData->label->label->user_flipcard->url.'/'.encodeString($su
                                     </a>
                                 </div>
                             </div>';
-                    }
+                    }*/
 
                     ?>
 

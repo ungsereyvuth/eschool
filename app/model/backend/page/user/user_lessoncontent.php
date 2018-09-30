@@ -61,12 +61,12 @@ class user_lessoncontent{
 		
 
 		//other teacher of this subject
-		$teacher = $qry->qry_assoc("select s.*,c.title coursename,u.fullname_kh teachername,u.photo teacherphoto from es_course_subject s 
+		/*$teacher = $qry->qry_assoc("select s.*,c.title coursename,u.fullname_kh teachername,u.photo teacherphoto from es_course_subject s 
 											left join es_course c on c.id=s.course_id 
 											left join users u on u.id=c.teacher_id
 											left join user_role r on r.id=u.role_id
 											where s.grade_subject_id=$grade_subject_id and s.active=1 and c.active=1 and u.active=1 and r.code='teacher'
-											order by s.created_date desc");
+											order by s.created_date desc");*/
 
 		$breadcrumb = array('user_programview',
 							array('title'=>$course_info['title'],'url'=>$layout_label->label->user_subjectview->url.'/'.(encodeString($grade_id,$encryptKey))),
@@ -74,7 +74,7 @@ class user_lessoncontent{
 		
 		$pageExist=true;
 		returnStatus:
-		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'lessons'=>$lessons,'course_info'=>(object) $course_info,'testResult'=>$testResult,'teacher'=>$teacher);
+		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'lessons'=>$lessons,'course_info'=>(object) $course_info,'testResult'=>$testResult,'grade_subject_id'=>$grade_subject_id);
 	}	
 }
 ?>
