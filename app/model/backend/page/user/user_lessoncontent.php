@@ -11,21 +11,39 @@ class user_lessoncontent{
 		}else{
 			$codes = explode('_',decodeString($input[0],$encryptKey)); //grade_id,subject_id
 			if(count($codes)==2 and $codes[0] and $codes[1]){
-				$grade_id=$codes[0];$grade_subject_id=$codes[1];
+				if(isset($_GET['pc'])){
+					$course_id=$codes[0];$course_subject_id=$codes[1];
+				}else{
+					$grade_id=$codes[0];$grade_subject_id=$codes[1];
+				}
+				
 			}else{goto returnStatus;}			
 		}
 
-		$course_info = $qry->qry_assoc("select c.*,s.id subject_id,u.fullname_kh teachername,u.photo teacherphoto,gs.title subjectname from es_course c 
-										left join es_course_subject s on s.course_id=c.id 
-										left join es_grade_subject gs on gs.id=$grade_subject_id
-										left join users u on u.id=c.teacher_id
-										left join user_role r on r.id=u.role_id
-										where c.grade_id=$grade_id and s.grade_subject_id=$grade_subject_id and c.active=1 and r.code in ('admin','superuser') 
-										order by created_date desc limit 1");
-		if(!count($course_info)){goto returnStatus;}
-		$course_info=$course_info[0];
-		$course_sunject_id = $course_info['subject_id']?$course_info['subject_id']:0;
-		
+		if(isset($_GET['pc'])){ //pc=private course
+			$course_info = $qry->qry_assoc("select c.*,s.id subject_id,u.fullname_kh teachername,u.photo teacherphoto,gs.title subjectname,s.grade_subject_id from es_course c 
+											left join es_course_subject s on s.course_id=c.id 
+											left join es_grade_subject gs on gs.id=s.grade_subject_id
+											left join users u on u.id=c.teacher_id
+											left join user_role r on r.id=u.role_id
+											where c.id=$course_id and s.grade_subject_id=$course_subject_id and c.active=1 and r.code not in ('admin','superuser') 
+											order by created_date desc limit 1");
+			if(!count($course_info)){goto returnStatus;}
+			$course_info=$course_info[0];
+			$grade_subject_id = $course_info['grade_subject_id']?$course_info['grade_subject_id']:0;
+		}else{//official course
+			$course_info = $qry->qry_assoc("select c.*,s.id subject_id,u.fullname_kh teachername,u.photo teacherphoto,gs.title subjectname from es_course c 
+											left join es_course_subject s on s.course_id=c.id 
+											left join es_grade_subject gs on gs.id=$grade_subject_id
+											left join users u on u.id=c.teacher_id
+											left join user_role r on r.id=u.role_id
+											where c.grade_id=$grade_id and s.grade_subject_id=$grade_subject_id and c.active=1 and r.code in ('admin','superuser') 
+											order by created_date desc limit 1");
+			if(!count($course_info)){goto returnStatus;}
+			$course_info=$course_info[0];
+			$course_subject_id = $course_info['subject_id']?$course_info['subject_id']:0;
+
+		}
 		$web_config = web_config(array('profile_pic_path','no_pic'));
 		$picPath = $web_config['profile_pic_path'];$no_pic = $web_config['no_pic'];
 		//profile photo
@@ -34,10 +52,10 @@ class user_lessoncontent{
 		$course_info['teacherphoto']=$photo;
 		
 		//get all lessons
-		if($course_sunject_id){
+		if($course_subject_id){
 			$lessons_row = $qry->qry_assoc("select l.*,count(COALESCE(q.id,NULL)) totalq from es_lesson l 
 											left join es_question q on q.lesson_id=l.id
-											where l.subject_id=$course_sunject_id and l.active=1 
+											where l.subject_id=$course_subject_id and l.active=1 
 											group by l.id
 											order by l.ordering");
 			//organize lesson
@@ -56,7 +74,7 @@ class user_lessoncontent{
 											left join es_exam_type t on e.exam_type_id=t.id
 											left join es_lesson l on e.lesson_id=l.id
 											left join es_course_subject s on e.course_subject_id=s.id
-											where r.student_id=".$usersession->info()->id." and e.course_subject_id=$course_sunject_id and t.code='qz' and r.active=1 and e.active=1  and s.active=1 
+											where r.student_id=".$usersession->info()->id." and e.course_subject_id=$course_subject_id and t.code='qz' and r.active=1 and e.active=1  and s.active=1 
 											order by COALESCE(r.end_datetime,r.start_datetime) desc limit 5");
 		
 
@@ -68,10 +86,14 @@ class user_lessoncontent{
 											where s.grade_subject_id=$grade_subject_id and s.active=1 and c.active=1 and u.active=1 and r.code='teacher'
 											order by s.created_date desc");*/
 
-		$breadcrumb = array('user_programview',
-							array('title'=>$course_info['title'],'url'=>$layout_label->label->user_subjectview->url.'/'.(encodeString($grade_id,$encryptKey))),
-							array('title'=>$course_info['subjectname'],'url'=>'#'));
-		
+		$breadcrumb = array('user_programview');
+		if(isset($_GET['pc'])){
+			$breadcrumb[]=array('title'=>$course_info['title'],'url'=>$layout_label->label->user_courseinfo->url.'/'.(encode($course_id.'_'.time())));
+		}else{
+			$breadcrumb[]=array('title'=>$course_info['title'],'url'=>$layout_label->label->user_subjectview->url.'/'.(encode($grade_id)));
+		}
+		$breadcrumb[]=array('title'=>$course_info['subjectname'],'url'=>'#');
+
 		$pageExist=true;
 		returnStatus:
 		return array('pageExist'=>$pageExist,'breadcrumb'=>$breadcrumb,'lessons'=>$lessons,'course_info'=>(object) $course_info,'testResult'=>$testResult,'grade_subject_id'=>$grade_subject_id);

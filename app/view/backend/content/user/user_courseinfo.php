@@ -4,8 +4,10 @@ $formCmd='joincourse';
 
 $course_subject=$coursename=$course_des=$gradename=$teachername='';
 foreach ($pData->course_info as $key => $value) {
+    $lessonpage_url = $pageData->label->label->user_lessoncontent->url.'/'.encode($value['id'].'_'.$value['subject_id']).'&pc';
+
     $coursename=$value['title'];$gradename=$value['gradename'];$teachername=$value['teachername'];$course_des=$value['description'];
-    $course_subject.= '<li class="v_pad5 hv-bg-gradient-2 "><a href="#"><i class="fa fa-folder"></i> '.$value['coursesubject'].'</a><span class="pull-right h_pad10 fs12">'.$value['subjectname'].'</span></li>';
+    $course_subject.= '<li class="v_pad5 hv-bg-gradient-2 "><a href="'.$lessonpage_url.'"><i class="fa fa-folder"></i> '.$value['coursesubject'].'</a><span class="pull-right h_pad10 fs12">'.$value['subjectname'].'</span></li>';
 }
 //course member by class
 $totalmember=0;$memberbyclass=$classopt='';
